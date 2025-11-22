@@ -34,11 +34,14 @@ LLM は、アーキテクチャ、訓練データ、およびユースケース�
 
 - **音声と音声認識**。この目的のために、Whisper タイプのモデルは、汎用で音声認識を目指しているため、素晴らしい選択です。多様なオーディオで訓練されており、多言語音声認識を実行できます。[ここで Whisper タイプのモデルについてさらに詳しく学んでください](https://platform.openai.com/docs/models/whisper?WT.mc_id=academic-105485-koreyst)。
 
-- **画像生成**。画像生成には、DALL-E と Midjourney が 2 つのよく知られた選択肢です。DALL-E は Azure OpenAI から提供されています。[ここで DALL-E についてさらに詳しく読んでください](https://platform.openai.com/docs/models/dall-e?WT.mc_id=academic-105485-koreyst)、また、このカリキュラムの第 9 章でも。
+- **画像生成**。画像生成には、DALL-E と Midjourney が 2 つのよく知られた選択肢です。DALL-E は Azure OpenAI から提供されています。[ここで DALL-E についてさらに詳しく読んでください](https://platform.openai.com/docs/models/dall-e?WT.mc_id=academic-105485-koreyst)、また、このカリキュラムの第 9 章でも。  
+**コメント：現状はgpt-image01が主**
 
-- **テキスト生成**。ほとんどのモデルはテキスト生成で訓練されており、GPT-3.5 から GPT-4 まで幅広い選択肢があります。それらは異なるコストで提供され、GPT-4 が最も高価です。[Azure OpenAI プレイグラウンド](https://oai.azure.com/portal/playground?WT.mc_id=academic-105485-koreyst)を見て、どのモデルが機能と費用の点でニーズに最適に適合するかを評価する価値があります。
+- **テキスト生成**。ほとんどのモデルはテキスト生成で訓練されており、GPT-3.5 から GPT-4 まで幅広い選択肢があります。それらは異なるコストで提供され、GPT-4 が最も高価です。[Azure OpenAI プレイグラウンド](https://oai.azure.com/portal/playground?WT.mc_id=academic-105485-koreyst)を見て、どのモデルが機能と費用の点でニーズに最適に適合するかを評価する価値があります。  
+**コメント：最新のモデルに更新する**
 
-- **マルチモーダリティ**。複数の種類のデータを入力と出力で処理したい場合は、[gpt-4 turbo with vision または gpt-4o](https://learn.microsoft.com/azure/ai-services/openai/concepts/models#gpt-4-and-gpt-4-turbo-models?WT.mc_id=academic-105485-koreyst) のような OpenAI モデルの最新リリースを検討してください。これらは、自然言語処理をビジュアル理解と組み合わせ、マルチモーダルインターフェイスを通じた相互作用を可能にします。
+- **マルチモーダリティ**。複数の種類のデータを入力と出力で処理したい場合は、[gpt-4 turbo with vision または gpt-4o](https://learn.microsoft.com/azure/ai-services/openai/concepts/models#gpt-4-and-gpt-4-turbo-models?WT.mc_id=academic-105485-koreyst) のような OpenAI モデルの最新リリースを検討してください。これらは、自然言語処理をビジュアル理解と組み合わせ、マルチモーダルインターフェイスを通じた相互作用を可能にします。  
+**コメント：最新のモデルに更新する**
 
 モデルの選択は、いくつかの基本的な機能を取得することを意味しますが、それで十分でない可能性があります。多くの場合、会社固有のデータがあり、それを何らかの方法で LLM に伝える必要があります。それにアプローチする方法はいくつかあります。詳細は次のセクションを参照してください。
 
@@ -182,6 +185,7 @@ LLM は、訓練中に使用されたデータのみを使用して回答を生�
 LLM をゼロから訓練することは、疑いの余地なく、最も困難で最も複雑なアプローチであり、膨大な量のデータ、熟練したリソース、および適切な計算能力を必要とします。このオプションは、ビジネスがドメイン固有のユースケースと大量のドメイン中心のデータを持っている場合にのみ検討されるべきです。
 
 ## 知識確認
+**コメント：問題は変えた方がよいかも。安易にファインチューニングを提案するリスクが増える。**  
 
 LLM の補完結果を改善するための良いアプローチは何でしょうか？
 
