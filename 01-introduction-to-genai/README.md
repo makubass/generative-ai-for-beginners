@@ -1,136 +1,135 @@
-# Introduction to Generative AI and Large Language Models
+# 生成AI と大規模言語モデルの紹介
 
-[![Introduction to Generative AI and Large Language Models](./images/01-lesson-banner.png?WT.mc_id=academic-105485-koreyst)](https://youtu.be/lFXQkBvEe0o?si=6ZBcQTwLJJDpnX0K)
+[![生成AI と大規模言語モデルの紹介](./images/01-lesson-banner.png?WT.mc_id=academic-105485-koreyst)](https://youtu.be/lFXQkBvEe0o?si=6ZBcQTwLJJDpnX0K)
 
-_(Click the image above to view video of this lesson)_
+_(上の画像をクリックするとこのレッスンのビデオが見られます)_
 
-Generative AI is artificial intelligence capable of generating text, images and other types of content. What makes it a fantastic technology is that it democratizes AI, anyone can use it with as little as a text prompt, a sentence written in a natural language. There's no need for you to learn a language like Java or SQL to accomplish something worthwhile, all you need is to use your language, state what you want and out comes a suggestion from an AI model. The applications and impact for this are huge, you write or understand reports, write applications and much more, all in seconds.
+生成 AI は、テキスト、画像、およびその他の種類のコンテンツを生成できる人工知能です。この素晴らしい技術の特徴は、AI を民主化することです。誰でも自然言語で書かれたテキストプロンプト（文）を使うだけで使用できます。Java や SQL などの言語を学ぶ必要はなく、あなたの言語を使って何をしたいのかを述べるだけで、AI モデルからの提案が得られます。このアプリケーションと影響は莫大であり、レポートの作成や理解、アプリケーションの作成など、すべてを数秒で行えます。
 
-In this curriculum, we’ll explore how our startup leverages generative AI to unlock new scenarios in the education world and how we address the inevitable challenges associated with the social implications of its application and the technology limitations.
+このカリキュラムでは、スタートアップが生成 AI をどのように活用して教育世界の新しいシナリオを解き放つかを探索し、その応用の社会的影響と技術的制限に関連する避けられない課題にどのように対処するかを見ていきます。
 
-## Introduction
+## はじめに
 
-This lesson will cover:
+このレッスンでは以下をカバーします：
 
-- Introduction to the business scenario: our startup idea and mission.
-- Generative AI and how we landed on the current technology landscape.
-- Inner working of a large language model.
-- Main capabilities and practical use cases of Large Language Models.
+- ビジネスシナリオの紹介：スタートアップのアイデアとミッション。
+- 生成 AI と現在の技術環境への到達経路。
+- 大規模言語モデルの内部動作。
+- 大規模言語モデルの主な機能と実用的な使用例。
 
-## Learning Goals
+## 学習目標
 
-After completing this lesson, you will understand:
+このレッスンを完了した後、以下を理解できます：
 
-- What generative AI is and how Large Language Models work.
-- How you can leverage large language models for different use cases, with a focus on education scenarios.
+- 生成 AI とは何か、また大規模言語モデルがどのように機能するか。
+- 教育シナリオに焦点を当てて、異なるユースケースで大規模言語モデルをどのように活用できるか。
 
-## Scenario: our educational startup
+## シナリオ：教育スタートアップ
 
-Generative Artificial Intelligence (AI) represents the pinnacle of AI technology, pushing the boundaries of what was once thought impossible. Generative AI models have several capabilities and applications, but for this curriculum we'll explore how it's revolutionizing education through a fictional startup. We'll refer to this startup as _our startup_. Our startup works in the education domain with the ambitious mission statement of
+生成人工知能（AI）は AI 技術の頂点であり、かつて不可能と思われていたことの境界線を押し広げています。生成 AI モデルにはいくつかの機能とアプリケーションがありますが、このカリキュラムでは、教育に革新をもたらしている方法を探索します。このスタートアップを「私たちのスタートアップ」と呼びます。私たちのスタートアップは教育分野で働いており、以下の野心的なミッションステートメントを持っています：
 
-> _improving accessibility in learning, on a global scale, ensuring equitable access to education and providing personalized learning experiences to every learner, according to their needs_.
+> _学習のアクセシビリティを世界規模で改善し、教育への公平なアクセスを確保し、各学習者のニーズに応じて個別の学習体験を提供する_
 
-Our startup team is aware we’ll not be able to achieve this goal without leveraging one of the most powerful tools of modern times – Large Language Models (LLMs).
+スタートアップチームは、現代で最も強力なツールの 1 つである大規模言語モデル（LLM）を活用せずに、このゴールを達成することはできないことを認識しています。
 
-Generative AI is expected to revolutionize the way we learn and teach today, with students having at their disposal virtual teachers 24 hours a day who provide vast amounts of information and examples, and teachers able to leverage innovative tools to assess their students and give feedback.
+生成 AI は今日の学習と教育の方法に革新をもたらすことが期待されており、学生は 24 時間利用可能な仮想教師を自由に使用でき、膨大な量の情報と例を提供でき、教師は革新的なツールを活用して学生を評価し、フィードバックを与えることができます。
 
-![Five young students looking at a monitor - image by DALLE2](./images/students-by-DALLE2.png?WT.mc_id=academic-105485-koreyst)
+![モニターを見ている 5 人の若い学生 - DALLE2 による画像](./images/students-by-DALLE2.png?WT.mc_id=academic-105485-koreyst)
 
-To start, let’s define some basic concepts and terminology we’ll be using throughout the curriculum.
+最初に、カリキュラム全体を通じて使用する基本的な概念と用語を定義しましょう。
 
-## How did we get Generative AI?
+## 生成 AI はどのようにしてもたらされたのか？
 
-Despite the extraordinary _hype_ created lately by the announcement of generative AI models, this technology is decades in the making, with the first research efforts dating back to the 60s. We're now at a point with AI having human cognitive capabilities, like conversation as shown by for example [OpenAI ChatGPT](https://openai.com/chatgpt) or [Bing Chat](https://www.microsoft.com/edge/features/bing-chat?WT.mc_id=academic-105485-koreyst), which also uses a GPT model for the web search Bing conversations.
+生成 AI モデルの発表により最近作成された並外れたハイプにもかかわらず、このテクノロジーは数十年の開発期間があり、最初の研究努力は 60 年代にまでさかのぼります。現在、[OpenAI ChatGPT](https://openai.com/chatgpt) や [Bing Chat](https://www.microsoft.com/edge/features/bing-chat?WT.mc_id=academic-105485-koreyst) に示されているような会話など、人間の認知能力を持つ AI が存在する時点にあります。Bing Chat は、Bing 会話の Web 検索に GPT モデルも使用しています。
 
-Backing up a bit, the very first prototypes of AI consisted of typewritten chatbots, relying on a knowledge base extracted from a group of experts and represented into a computer. The answers in the knowledge base were triggered by keywords appearing in the input text.
-However, it soon became clear that such an approach, using typewritten chatbots, did not scale well.
+少し遡ると、AI の最初のプロトタイプは、専門家グループから抽出された知識ベースに依存し、コンピュータで表現される、タイプライター形式のチャットボットでした。知識ベース内の回答は、入力テキストに表示されるキーワードによってトリガーされました。しかし、タイプライター形式のチャットボットを使用したそのようなアプローチはうまくスケールしないことがすぐに明らかになりました。
 
-### A statistical approach to AI: Machine Learning
+### AI への統計的アプローチ：機械学習
 
-A turning point arrived during the 90s, with the application of a statistical approach to text analysis. This led to the development of new algorithms – known as machine learning – capable of learning patterns from data without being explicitly programmed. This approach allows machines to simulate human language understanding: a statistical model is trained on text-label pairings, enabling the model to classify unknown input text with a pre-defined label representing the intention of the message.
+ターニングポイントは 90 年代にテキスト分析への統計的アプローチが適用されたときに到来しました。これにより、新しいアルゴリズムの開発につながりました。機械学習として知られているこのアルゴリズムは、明示的にプログラムされることなくデータからパターンを学習できます。このアプローチにより、機械は人間の言語理解をシミュレートできます。統計モデルはテキストラベルのペアで訓練され、モデルはメッセージの意図を表す事前定義されたラベルで未知の入力テキストを分類できます。
 
-### Neural networks and modern virtual assistants
+### ニューラルネットワークと最新の仮想アシスタント
 
-In recent years, the technological evolution of hardware, capable of handling larger amounts of data and more complex computations, encouraged research in AI, leading to the development of advanced machine learning algorithms known as neural networks or deep learning algorithms.
+最近年、大量のデータとより複雑な計算を処理できるハードウェアの技術的進化により、AI の研究が促進され、ニューラルネットワークまたはディープラーニングアルゴリズムとして知られている高度な機械学習アルゴリズムの開発につながりました。
 
-Neural networks (and in particular Recurrent Neural Networks – RNNs) significantly enhanced natural language processing, enabling the representation of the meaning of text in a more meaningful way, valuing the context of a word in a sentence.
+ニューラルネットワーク（特に再帰型ニューラルネットワーク（RNN））は自然言語処理を大幅に強化し、テキストの意味をより意味のある方法で表現でき、文内の単語のコンテキストを尊重しました。
 
-This is the technology that powered the virtual assistants born in the first decade of the new century, very proficient in interpreting human language, identifying a need, and performing an action to satisfy it – like answering with a pre-defined script or consuming a 3rd party service.
+これは新しい世紀の最初の 10 年で誕生した仮想アシスタントを動かしたテクノロジーであり、人間の言語の解釈に非常に熟練し、ニーズを特定し、それを満たすアクション（事前定義されたスクリプトで回答したり、第三者のサービスを使用したり）を実行しました。
 
-### Present day, Generative AI
+### 現在、生成 AI
 
-So that’s how we came to Generative AI today, which can be seen as a subset of deep learning.
+こうして今日の生成 AI に到達しました。生成 AI はディープラーニングのサブセットと見なすことができます。
 
-![AI, ML, DL and Generative AI](./images/AI-diagram.png?WT.mc_id=academic-105485-koreyst)
+![AI、ML、DL、生成 AI](./images/AI-diagram.png?WT.mc_id=academic-105485-koreyst)
 
-After decades of research in the AI field, a new model architecture – called _Transformer_ – overcame the limits of RNNs, being able to get much longer sequences of text as input. Transformers are based on the attention mechanism, enabling the model to give different weights to the inputs it receives, ‘paying more attention’ where the most relevant information is concentrated, regardless of their order in the text sequence.
+AI 分野での数十年の研究の後、Transformer と呼ばれる新しいモデルアーキテクチャが RNN の制限を克服し、入力として長いテキストシーケンスを取得できるようになりました。Transformers は注意メカニズムに基づいており、モデルは受け取る入力に異なる重みを与え、最も関連情報が集中している場所に「より多く注意を払う」ことを可能にし、テキストシーケンスでの順序に関係なく。
 
-Most of the recent generative AI models – also known as Large Language Models (LLMs), since they work with textual inputs and outputs – are indeed based on this architecture. What’s interesting about these models – trained on a huge amount of unlabeled data from diverse sources like books, articles and websites – is that they can be adapted to a wide variety of tasks and generate grammatically correct text with a semblance of creativity. So, not only did they incredibly enhance the capacity of a machine to ‘understand’ an input text, but they enabled their capacity to generate an original response in human language.
+最近の生成 AI モデルの大部分（テキスト入力と出力で動作するため、大規模言語モデル（LLM）としても知られています）は、実際にこのアーキテクチャに基づいています。これらのモデルについて興味深いことは、書籍、記事、Web サイトなどの多様なソースからラベルのない膨大なデータで訓練されていることです。これらは、さまざまなタスクに適応でき、文法的に正しいテキストを創意工夫して生成できます。つまり、機械の入力テキストを「理解する」容量を信じられないほど強化しただけでなく、人間の言語で独自の回答を生成する能力も可能にしました。
 
-## How do large language models work?
+## 大規模言語モデルはどのように機能するのか？
 
-In the next chapter we are going to explore different types of Generative AI models, but for now let’s have a look at how large language models work, with a focus on OpenAI GPT (Generative Pre-trained Transformer) models.
+次のチャプターでは、生成 AI モデルの異なるタイプを探索しますが、今は大規模言語モデルの動作方法、特に OpenAI GPT（生成事前訓練済みトランスフォーマー）モデルに焦点を当てて見てみましょう。
 
-- **Tokenizer, text to numbers**: Large Language Models receive a text as input and generate a text as output. However, being statistical models, they work much better with numbers than text sequences. That’s why every input to the model is processed by a tokenizer, before being used by the core model. A token is a chunk of text – consisting of a variable number of characters, so the tokenizer's main task is splitting the input into an array of tokens. Then, each token is mapped with a token index, which is the integer encoding of the original text chunk.
+- **トークナイザー、テキストから数値へ**：大規模言語モデルはテキストを入力として受け取り、テキストを出力として生成します。ただし、統計モデルであるため、テキストシーケンスよりも数値の方がはるかに優れています。したがって、モデルへのすべての入力は、コアモデルで使用される前にトークナイザーで処理されます。トークンはテキストのチャンク（可変数の文字から構成）であるため、トークナイザーの主なタスクは入力をトークンの配列に分割することです。その後、各トークンはトークンインデックスでマップされます。これは、元のテキストチャンクの整数エンコーディングです。
 
-![Example of tokenization](./images/tokenizer-example.png?WT.mc_id=academic-105485-koreyst)
+![トークン化の例](./images/tokenizer-example.png?WT.mc_id=academic-105485-koreyst)
 
-- **Predicting output tokens**: Given n tokens as input (with max n varying from one model to another), the model is able to predict one token as output. This token is then incorporated into the input of the next iteration, in an expanding window pattern, enabling a better user experience of getting one (or multiple) sentence as an answer. This explains why, if you ever played with ChatGPT, you might have noticed that sometimes it looks like it stops in the middle of a sentence.
+- **出力トークンの予測**：入力として n 個のトークンが与えられると（最大 n はモデルによって異なります）、モデルは出力として 1 つのトークンを予測できます。このトークンは、拡張ウィンドウパターンで次の反復の入力に組み込まれ、回答として 1 つ（または複数）の文を取得する、より良いユーザーエクスペリエンスを実現できます。これは、ChatGPT を使用したことがあれば、文の途中で停止しているように見えることに気づいたかもしれない理由を説明しています。
 
-- **Selection process, probability distribution**: The output token is chosen by the model according to its probability of occurring after the current text sequence. This is because the model predicts a probability distribution over all possible ‘next tokens’, calculated based on its training. However, not always is the token with the highest probability chosen from the resulting distribution. A degree of randomness is added to this choice, in a way that the model acts in a non-deterministic fashion - we do not get the exact same output for the same input. This degree of randomness is added to simulate the process of creative thinking and it can be tuned using a model parameter called temperature.
+- **選択プロセス、確率分布**：出力トークンは、現在のテキストシーケンスの後で発生する確率に従ってモデルによって選択されます。これは、モデルが訓練に基づいて計算された、すべての可能な「次のトークン」上の確率分布を予測するためです。ただし、結果の分布から常に最も高い確率のトークンが選択されるわけではありません。この選択に程度のランダム性が追加され、モデルは非決定論的な方法で動作します。同じ入力に対して同じ出力は得られません。このランダム性の程度は創造的な思考プロセスをシミュレートするために追加され、温度と呼ばれるモデルパラメータを使用して調整できます。
 
-## How can our startup leverage Large Language Models?
+## スタートアップが大規模言語モデルをどのように活用できるか？
 
-Now that we have a better understanding of the inner working of a large language model, let’s see some practical examples of the most common tasks they can perform pretty well, with an eye to our business scenario.
-We said that the main capability of a Large Language Model is _generating a text from scratch, starting from a textual input, written in natural language_.
+これで大規模言語モデルの内部動作をより良く理解したので、実用的な例を見てみましょう。彼らがかなりうまく実行できる最も一般的なタスクの、ビジネスシナリオに注目します。
+大規模言語モデルの主な機能は、テキスト入力から始めて、テキストをゼロから生成することであると言いました。
 
-But what kind of textual input and output?
-The input of a large language model is known as a prompt, while the output is known as a completion, term that refers to the model mechanism of generating the next token to complete the current input. We are going to dive deep into what is a prompt and how to design it in a way to get the most out of our model. But for now, let’s just say that a prompt may include:
+しかし、どのようなテキスト入力と出力でしょうか？
+大規模言語モデルの入力はプロンプトとして知られており、出力は補完として知られています。補完という用語は、現在の入力を完成させるための次のトークンを生成するモデルメカニズムを指します。プロンプトとは何か、また私たちのモデルから最大限の利益を得るために設計する方法について深く掘り下げていきます。しかし、今のところ、プロンプトには以下が含まれる可能性があります：
 
-- An **instruction** specifying the type of output we expect from the model. This instruction sometimes might embed some examples or some additional data.
+- **指示**：モデルから期待する出力のタイプを指定します。この指示には、いくつかの例またはいくつかの追加データが埋め込まれることがあります。
 
-  1. Summarization of an article, book, product reviews and more, along with extraction of insights from unstructured data.
+  1. 記事、書籍、製品レビューなどの要約、および非構造化データからのインサイトの抽出。
     
-    ![Example of summarization](./images/summarization-example.png?WT.mc_id=academic-105485-koreyst)
+    ![要約の例](./images/summarization-example.png?WT.mc_id=academic-105485-koreyst)
   
-  2. Creative ideation and design of an article, an essay, an assignment or more.
+  2. 記事、エッセイ、割り当てなどの創造的なアイデアとデザイン。
       
-     ![Example of creative writing](./images/creative-writing-example.png?WT.mc_id=academic-105485-koreyst)
+     ![創造的な執筆の例](./images/creative-writing-example.png?WT.mc_id=academic-105485-koreyst)
 
-- A **question**, asked in the form of a conversation with an agent.
+- **質問**：エージェントとの会話の形で尋ねられます。
   
-  ![Example of conversation](./images/conversation-example.png?WT.mc_id=academic-105485-koreyst)
+  ![会話の例](./images/conversation-example.png?WT.mc_id=academic-105485-koreyst)
 
-- A chunk of **text to complete**, which implicitly is an ask for writing assistance.
+- 完成させるためのテキストのチャンク。これは暗黙的に執筆支援の要求です。
   
-  ![Example of text completion](./images/text-completion-example.png?WT.mc_id=academic-105485-koreyst)
+  ![テキスト補完の例](./images/text-completion-example.png?WT.mc_id=academic-105485-koreyst)
 
-- A chunk of **code** together with the ask of explaining and documenting it, or a comment asking to generate a piece of code performing a specific task.
+- **コード**のチャンク。それを説明およびドキュメント化するための要求、またはコメント。特定のタスクを実行するコードを生成するよう要求します。
   
-  ![Coding example](./images/coding-example.png?WT.mc_id=academic-105485-koreyst)
+  ![コーディングの例](./images/coding-example.png?WT.mc_id=academic-105485-koreyst)
 
-The examples above are quite simple and are not intended to be an exhaustive demonstration of Large Language Models' capabilities. They are meant to show the potential of using generative AI, in particular but not limited to educational contexts.
+上記の例はかなり単純であり、大規模言語モデルの機能の網羅的なデモンストレーションであることを意図していません。これらは、特に教育環境を含むが、これに限定されない、生成 AI の使用可能性を示す事を意図しています。
 
-Also, the output of a generative AI model is not perfect and sometimes the creativity of the model can work against it, resulting in an output which is a combination of words that the human user can interpret as a mystification of reality, or it can be offensive. Generative AI is not intelligent - at least in the more comprehensive definition of intelligence, including critical and creative reasoning or emotional intelligence; it is not deterministic, and it is not trustworthy, since fabrications, such as erroneous references, content, and statements, may be combined with correct information, and presented in a persuasive and confident manner. In the following lessons, we’ll be dealing with all these limitations and we’ll see what we can do to mitigate them.
+また、生成 AI モデルの出力は完璧ではなく、時にはモデルの創意工夫がそれに対して機能する可能性があり、人間のユーザーが現実の神秘化として解釈できる出力、または不快感を与える出力が生じます。生成 AI は知能ではありません。少なくとも批判的で創造的な推論や感情的知能を含む、より包括的な知能の定義においては。また、非決定論的であり、信頼できません。なぜなら、誤った参照、コンテンツ、ステートメントなどの作り話が正しい情報と組み合わされ、説得力があり自信に満ちた方法で提示される可能性があるからです。次のレッスンでは、これらすべての制限に対処し、それらを軽減するために何ができるかを見ていきます。
 
-## Assignment
+## 課題
 
-Your assignment is to read up more on [generative AI](https://en.wikipedia.org/wiki/Generative_artificial_intelligence?WT.mc_id=academic-105485-koreyst) and try to identify an area where you would add generative AI today that doesn't have it. How would the impact be different from doing it the "old way", can you do something you couldn't before, or are you faster? Write a 300 word summary on what your dream AI startup would look like and include headers like "Problem", "How I would use AI", "Impact" and optionally a business plan.
+[生成 AI](https://en.wikipedia.org/wiki/Generative_artificial_intelligence?WT.mc_id=academic-105485-koreyst) についてさらに読んで、現在持っていない生成 AI を追加するエリアを特定しようとしてください。「古い方法」でそれを行うことと比較して、影響はどのように異なりますか？以前はできなかったことを行うことができますか？それとも、より速くできますか？「問題」、「AI の使用方法」、「影響」、および任意で「ビジネス計画」などのヘッダーを含める、あなたの夢の AI スタートアップがどのようなものかについて、300 単語の要約を書いてください。
 
-If you did this task, you might even be ready to apply to Microsoft's incubator, [Microsoft for Startups Founders Hub](https://www.microsoft.com/startups?WT.mc_id=academic-105485-koreyst) we offer credits for both Azure, OpenAI, mentoring and much more, check it out!
+このタスクを完了した場合、Microsoft のインキュベーター [Microsoft for Startups Founders Hub](https://www.microsoft.com/startups?WT.mc_id=academic-105485-koreyst) に申請する準備ができているかもしれません。Azure、OpenAI、メンタリングなど、クレジットを提供しており、ぜひ確認してください！
 
-## Knowledge check
+## 知識確認
 
-What's true about large language models?
+大規模言語モデルについて、何が正しいですか？
 
-1. You get the exact same response every time.
-1. It does things perfectly, great at adding numbers, produce working code etc.
-1. The response may vary despite using the same prompt. It's also great at giving you a first draft of something, be it text or code. But you need to improve on the results.
+1. 毎回、全く同じ応答が得られます。
+2. 完璧にすべてをやり、数値の追加、作業コードの作成などに優れています。
+3. 同じプロンプトを使用した場合でも、応答は異なる可能性があります。テキストやコードなど、何かの最初のドラフトを作成するのに優れています。ただし、結果を段階的に改善する必要があります。
 
-A: 3, an LLM is non-deterministic, the response varies, however, you can control its variance via a temperature setting. You also shouldn't expect it to do things perfectly, it's here to do the heavy-lifting for you which often means you get a good first attempt at something that you need to gradually improve.
+A：3、LLM は非決定論的であり、応答は異なります。ただし、温度設定を使用して分散を制御できます。また、完璧にすべてをやることを期待すべきではなく、ヘビーリフティングを行うためにここにあり、多くの場合、段階的に改善する必要があることをしっかりと試みます。
 
-## Great Work! Continue the Journey
+## 素晴らしい仕事です！旅を続けてください
 
-After completing this lesson, check out our [Generative AI Learning collection](https://aka.ms/genai-collection?WT.mc_id=academic-105485-koreyst) to continue leveling up your Generative AI knowledge!
+このレッスンを完了した後、[生成 AI 学習コレクション](https://aka.ms/genai-collection?WT.mc_id=academic-105485-koreyst)をチェックして、生成 AI の知識を向上させ続けてください！
 
-Head over to Lesson 2 where we will look at how to [explore and compare different LLM types](../02-exploring-and-comparing-different-llms/README.md?WT.mc_id=academic-105485-koreyst)!
+どのように異なる LLM タイプを[探索・比較するか](../02-exploring-and-comparing-different-llms/README.md?WT.mc_id=academic-105485-koreyst)を見ていくレッスン 2 に進みます！
