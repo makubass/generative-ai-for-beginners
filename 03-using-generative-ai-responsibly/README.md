@@ -1,133 +1,133 @@
-# Using Generative AI Responsibly
+# 責任を持って生成AI を使用する
 
-[![Using Generative AI Responsibly](./images/03-lesson-banner.png?WT.mc_id=academic-105485-koreyst)](https://youtu.be/YOp-e1GjZdA?si=7Wv4wu3x44L1DCVj)
+[![責任を持って生成AI を使用する](./images/03-lesson-banner.png?WT.mc_id=academic-105485-koreyst)](https://youtu.be/YOp-e1GjZdA?si=7Wv4wu3x44L1DCVj)
 
-> _Click the image above to view video of this lesson_
+> _上の画像をクリックするとこのレッスンのビデオが見られます_
 
-It's easy to be fascinated with AI and generative AI in particular, but you need to consider how you would use it responsibly. You need to consider things like how to ensure the output is fair, non-harmful and more. This chapter aims to provide you with the mentioned context, what to consider, and how to take active steps to improve your AI usage.
+AI、特に生成AI に魅了されるのは簡単ですが、それを責任を持って使用する方法を考慮する必要があります。出力が公平で害がないなどで、どのように確保するかなどの事項を考慮する必要があります。このチャプターは、前述のコンテキスト、考慮すべき事項、および AI 使用を改善するための積極的なステップを実行する方法を提供することを目指しています。
 
-## Introduction
+## はじめに
 
-This lesson will cover:
+このレッスンでは以下をカバーします：
 
-- Why you should prioritize Responsible AI when building Generative AI applications.
-- Core principles of Responsible AI and how they relate to Generative AI.
-- How to put these Responsible AI principles into practice through strategy and tooling.
+- 生成AI アプリケーションを構築する際に、責任ある AI を優先すべき理由。
+- 責任ある AI の核となる原則と、それがどのように生成AI に関連しているか。
+- 戦略とツーリングを通じて、これらの責任ある AI 原則を実践に移す方法。
 
-## Learning Goals
+## 学習目標
 
-After completing this lesson you will know:
+このレッスンを完了した後、以下を知っているでしょう：
 
-- The importance of Responsible AI when building Generative AI applications.
-- When to think and apply the core principles of Responsible AI when building Generative AI applications.
-- What tools and strategies are available to you to put the concept of Responsible AI into practice.
+- 生成AI アプリケーションを構築する際に責任ある AI が重要である理由。
+- 生成AI アプリケーションを構築する際に、責任ある AI の核となる原則をいつ考慮し、適用するかを考えること。
+- 責任ある AI の概念を実践に移すために利用可能なツールと戦略は何か。
 
-## Responsible AI Principles
+## 責任ある AI の原則
 
-The excitement of Generative AI has never been higher. This excitement has brought a lot of new developers, attention, and funding to this space. While this is very positive for anyone looking to build products and companies using Generative AI, it is also important we proceed responsibly.
+生成AI の興奮は史上最高です。この興奮は、この分野に多くの新しい開発者、注目、資金をもたらしました。これは生成AI を使用して製品とビジネスを構築しようとしている人にとって非常に肯定的です。しかし、責任を持って進めることが重要です。
 
-Throughout this course, we are focusing on building our startup and our AI education product. We’ll use the principles of Responsible AI: Fairness, Inclusiveness, Reliability/Safety, Security & Privacy, Transparency and Accountability. With these principles, we will explore how they relate to our use of Generative AI in our products.
+このコース全体を通じて、スタートアップと AI 教育製品の構築に焦点を当てています。責任ある AI の原則を使用します：公平性、包括性、信頼性/安全性、セキュリティとプライバシー、透明性、および説明責任。これらの原則により、製品での生成AI 使用にどのように関連しているかを探索します。
 
-## Why Should You Prioritize Responsible AI
+## 責任ある AI を優先すべき理由
 
-When building a product, taking a human-centric approach by keeping your user's best interest in mind leads to the best results.
+製品を構築する際に、ユーザーの最善の利益を念頭に置いて、人間中心のアプローチを採用することで、最良の結果が得られます。
 
-The uniqueness of Generative AI is its power to create helpful answers, information, guidance, and content for users. This can be done without many manual steps which can lead to very impressive results. Without proper planning and strategies, it can also unfortunately lead to some harmful results for your users, your product, and society as a whole.
+生成AI の独特性は、多くの手動ステップなしにユーザーに役立つ回答、情報、ガイダンス、およびコンテンツを作成する能力です。これは非常に印象的な結果につながる可能性があります。適切な計画と戦略がなければ、残念なことに、ユーザー、製品、および社会全体に有害な結果につながる可能性があります。
 
-Let's look at some (but not all) of these potentially harmful results:
+これらの潜在的に有害な結果のいくつか（すべてではなく）を見てみましょう：
 
-### Hallucinations
+### 幻覚（Hallucinations）
 
-Hallucinations are a term used to describe when an LLM produces content that is either completely nonsensical or something we know is factually wrong based on other sources of information.
+幻覚は、LLM が完全に無意味な、または他の情報源に基づいて事実上間違っていることがわかっているコンテンツを生成する場合を説明するために使用される用語です。
 
-Let's take for example we build a feature for our startup that allows students to ask historical questions to a model. A student asks the question `Who was the sole survivor of Titanic?`
+たとえば、学生がモデルに歴史的な質問をすることができるスタートアップの機能を構築するとしましょう。学生は「タイタニック号の唯一の生存者は誰ですか？」という質問をします。
 
-The model produces a response such as the one below:
+モデルは以下のような応答を生成します：
 
-![Prompt saying "Who was the sole survivor of the Titanic"](../03-using-generative-ai-responsibly/images/ChatGPT-titanic-survivor-prompt.webp?WT.mc_id=academic-105485-koreyst)
+![「タイタニック号の唯一の生存者は誰ですか？」と言うプロンプト](../03-using-generative-ai-responsibly/images/ChatGPT-titanic-survivor-prompt.webp?WT.mc_id=academic-105485-koreyst)
 
-> _(Source: [Flying bisons](https://flyingbisons.com?WT.mc_id=academic-105485-koreyst))_
+> _(出典：[Flying bisons](https://flyingbisons.com?WT.mc_id=academic-105485-koreyst))_
 
-This is a very confident and thorough answer. Unfortunately, it is incorrect. Even with a minimal amount of research, one would discover there was more than one survivor of the Titanic disaster. For a student who is just starting to research this topic, this answer can be persuasive enough to not be questioned and treated as fact. The consequences of this can lead to the AI system being unreliable and negatively impact the reputation of our startup.
+これは非常に自信のある、徹底的な答えです。残念ながら、それは間違っています。最小限の研究でも、タイタニック号の災害の生存者は複数いたことを発見できます。このトピックについて研究を始めたばかりの学生にとって、この答えは疑問を持つ必要がなく、事実として扱われるのに十分説得力があります。これの結果は、AI システムが信頼できなくなり、スタートアップの評判に悪影響を及ぼす可能性があります。
 
-With each iteration of any given LLM, we have seen performance improvements around minimizing hallucinations. Even with this improvement, we as application builders and users still need to remain aware of these limitations.
+任意の LLM の各反復で、幻覚を最小化することに関するパフォーマンスの改善が見られました。この改善にもかかわらず、アプリケーション構築者やユーザーとして、これらの制限に引き続き注意する必要があります。
 
-### Harmful Content
+### 有害なコンテンツ
 
-We covered in the earlier section when an LLM produces incorrect or nonsensical responses. Another risk we need to be aware of is when a model responds with harmful content.
+LLM が誤った無意味な応答を生成する場合について前のセクションで説明しました。もう 1 つ注意する必要があるリスクは、モデルが有害なコンテンツで応答する場合です。
 
-Harmful content can be defined as:
+有害なコンテンツは次のように定義できます：
 
-- Providing instructions or encouraging self-harm or harm to certain groups.
-- Hateful or demeaning content.
-- Guiding the planning of any type of attack or violent acts.
-- Providing instructions on how to find illegal content or commit illegal acts.
-- Displaying sexually explicit content.
+- 自害またはある特定のグループへの害を奨励したり、説明を提供する。
+- 憎悪や軽蔑的なコンテンツ。
+- あらゆるタイプの攻撃や暴力行為の計画を指導する。
+- 違法なコンテンツを見つけたり、違法行為を犯したりする方法について説明を提供する。
+- 性的に露骨なコンテンツを表示する。
 
-For our startup, we want to make sure we have the right tools and strategies in place to prevent this type of content from being seen by students.
+スタートアップの場合、このタイプのコンテンツが学生によって見られないようにするために、適切なツールと戦略を適切に配置していることを確認したいです。
 
-### Lack of Fairness
+### 公平性の欠如
 
-Fairness is defined as “ensuring that an AI system is free from bias and discrimination and that they treat everyone fairly and equally.” In the world of Generative AI, we want to ensure that exclusionary worldviews of marginalized groups are not reinforced by the model’s output.
+公平性は「AI システムがバイアスと差別のない、かつみんなが公平かつ等しく扱うことを確保する」と定義されます。生成AI の世界では、周辺化されたグループの排他的な世界観がモデルの出力によって強化されないようにしたいです。
 
-These types of outputs are not only destructive to building positive product experiences for our users, but they also cause further societal harm. As application builders, we should always keep a wide and diverse user base in mind when building solutions with Generative AI.
+このタイプの出力は、ユーザーのための肯定的な製品体験を構築するために破壊的なだけでなく、社会的害をさらに引き起こします。アプリケーション構築者として、生成AI でソリューションを構築するときは、常に幅広く多様なユーザーベースを念頭に置く必要があります。
 
-## How to Use Generative AI Responsibly
+## 責任を持って生成AI を使用する方法
 
-Now that we have identified the importance of Responsible Generative AI, let's look at 4 steps we can take to build our AI solutions responsibly:
+責任ある生成AI の重要性を特定したので、AI ソリューションを責任を持って構築するために実行できる 4 つのステップを見てみましょう：
 
-![Mitigate Cycle](./images/mitigate-cycle.png?WT.mc_id=academic-105485-koreyst)
+![軽減サイクル](./images/mitigate-cycle.png?WT.mc_id=academic-105485-koreyst)
 
-### Measure Potential Harms
+### 潜在的な害を測定する
 
-In software testing, we test the expected actions of a user on an application. Similarly, testing a diverse set of prompts users are most likely going to use is a good way to measure potential harm.
+ソフトウェアテストでは、アプリケーション上のユーザーの期待されるアクションをテストします。同様に、ユーザーが最も可能性の高い異なるプロンプトのセットをテストすることは、潜在的な害を測定する良い方法です。
 
-Since our startup is building an education product, it would be good to prepare a list of education-related prompts. This could be to cover a certain subject, historical facts, and prompts about student life.
+スタートアップは教育製品を構築しているため、教育関連のプロンプトのリストを準備するのは良いでしょう。これは、特定の主題、歴史的事実、および学生生活に関するプロンプトについてカバーすることです。
 
-### Mitigate Potential Harms
+### 潜在的な害を軽減する
 
-It is now time to find ways where we can prevent or limit the potential harm caused by the model and its responses. We can look at this in 4 different layers:
+次に、モデルとその応答によって引き起こされる潜在的な害を防ぐまたは制限する方法を見つける時が来ました。これは 4 つの異なるレイヤーで見ることができます：
 
-![Mitigation Layers](./images/mitigation-layers.png?WT.mc_id=academic-105485-koreyst)
+![軽減レイヤー](./images/mitigation-layers.png?WT.mc_id=academic-105485-koreyst)
 
-- **Model**. Choosing the right model for the right use case. Larger and more complex models like GPT-4 can cause more of a risk of harmful content when applied to smaller and more specific use cases. Using your training data to fine-tune also reduces the risk of harmful content.
+- **モデル**。適切なユースケースに適したモデルを選択する。GPT-4 のようなより大きく複雑なモデルは、より小さく特定のユースケースに適用されたときに有害なコンテンツのリスクが大きくなる可能性があります。訓練データを使用してモデルを微調整することで、有害なコンテンツのリスクも低減されます。
 
-- **Safety System**. A safety system is a set of tools and configurations on the platform serving the model that help mitigate harm. An example of this is the content filtering system on the Azure OpenAI service. Systems should also detect jailbreak attacks and unwanted activity like requests from bots.
+- **安全システム**。安全システムは、モデルを提供するプラットフォーム上で害を軽減するのに役立つツールと設定のセットです。この例は Azure OpenAI サービスのコンテンツフィルタリングシステムです。システムは、ジェイルブレイク攻撃や、ボットからの要求などの不要なアクティビティも検出する必要があります。
 
-- **Metaprompt**. Metaprompts and grounding are ways we can direct or limit the model based on certain behaviors and information. This could be using system inputs to define certain limits of the model. In addition, providing outputs that are more relevant to the scope or domain of the system.
+- **メタプロンプト**。メタプロンプトと接地（Groundint）は、特定の動作と情報に基づいてモデルを指定または制限する方法です。これは、モデルの特定の制限を定義するためにシステム入力を使用することです。さらに、システムの範囲またはドメインにより関連する出力を提供する。
 
-It can also be using techniques like Retrieval Augmented Generation (RAG) to have the model only pull information from a selection of trusted sources. There is a lesson later in this course for [building search applications](../08-building-search-applications/README.md?WT.mc_id=academic-105485-koreyst)
+Retrieval Augmented Generation（RAG）などのテクニックを使用して、モデルが信頼できるソースの選択から情報のみを引き出すようにすることもできます。このコース後半で [検索アプリケーション構築](../08-building-search-applications/README.md?WT.mc_id=academic-105485-koreyst) に関するレッスンがあります。
 
-- **User Experience**. The final layer is where the user interacts directly with the model through our application’s interface in some way. In this way we can design the UI/UX to limit the user on the types of inputs they can send to the model as well as text or images displayed to the user. When deploying the AI application, we also must be transparent about what our Generative AI application can and can’t do.
+- **ユーザーエクスペリエンス**。最後のレイヤーは、ユーザーが何らかの方法でアプリケーションのインターフェイスを通じてモデルと直接相互作用する場所です。このように、ユーザーがモデルに送信できる入力のタイプ、およびユーザーに表示されるテキストまたは画像を制限するために UI/UX を設計できます。AI アプリケーションを展開するときは、生成AI アプリケーションで何ができるか、何ができないかについて透明である必要があります。
 
-We have an entire lesson dedicated to [Designing UX for AI Applications](../12-designing-ux-for-ai-applications/README.md?WT.mc_id=academic-105485-koreyst)
+[AI アプリケーション向け UX 設計](../12-designing-ux-for-ai-applications/README.md?WT.mc_id=academic-105485-koreyst) に専念する全体的なレッスンがあります。
 
-- **Evaluate model**. Working with LLMs can be challenging because we don’t always have control over the data the model was trained on. Regardless, we should always evaluate the model’s performance and outputs. It’s still important to measure the model’s accuracy, similarity, groundedness, and relevance of the output. This helps provide transparency and trust to stakeholders and users.
+- **モデルを評価する**。LLM を使用する場合、モデルが訓練されたデータを常に制御できるわけではないため、難しい場合があります。それでも、モデルのパフォーマンスと出力を常に評価する必要があります。モデルの精度、類似度、接地性、および出力の関連性を測定することが重要です。これにより、ステークホルダーとユーザーに透明性と信頼を提供するのに役立ちます。
 
-### Operate a Responsible Generative AI solution
+### 責任ある生成AI ソリューションを操作する
 
-Building an operational practice around your AI applications is the final stage. This includes partnering with other parts of our startup like Legal and Security to ensure we are compliant with all regulatory policies. Before launching, we also want to build plans around delivery, handling incidents, and rollback to prevent any harm to our users from growing.
+AI アプリケーションの周りに操作実践を構築することが最後のステージです。これには、すべての規制方針に準拠していることを確認するために、法務およびセキュリティなどのスタートアップの他の部分とパートナーシップが含まれます。起動前に、配信、インシデント処理、および ロールバック計画を構築して、ユーザーへの害の成長を防ぎたいです。
 
-## Tools
+## ツール
 
-While the work of developing Responsible AI solutions may seem like a lot, it is work well worth the effort. As the area of Generative AI grows, more tooling to help developers efficiently integrate responsibility into their workflows will mature. For example, the [Azure AI Content Safety](https://learn.microsoft.com/azure/ai-services/content-safety/overview?WT.mc_id=academic-105485-koreyst) can help detect harmful content and images via an API request.
+責任ある AI ソリューションの開発作業は多くのように見えるかもしれませんが、努力の価値があります。生成AI の領域が成長するにつれて、開発者が責任を効率的にワークフローに統合するのに役立つ、より多くのツーリングが成熟します。たとえば、[Azure AI Content Safety](https://learn.microsoft.com/azure/ai-services/content-safety/overview?WT.mc_id=academic-105485-koreyst) は、API リクエストを通じて有害なコンテンツと画像を検出するのに役立ちます。
 
-## Knowledge check
+## 知識確認
 
-What are some things you need to care about to ensure responsible AI usage?
+責任ある AI の使用を確保するために気になることは何ですか？
 
-1. That the answer is correct.
-1. Harmful usage, that AI isn't used for criminal purposes.
-1. Ensuring the AI is free from bias and discrimination.
+1. 答えが正しいこと。
+2. 有害な使用、AI が犯罪目的に使用されないこと。
+3. AI がバイアスと差別のない状態を確保する。
 
-A: 2 and 3 are correct. Responsible AI helps you consider how to mitigate harmful effects and biases and more.
+A：2 と 3 が正しいです。責任ある AI は、有害な影響とバイアスなどを軽減する方法を考慮するのに役立ちます。
 
-## 🚀 Challenge
+## 🚀 チャレンジ
 
-Read up on [Azure AI Content Safety](https://learn.microsoft.com/azure/ai-services/content-safety/overview?WT.mc_id=academic-105485-koreyst) and see what you can adopt for your usage.
+[Azure AI Content Safety](https://learn.microsoft.com/azure/ai-services/content-safety/overview?WT.mc_id=academic-105485-koreyst) について読んで、使用に何を採用できるかを確認してください。
 
-## Great Work, Continue Your Learning
+## 素晴らしい仕事です。学習を続けてください
 
-After completing this lesson, check out our [Generative AI Learning collection](https://aka.ms/genai-collection?WT.mc_id=academic-105485-koreyst) to continue leveling up your Generative AI knowledge!
+このレッスンを完了した後、[生成 AI 学習コレクション](https://aka.ms/genai-collection?WT.mc_id=academic-105485-koreyst)をチェックして、生成 AI の知識を向上させ続けてください！
 
-Head over to Lesson 4 where we will look at [Prompt Engineering Fundamentals](../04-prompt-engineering-fundamentals/README.md?WT.mc_id=academic-105485-koreyst)!
+[プロンプトエンジニアリングの基礎](../04-prompt-engineering-fundamentals/README.md?WT.mc_id=academic-105485-koreyst)を見ていくレッスン 4 に進みます！
