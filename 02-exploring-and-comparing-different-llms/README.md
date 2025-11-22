@@ -1,203 +1,202 @@
-# Exploring and comparing different LLMs
+# 異なる大規模言語モデル(LLM)の探索と比較
 
-[![Exploring and comparing different LLMs](./images/02-lesson-banner.png?WT.mc_id=academic-105485-koreyst)](https://youtu.be/KIRUeDKscfI?si=8BHX1zvwzQBn-PlK)
+[![異なる大規模言語モデル(LLM)の探索と比較](./images/02-lesson-banner.png?WT.mc_id=academic-105485-koreyst)](https://youtu.be/KIRUeDKscfI?si=8BHX1zvwzQBn-PlK)
 
-> _Click the image above to view video of this lesson_
+> _上の画像をクリックするとこのレッスンのビデオが見られます_
 
-With the previous lesson, we have seen how Generative AI is changing the technology landscape, how Large Language Models (LLMs) work and how a business - like our startup - can apply them to their use cases and grow! In this chapter, we're looking to compare and contrast different types of large language models (LLMs) to understand their pros and cons.
+前のレッスンでは、生成AI がどのようにテクノロジー環境を変えているか、大規模言語モデル（LLM）がどのように機能するか、およびスタートアップのようなビジネスがそれらをユースケースに適用してどのように成長できるかを見てきました。このチャプターでは、異なるタイプの大規模言語モデル（LLM）を比較・対照して、それらの長所と短所を理解することを目指しています。
 
-The next step in our startup's journey is exploring the current landscape of LLMs and understanding which are suitable for our use case.
+スタートアップの旅の次のステップは、LLM の現在の環境を探索し、ユースケースに適したものを理解することです。
 
-## Introduction
+## はじめに
 
-This lesson will cover:
+このレッスンでは以下をカバーします：
 
-- Different types of LLMs in the current landscape.
-- Testing, iterating, and comparing different models for your use case in Azure.
-- How to deploy an LLM.
+- 現在のランドスケープにおける異なるタイプの LLM。
+- Azure でユースケースに応じて異なるモデルをテスト、反復、比較する方法。
+- LLM をデプロイする方法。
 
-## Learning Goals
+## 学習目標
 
-After completing this lesson, you will be able to:
+このレッスンを完了した後、以下ができるようになります：
 
-- Select the right model for your use case.
-- Understand how to test, iterate, and improve the performance of your model.
-- Know how businesses deploy models.
+- ユースケースに適したモデルを選択する。
+- モデルのパフォーマンスをテスト、反復、改善する方法を理解する。
+- ビジネスがモデルをデプロイする方法を知る。
 
-## Understand different types of LLMs
+## 異なるタイプの LLM を理解する
 
-LLMs can have multiple categorizations based on their architecture, training data, and use case. Understanding these differences will help our startup select the right model for the scenario, and understand how to test, iterate, and improve performance.
+LLM は、アーキテクチャ、訓練データ、およびユースケースに基づいて複数のカテゴリに分類できます。これらの違いを理解することは、スタートアップがシナリオに適したモデルを選択し、パフォーマンスをテスト、反復、改善する方法を理解するのに役立ちます。
 
-There are many different types of LLM models, your choice of model depends on what you aim to use them for, your data, how much you're ready to pay and more.
+多くの異なるタイプの LLM モデルがあり、モデルの選択は、それらを何に使用することを目指しているか、データ、いくらまでの支払いができるかなどに依存します。
 
-Depending on if you aim to use the models for text, audio, video, image generation and so on, you might opt for a different type of model.
+テキスト、オーディオ、ビデオ、画像生成などのモデルを使用することを目指しているかどうかに応じて、異なるタイプのモデルを選択するかもしれません。
 
-- **Audio and speech recognition**. For this purpose, Whisper-type models are a great choice as they're general-purpose and aimed at speech recognition. It's trained on diverse audio and can perform multilingual speech recognition. Learn more about [Whisper type models here](https://platform.openai.com/docs/models/whisper?WT.mc_id=academic-105485-koreyst).
+- **音声と音声認識**。この目的のために、Whisper タイプのモデルは、汎用で音声認識を目指しているため、素晴らしい選択です。多様なオーディオで訓練されており、多言語音声認識を実行できます。[ここで Whisper タイプのモデルについてさらに詳しく学んでください](https://platform.openai.com/docs/models/whisper?WT.mc_id=academic-105485-koreyst)。
 
-- **Image generation**. For image generation, DALL-E and Midjourney are two very well-known choices. DALL-E is offered by Azure OpenAI. [Read more about DALL-E here](https://platform.openai.com/docs/models/dall-e?WT.mc_id=academic-105485-koreyst) and also in Chapter 9 of this curriculum.
+- **画像生成**。画像生成には、DALL-E と Midjourney が 2 つのよく知られた選択肢です。DALL-E は Azure OpenAI から提供されています。[ここで DALL-E についてさらに詳しく読んでください](https://platform.openai.com/docs/models/dall-e?WT.mc_id=academic-105485-koreyst)、また、このカリキュラムの第 9 章でも。
 
-- **Text generation**. Most models are trained on text generation and you have a large variety of choices from GPT-3.5 to GPT-4. They come at different costs with GPT-4 being the most expensive. It's worth looking into the [Azure OpenAI playground](https://oai.azure.com/portal/playground?WT.mc_id=academic-105485-koreyst) to evaluate which models best fit your needs in terms of capability and cost.
+- **テキスト生成**。ほとんどのモデルはテキスト生成で訓練されており、GPT-3.5 から GPT-4 まで幅広い選択肢があります。それらは異なるコストで提供され、GPT-4 が最も高価です。[Azure OpenAI プレイグラウンド](https://oai.azure.com/portal/playground?WT.mc_id=academic-105485-koreyst)を見て、どのモデルが機能と費用の点でニーズに最適に適合するかを評価する価値があります。
 
-- **Multi-modality**. If you're looking to handle multiple types of data in input and output, you might want to look into models like [gpt-4 turbo with vision or gpt-4o](https://learn.microsoft.com/azure/ai-services/openai/concepts/models#gpt-4-and-gpt-4-turbo-models?WT.mc_id=academic-105485-koreyst) - the latest releases of OpenAI models - which are capable to combine natural language processing to visual understanding, enabling interactions through multi-modal interfaces.
+- **マルチモーダリティ**。複数の種類のデータを入力と出力で処理したい場合は、[gpt-4 turbo with vision または gpt-4o](https://learn.microsoft.com/azure/ai-services/openai/concepts/models#gpt-4-and-gpt-4-turbo-models?WT.mc_id=academic-105485-koreyst) のような OpenAI モデルの最新リリースを検討してください。これらは、自然言語処理をビジュアル理解と組み合わせ、マルチモーダルインターフェイスを通じた相互作用を可能にします。
 
-Selecting a model means you get some basic capabilities, that might not be enough however. Often you have company specific data that you somehow need to tell the LLM about. There are a few different choices on how to approach that, more on that in the upcoming sections.
+モデルの選択は、いくつかの基本的な機能を取得することを意味しますが、それで十分でない可能性があります。多くの場合、会社固有のデータがあり、それを何らかの方法で LLM に伝える必要があります。それにアプローチする方法はいくつかあります。詳細は次のセクションを参照してください。
 
-### Foundation Models versus LLMs
+### Foundation Models と LLM
 
-The term Foundation Model was [coined by Stanford researchers](https://arxiv.org/abs/2108.07258?WT.mc_id=academic-105485-koreyst) and defined as an AI model that follows some criteria, such as:
+Foundation Model という用語は [Stanford 研究者によって造られ](https://arxiv.org/abs/2108.07258?WT.mc_id=academic-105485-koreyst)、以下のようないくつかの基準に従う AI モデルとして定義されています：
 
-- **They are trained using unsupervised learning or self-supervised learning**, meaning they are trained on unlabeled multi-modal data, and they do not require human annotation or labeling of data for their training process.
-- **They are very large models**, based on very deep neural networks trained on billions of parameters.
-- **They are normally intended to serve as a ‘foundation’ for other models**, meaning they can be used as a starting point for other models to be built on top of, which can be done by fine-tuning.
+- **教師なし学習または自己教師あり学習を使用して訓練されています**。つまり、ラベルのないマルチモーダルデータで訓練され、訓練プロセスでデータの人間による注釈またはラベル付けを必要としません。
+- **それらは非常に大きなモデルです**。数十億のパラメータで訓練された非常に深いニューラルネットワークに基づいています。
+- **通常、他のモデルの「基礎」として機能することを意図しています**。つまり、微調整によって実行できる、その上に構築されるべき他のモデルの出発点として使用できます。
 
-![Foundation Models versus LLMs](./images/FoundationModel.png?WT.mc_id=academic-105485-koreyst)
+![Foundation Models と LLM](./images/FoundationModel.png?WT.mc_id=academic-105485-koreyst)
 
-Image source: [Essential Guide to Foundation Models and Large Language Models | by Babar M Bhatti | Medium
-](https://thebabar.medium.com/essential-guide-to-foundation-models-and-large-language-models-27dab58f7404)
+画像出典：[Essential Guide to Foundation Models and Large Language Models | by Babar M Bhatti | Medium](https://thebabar.medium.com/essential-guide-to-foundation-models-and-large-language-models-27dab58f7404)
 
-To further clarify this distinction, let’s take ChatGPT as an example. To build the first version of ChatGPT, a model called GPT-3.5 served as the foundation model. This means that OpenAI used some chat-specific data to create a tuned version of GPT-3.5 that was specialized in performing well in conversational scenarios, such as chatbots.
+この違いをさらに明確にするために、ChatGPT を例として取り上げましょう。ChatGPT の最初のバージョンを構築するために、GPT-3.5 というモデルが基盤モデルとして機能しました。つまり、OpenAI はいくつかのチャット固有のデータを使用して、チャットボットなどの会話シナリオでうまく実行することに特化した GPT-3.5 のチューニングされたバージョンを作成しました。
 
 ![Foundation Model](./images/Multimodal.png?WT.mc_id=academic-105485-koreyst)
 
-Image source: [2108.07258.pdf (arxiv.org)](https://arxiv.org/pdf/2108.07258.pdf?WT.mc_id=academic-105485-koreyst)
+画像出典：[2108.07258.pdf (arxiv.org)](https://arxiv.org/pdf/2108.07258.pdf?WT.mc_id=academic-105485-koreyst)
 
-### Open Source versus Proprietary Models
+### オープンソース vs 独占モデル
 
-Another way to categorize LLMs is whether they are open source or proprietary.
+LLM をカテゴリ化する別の方法は、それらがオープンソースか独占的かです。
 
-Open-source models are models that are made available to the public and can be used by anyone. They are often made available by the company that created them, or by the research community. These models are allowed to be inspected, modified, and customized for the various use cases in LLMs. However, they are not always optimized for production use, and may not be as performant as proprietary models. Plus, funding for open-source models can be limited, and they may not be maintained long term or may not be updated with the latest research. Examples of popular open source models include [Alpaca](https://crfm.stanford.edu/2023/03/13/alpaca.html?WT.mc_id=academic-105485-koreyst), [Bloom](https://huggingface.co/bigscience/bloom) and [LLaMA](https://llama.meta.com).
+オープンソースモデルは、公開され、誰でも使用できるモデルです。これらは、それらを作成した会社またはリサーチコミュニティによって公開されることがよくあります。これらのモデルは検査、変更、およびさまざまなユースケースの LLM 用にカスタマイズされることが許可されています。ただし、本番使用に最適化されていない場合があり、独占モデルほどパフォーマンスが良くない可能性があります。さらに、オープンソースモデルの資金調達は限定的であり、長期的に維持されない可能性があり、または最新のリサーチで更新されない可能性があります。人気のあるオープンソースモデルの例には、[Alpaca](https://crfm.stanford.edu/2023/03/13/alpaca.html?WT.mc_id=academic-105485-koreyst)、[Bloom](https://huggingface.co/bigscience/bloom)、[LLaMA](https://llama.meta.com) が含まれます。
 
-Proprietary models are models that are owned by a company and are not made available to the public. These models are often optimized for production use. However, they are not allowed to be inspected, modified, or customized for different use cases. Plus, they are not always available for free, and may require a subscription or payment to use. Also, users do not have control over the data that is used to train the model, which means they should entrust the model owner with ensuring commitment to data privacy and responsible use of AI. Examples of popular proprietary models include [OpenAI models](https://platform.openai.com/docs/models/overview?WT.mc_id=academic-105485-koreyst), [Google Bard](https://sapling.ai/llm/bard?WT.mc_id=academic-105485-koreyst) or [Claude 2](https://www.anthropic.com/index/claude-2?WT.mc_id=academic-105485-koreyst).
+独占モデルは、企業によって所有され、公開されないモデルです。これらのモデルは、本番使用に最適化されることが多いです。ただし、それらは異なるユースケースのために検査、変更、またはカスタマイズされることを許可されていません。さらに、それらは常に無料で利用できるわけではなく、使用するためにサブスクリプションまたは支払いが必要になる場合があります。また、ユーザーはモデルを訓練するために使用されるデータを制御していません。これは、モデル所有者に対して、データプライバシーのコミットメントと AI の責任ある使用を確保することを信頼する必要があることを意味します。人気のある独占モデルの例には、[OpenAI モデル](https://platform.openai.com/docs/models/overview?WT.mc_id=academic-105485-koreyst)、[Google Bard](https://sapling.ai/llm/bard?WT.mc_id=academic-105485-koreyst)、[Claude 2](https://www.anthropic.com/index/claude-2?WT.mc_id=academic-105485-koreyst) が含まれます。
 
-### Embedding versus Image generation versus Text and Code generation
+### Embedding vs 画像生成 vs テキストとコード生成
 
-LLMs can also be categorized by the output they generate.
+LLM は、それらが生成する出力によってもカテゴリ化できます。
 
-Embeddings are a set of models that can convert text into a numerical form, called embedding, which is a numerical representation of the input text. Embeddings make it easier for machines to understand the relationships between words or sentences and can be consumed as inputs by other models, such as classification models, or clustering models that have better performance on numerical data. Embedding models are often used for transfer learning, where a model is built for a surrogate task for which there’s an abundance of data, and then the model weights (embeddings) are re-used for other downstream tasks. An example of this category is [OpenAI embeddings](https://platform.openai.com/docs/models/embeddings?WT.mc_id=academic-105485-koreyst).
+埋め込み(Embedding)は、テキストを数値形式に変換できるモデルのセットであり、埋め込みと呼ばれる、入力テキストの数値表現です。埋め込みにより、機械は単語または文の関係をより簡単に理解でき、分類モデルまたはクラスタリングモデルなど、数値データでより良いパフォーマンスを持つ他のモデルへの入力として使用できます。埋め込みモデルは転移学習に使用されることが多く、そこではモデルは十分なデータがある代用タスク用に構築され、その後モデルの重み（埋め込み）が他の下流タスクに再利用されます。このカテゴリの例は [OpenAI embeddings](https://platform.openai.com/docs/models/embeddings?WT.mc_id=academic-105485-koreyst) です。
 
-![Embedding](./images/Embedding.png?WT.mc_id=academic-105485-koreyst)
+![埋め込み](./images/Embedding.png?WT.mc_id=academic-105485-koreyst)
 
-Image generation models are models that generate images. These models are often used for image editing, image synthesis, and image translation. Image generation models are often trained on large datasets of images, such as [LAION-5B](https://laion.ai/blog/laion-5b/?WT.mc_id=academic-105485-koreyst), and can be used to generate new images or to edit existing images with inpainting, super-resolution, and colorization techniques. Examples include [DALL-E-3](https://openai.com/dall-e-3?WT.mc_id=academic-105485-koreyst) and [Stable Diffusion models](https://github.com/Stability-AI/StableDiffusion?WT.mc_id=academic-105485-koreyst).
+画像生成モデルは、画像を生成するモデルです。これらのモデルは、画像編集、画像合成、および画像翻訳に使用されることが多いです。画像生成モデルは、[LAION-5B](https://laion.ai/blog/laion-5b/?WT.mc_id=academic-105485-koreyst) などの大規模な画像データセットで訓練されることが多く、新しい画像を生成したり、インペイント、超解像、彩色技術を使用して既存の画像を編集するために使用できます。例には [DALL-E-3](https://openai.com/dall-e-3?WT.mc_id=academic-105485-koreyst) と [Stable Diffusion モデル](https://github.com/Stability-AI/StableDiffusion?WT.mc_id=academic-105485-koreyst) が含まれます。
 
-![Image generation](./images/Image.png?WT.mc_id=academic-105485-koreyst)
+![画像生成](./images/Image.png?WT.mc_id=academic-105485-koreyst)
 
-Text and code generation models are models that generate text or code. These models are often used for text summarization, translation, and question answering. Text generation models are often trained on large datasets of text, such as [BookCorpus](https://www.cv-foundation.org/openaccess/content_iccv_2015/html/Zhu_Aligning_Books_and_ICCV_2015_paper.html?WT.mc_id=academic-105485-koreyst), and can be used to generate new text, or to answer questions. Code generation models, like [CodeParrot](https://huggingface.co/codeparrot?WT.mc_id=academic-105485-koreyst), are often trained on large datasets of code, such as GitHub, and can be used to generate new code, or to fix bugs in existing code.
+テキストとコード生成モデルは、テキストまたはコードを生成するモデルです。これらのモデルは、テキストの要約、翻訳、および質問応答に使用されることが多いです。テキスト生成モデルは、[BookCorpus](https://www.cv-foundation.org/openaccess/content_iccv_2015/html/Zhu_Aligning_Books_and_ICCV_2015_paper.html?WT.mc_id=academic-105485-koreyst) などのテキストの大規模なデータセットで訓練されることが多く、新しいテキストを生成したり、質問に答えるために使用できます。[CodeParrot](https://huggingface.co/codeparrot?WT.mc_id=academic-105485-koreyst) のようなコード生成モデルは、GitHub などのコードの大規模なデータセットで訓練されることが多く、新しいコードを生成したり、既存のコード内のバグを修正するために使用できます。
 
-![Text and code generation](./images/Text.png?WT.mc_id=academic-105485-koreyst)
+![テキストとコード生成](./images/Text.png?WT.mc_id=academic-105485-koreyst)
 
-### Encoder-Decoder versus Decoder-only
+### Encoder-Decoder vs Decoder-only
 
-To talk about the different types of architectures of LLMs, let's use an analogy.
+LLM のさまざまなタイプのアーキテクチャについて話すために、アナロジーを使用しましょう。
 
-Imagine your manager gave you a task for writing a quiz for the students. You have two colleagues; one oversees creating the content and the other oversees reviewing them.
+あなたのマネージャーが生徒用のクイズを作成するというタスクを与えたと想像してください。2 人の同僚がいます。1 人はコンテンツの作成を監督し、もう 1 人はそれらをレビューすることを監督します。
 
-The content creator is like a Decoder only model, they can look at the topic and see what you already wrote and then he can write a course based on that. They are very good at writing engaging and informative content, but they are not very good at understanding the topic and the learning objectives. Some examples of Decoder models are GPT family models, such as GPT-3.
+コンテンツクリエイターは Decoder only モデルのようなもので、トピックを見て、あなたが既に書いたものを見ることができ、その後それに基づいてコースを書くことができます。彼らは魅力的で有益なコンテンツを書くことに非常に優れていますが、トピックと学習目標を理解することはあまり得意ではありません。Decoder モデルの例には、GPT-3 などの GPT ファミリーモデルが含まれます。
 
-The reviewer is like an Encoder only model, they look at the course written and the answers, noticing the relationship between them and understanding context, but they are not good at generating content. An example of Encoder only model would be BERT.
+レビュアーは Encoder only モデルのようなもので、書かれたコースと回答を見て、それらの間の関係に気づき、コンテキストを理解していますが、コンテンツを生成することはあまり得意ではありません。Encoder only モデルの例は BERT です。
 
-Imagine that we can have someone as well who could create and review the quiz, this is an Encoder-Decoder model. Some examples would be BART and T5.
+クイズを作成およびレビューできる人も持つことができると想像してください。これは Encoder-Decoder モデルです。例には BART と T5 が含まれます。
 
-### Service versus Model
+### サービス vs モデル
 
-Now, let's talk about the difference between a service and a model. A service is a product that is offered by a Cloud Service Provider, and is often a combination of models, data, and other components. A model is the core component of a service, and is often a foundation model, such as an LLM.
+ここで、サービスとモデルの違いについて話しましょう。サービスはクラウドサービスプロバイダーから提供されるプロダクトであり、多くの場合、モデル、データ、およびその他のコンポーネントの組み合わせです。モデルはサービスのコア組成部分であり、多くの場合、LLM などの基盤モデルです。
 
-Services are often optimized for production use and are often easier to use than models, via a graphical user interface. However, services are not always available for free, and may require a subscription or payment to use, in exchange for leveraging the service owner’s equipment and resources, optimizing expenses and scaling easily. An example of a service is [Azure OpenAI Service](https://learn.microsoft.com/azure/ai-services/openai/overview?WT.mc_id=academic-105485-koreyst), which offers a pay-as-you-go rate plan, meaning users are charged proportionally to how much they use the service Also, Azure OpenAI Service offers enterprise-grade security and a responsible AI framework on top of the models' capabilities.
+サービスは本番使用に最適化されることが多く、グラフィカルユーザーインターフェイスを通じてモデルよりも使用しやすいことが多いです。ただし、サービスは常に無料で利用できるわけではなく、使用するためにサブスクリプションまたは支払いが必要になる場合があります。その代わり、サービス所有者の機器とリソースを活用し、支出を最適化し、簡単にスケーリングできます。サービスの例は [Azure OpenAI Service](https://learn.microsoft.com/azure/ai-services/openai/overview?WT.mc_id=academic-105485-koreyst) です。これは従量課金制を提供し、ユーザーはサービスをどれだけ使用するかに比例して請求されます。また、Azure OpenAI Service は、モデルの機能に加えて、エンタープライズグレードのセキュリティと責任ある AI フレームワークを提供します。
 
-Models are just the Neural Network, with the parameters, weights, and others. Allowing companies to run locally, however, would need to buy equipment, build a structure to scale and buy a license or use an open-source model. A model like LLaMA is available to be used, requiring computational power to run the model.
+モデルは単なるニューラルネットワークであり、パラメータ、重み、およびその他を含みます。企業がローカルで実行することを許可しますが、機器を購入し、スケーリングするための構造を構築し、ライセンスを購入するか、オープンソースモデルを使用する必要があります。LLaMA のようなモデルは使用可能であり、モデルを実行するための計算能力を必要とします。
 
-## How to test and iterate with different models to understand performance on Azure
+## Azure で異なるモデルをテストして反復する方法
 
-Once our team has explored the current LLMs landscape and identified some good candidates for their scenarios, the next step is testing them on their data and on their workload. This is an iterative process, done by experiments and measures.
-Most of the models we mentioned in previous paragraphs (OpenAI models, open source models like Llama2, and Hugging Face transformers) are available in the [Model Catalog](https://learn.microsoft.com/azure/ai-studio/how-to/model-catalog-overview?WT.mc_id=academic-105485-koreyst) in [Azure AI Studio](https://ai.azure.com/?WT.mc_id=academic-105485-koreyst).
+チームが現在の LLM ランドスケープを探索し、シナリオの有望な候補を特定したら、次のステップはそれらをデータとワークロードでテストすることです。これは実験と測定によって行われる反復的なプロセスです。
+前の段落で言及したほとんどのモデル（OpenAI モデル、Llama2 などのオープンソースモデル、Hugging Face Transformers）は、[Azure AI Studio](https://ai.azure.com/?WT.mc_id=academic-105485-koreyst) の [Model Catalog](https://learn.microsoft.com/azure/ai-studio/how-to/model-catalog-overview?WT.mc_id=academic-105485-koreyst) で利用可能です。
 
-[Azure AI Studio](https://learn.microsoft.com/azure/ai-studio/what-is-ai-studio?WT.mc_id=academic-105485-koreyst) is a Cloud Platform designed for developers to build generative AI applications and manage the whole development lifecycle - from experimentation to evaluation - by combining all Azure AI services into a single hub with an handy GUI. The Model Catalog in Azure AI Studio enables the user to:
+[Azure AI Studio](https://learn.microsoft.com/azure/ai-studio/what-is-ai-studio?WT.mc_id=academic-105485-koreyst) は、開発者が生成AI アプリケーションを構築し、実験から評価まで開発ライフサイクル全体を管理するために設計されたクラウドプラットフォームです。すべての Azure AI サービスを単一のハブに統合し、ハンディな GUI を備えています。Azure AI Studio の Model Catalog により、ユーザーは以下を実行できます：
 
-- Find the Foundation Model of interest in the catalog - either proprietary or open source, filtering by task, license, or name. To improve searchability, the models are organized into collections, like Azure OpenAI collection, Hugging Face collection, and more.
+- 独占的またはオープンソース、タスク、ライセンス、または名前でフィルタリングされたカタログで関心のある Foundation Model を見つけます。検索可能性を改善するために、モデルは Azure OpenAI コレクション、Hugging Face コレクション、などのコレクションに編成されています。
 
-![Model catalog](./images/AzureAIStudioModelCatalog.png?WT.mc_id=academic-105485-koreyst)
+![モデルカタログ](./images/AzureAIStudioModelCatalog.png?WT.mc_id=academic-105485-koreyst)
 
-- Review the model card, including a detailed description of intended use and training data, code samples and evaluation results on the internal evaluations library.
+- 意図した使用と訓練データの詳細な説明を含むモデルカード、コードサンプル、内部評価ライブラリの評価結果をレビューします。
 
-![Model card](./images/ModelCard.png?WT.mc_id=academic-105485-koreyst)
+![モデルカード](./images/ModelCard.png?WT.mc_id=academic-105485-koreyst)
 
-- Compare benchmarks across models and datasets available in the industry to assess which one meets the business scenario, through the [Model Benchmarks](https://learn.microsoft.com/azure/ai-studio/how-to/model-benchmarks?WT.mc_id=academic-105485-koreyst) pane.
+- [Model Benchmarks](https://learn.microsoft.com/azure/ai-studio/how-to/model-benchmarks?WT.mc_id=academic-105485-koreyst) ペインを通じて、業界で利用可能なモデルとデータセット全体のベンチマークを比較し、どのモデルがビジネスシナリオを満たすかを評価します。
 
-![Model benchmarks](./images/ModelBenchmarks.png?WT.mc_id=academic-105485-koreyst)
+![モデルベンチマーク](./images/ModelBenchmarks.png?WT.mc_id=academic-105485-koreyst)
 
-- Fine-tune the model on custom training data to improve model performance in a specific workload, leveraging the experimentation and tracking capabilities of Azure AI Studio.
+- カスタム訓練データでモデルを微調整して、特定のワークロードでモデルパフォーマンスを改善し、Azure AI Studio の実験と追跡機能を活用します。
 
-![Model fine-tuning](./images/FineTuning.png?WT.mc_id=academic-105485-koreyst)
+![モデル微調整](./images/FineTuning.png?WT.mc_id=academic-105485-koreyst)
 
-- Deploy the original pre-trained model or the fine-tuned version to a remote real time inference - managed compute - or serverless api endpoint - [pay-as-you-go](https://learn.microsoft.com/azure/ai-studio/how-to/model-catalog-overview#model-deployment-managed-compute-and-serverless-api-pay-as-you-go?WT.mc_id=academic-105485-koreyst) - to enable applications to consume it.
+- 元の事前訓練されたモデルまたは微調整バージョンをリモートリアルタイム推論（管理対象コンピュート）またはサーバーレス API エンドポイント（[従量課金](https://learn.microsoft.com/azure/ai-studio/how-to/model-catalog-overview#model-deployment-managed-compute-and-serverless-api-pay-as-you-go?WT.mc_id=academic-105485-koreyst)）にデプロイして、アプリケーションがそれを使用できるようにします。
 
-![Model deployment](./images/ModelDeploy.png?WT.mc_id=academic-105485-koreyst)
+![モデルデプロイ](./images/ModelDeploy.png?WT.mc_id=academic-105485-koreyst)
 
 > [!NOTE]
-> Not all models in the catalog are currently available for fine-tuning and/or pay-as-you-go deployment. Check the model card for details on the model's capabilities and limitations.
+> カタログ内のすべてのモデルが、現在微調整および/またはサーバーレス API デプロイメント従量課金に利用可能であるとは限りません。詳細についてはモデルカードをご覧ください。
 
-## Improving LLM results
+## LLM 結果の改善
 
-We’ve explored with our startup team different kinds of LLMs and a Cloud Platform (Azure Machine Learning) enabling us to compare different models, evaluate them on test data, improve performance and deploy them on inference endpoints.
+スタートアップチームとともに異なる種類の LLM とクラウドプラットフォーム（Azure Machine Learning）を探索してきました。これにより、異なるモデルを比較し、テストデータで評価し、パフォーマンスを改善し、推論エンドポイントにデプロイできます。
 
-But when shall they consider fine-tuning a model rather than using a pre-trained one? Are there other approaches to improve model performance on specific workloads?
+しかし、事前訓練されたモデルを使用するのではなく、モデルを微調整することを検討すべきはいつですか？特定のワークロードでモデルパフォーマンスを改善するための他のアプローチがありますか？
 
-There are several approaches a business can use to get the results they need from an LLM. You can select different types of models with different degrees of training when deploying an LLM in production, with different levels of complexity, cost, and quality. Here are some different approaches:
+LLM から必要な結果を得るためにビジネスが使用できるいくつかのアプローチがあります。本番環境で LLM をデプロイする際に、異なるタイプの複雑さ、コスト、品質のレベルを持つ異なるトレーニング段階のモデルを選択できます。ここにいくつかの異なるアプローチがあります：
 
-- **Prompt engineering with context**. The idea is to provide enough context when you prompt to ensure you get the responses you need.
+- **コンテキストを使用したプロンプトエンジニアリング**。アイデアは、必要な応答を確実に得られるようにプロンプトするときに十分なコンテキストを提供することです。
 
-- **Retrieval Augmented Generation, RAG**. Your data might exist in a database or web endpoint for example, to ensure this data, or a subset of it, is included at the time of prompting, you can fetch the relevant data and make that part of the user's prompt.
+- **Retrieval Augmented Generation、RAG**。データはデータベースまたは Web エンドポイントなどに存在する可能性があります。このデータ、またはそのサブセットがプロンプト時に含まれるようにするために、関連データをフェッチし、それをユーザーのプロンプトの一部にできます。
 
-- **Fine-tuned model**. Here, you trained the model further on your own data which led to the model being more exact and responsive to your needs but might be costly.
+- **微調整されたモデル**。ここでは、独自のデータでモデルをさらに訓練し、モデルが正確でニーズに応答しやすくなりましたが、コストがかかる可能性があります。
 
-![LLMs deployment](./images/Deploy.png?WT.mc_id=academic-105485-koreyst)
+![LLM デプロイ](./images/Deploy.png?WT.mc_id=academic-105485-koreyst)
 
-Img source: [Four Ways that Enterprises Deploy LLMs | Fiddler AI Blog](https://www.fiddler.ai/blog/four-ways-that-enterprises-deploy-llms?WT.mc_id=academic-105485-koreyst)
+画像出典：[Four Ways that Enterprises Deploy LLMs | Fiddler AI Blog](https://www.fiddler.ai/blog/four-ways-that-enterprises-deploy-llms?WT.mc_id=academic-105485-koreyst)
 
-### Prompt Engineering with Context
+### コンテキストを使用したプロンプトエンジニアリング
 
-Pre-trained LLMs work very well on generalized natural language tasks, even by calling them with a short prompt, like a sentence to complete or a question – the so-called “zero-shot” learning.
+事前訓練された LLM は、短いプロンプト（完成する文や質問など）で呼び出すだけで、一般化された自然言語タスクで非常にうまく機能します。これは、いわゆる「ゼロショット」学習です。
 
-However, the more the user can frame their query, with a detailed request and examples – the Context – the more accurate and closest to user’s expectations the answer will be. In this case, we talk about “one-shot” learning if the prompt includes only one example and “few shot learning” if it includes multiple examples.
-Prompt engineering with context is the most cost-effective approach to kick-off with.
+ただし、ユーザーは詳細なリクエストと例を含んでクエリをより多く枠付けできる（コンテキスト）、応答がより正確で、ユーザーの期待に最も近いものになります。この場合、プロンプトに 1 つの例だけが含まれている場合は「ワンショット」学習について、複数の例が含まれている場合は「フューショット学習」について話します。
+コンテキストを使用したプロンプトエンジニアリングは、開始するための最も費用効果の高いアプローチです。
 
-### Retrieval Augmented Generation (RAG)
+### Retrieval Augmented Generation（RAG）
 
-LLMs have the limitation that they can use only the data that has been used during their training to generate an answer. This means that they don’t know anything about the facts that happened after their training process, and they cannot access non-public information (like company data).
-This can be overcome through RAG, a technique that augments prompt with external data in the form of chunks of documents, considering prompt length limits. This is supported by Vector database tools (like [Azure Vector Search](https://learn.microsoft.com/azure/search/vector-search-overview?WT.mc_id=academic-105485-koreyst)) that retrieve the useful chunks from varied pre-defined data sources and add them to the prompt Context.
+LLM は、訓練中に使用されたデータのみを使用して回答を生成することができるという制限があります。これは、訓練プロセス後に発生した事実について何も知らず、非公開情報（会社データなど）にアクセスできないことを意味します。
+これは RAG を通じて克服できます。プロンプト長の制限を考慮して、ドキュメントのチャンク形式で外部データでプロンプトを補強するテクニックです。これは、Vector Database ツール（[Azure Vector Search](https://learn.microsoft.com/azure/search/vector-search-overview?WT.mc_id=academic-105485-koreyst) など）によってサポートされており、さまざまな事前定義されたデータソースから有用なチャンクを取得し、それらをプロンプト Context に追加します。
 
-This technique is very helpful when a business doesn’t have enough data, enough time, or resources to fine-tune an LLM, but still wishes to improve performance on a specific workload and reduce risks of fabrications, i.e., mystification of reality or harmful content.
+このテクニックは、ビジネスが LLM を微調整するのに十分なデータ、時間、またはリソースを持っていないが、特定のワークロードでパフォーマンスを改善し、でっち上げ（現実の神秘化または有害なコンテンツなど）のリスクを減らしたい場合に非常に役立ちます。
 
-### Fine-tuned model
+### 微調整されたモデル
 
-Fine-tuning is a process that leverages transfer learning to ‘adapt’ the model to a downstream task or to solve a specific problem. Differently from few-shot learning and RAG, it results in a new model being generated, with updated weights and biases. It requires a set of training examples consisting of a single input (the prompt) and its associated output (the completion).
-This would be the preferred approach if:
+微調整は、転移学習を活用して、モデルを下流タスクに「適応」させたり、特定の問題を解決するプロセスです。フューショット学習と RAG とは異なり、更新された重みとバイアスを持つ新しいモデルが生成されます。単一の入力（プロンプト）とそれに関連する出力（補完）で構成される訓練例のセットが必要です。
+これは以下の場合に好ましいアプローチになります：
 
-- **Using fine-tuned models**. A business would like to use fine-tuned less capable models (like embedding models) rather than high performance models, resulting in a more cost effective and fast solution.
+- **微調整されたモデルを使用する**。ビジネスは、高性能モデルではなく、埋め込みモデルのような微調整されたより低能力のモデルを使用することが望ましく、より費用効果的で高速なソリューションが得られます。
 
-- **Considering latency**. Latency is important for a specific use-case, so it’s not possible to use very long prompts or the number of examples that should be learned from the model doesn’t fit with the prompt length limit.
+- **レイテンシを考慮する**。特定のユースケースでレイテンシが重要であるため、非常に長いプロンプトを使用することはできません。または、モデルが学習すべき例の数がプロンプト長の制限に適合しません。
 
-- **Staying up to date**. A business has a lot of high-quality data and ground truth labels and the resources required to maintain this data up to date over time.
+- **最新の状態を保つ**。ビジネスは高品質なデータと真実のラベルを大量に持っており、時間をかけてこのデータを最新に保つために必要なリソースを持っています。
 
-### Trained model
+### 訓練されたモデル
 
-Training an LLM from scratch is without a doubt the most difficult and the most complex approach to adopt, requiring massive amounts of data, skilled resources, and appropriate computational power. This option should be considered only in a scenario where a business has a domain-specific use case and a large amount of domain-centric data.
+LLM をゼロから訓練することは、疑いの余地なく、最も困難で最も複雑なアプローチであり、膨大な量のデータ、熟練したリソース、および適切な計算能力を必要とします。このオプションは、ビジネスがドメイン固有のユースケースと大量のドメイン中心のデータを持っている場合にのみ検討されるべきです。
 
-## Knowledge check
+## 知識確認
 
-What could be a good approach to improve LLM completion results?
+LLM の補完結果を改善するための良いアプローチは何でしょうか？
 
-1. Prompt engineering with context
-1. RAG
-1. Fine-tuned model
+1. コンテキストを使用したプロンプトエンジニアリング
+2. RAG
+3. 微調整されたモデル
 
-A:3, if you have the time and resources and high quality data, fine-tuning is the better option to stay up to date. However, if you're looking at improving things and you're lacking time it's worth considering RAG first.
+A：3、時間とリソース、および高品質データを持っている場合、微調整は最新の状態を保つより良いオプションです。ただし、物事を改善することを探しており、時間が不足している場合、最初に RAG を検討する価値があります。
 
-## 🚀 Challenge
+## 🚀 チャレンジ
 
-Read up more on how you can [use RAG](https://learn.microsoft.com/azure/search/retrieval-augmented-generation-overview?WT.mc_id=academic-105485-koreyst) for your business.
+ビジネスで [RAG をどのように使用するか](https://learn.microsoft.com/azure/search/retrieval-augmented-generation-overview?WT.mc_id=academic-105485-koreyst)についてさらに詳しく読んでください。
 
-## Great Work, Continue Your Learning
+## 素晴らしい仕事です。学習を続けてください
 
-After completing this lesson, check out our [Generative AI Learning collection](https://aka.ms/genai-collection?WT.mc_id=academic-105485-koreyst) to continue leveling up your Generative AI knowledge!
+このレッスンを完了した後、[生成 AI 学習コレクション](https://aka.ms/genai-collection?WT.mc_id=academic-105485-koreyst)をチェックして、生成 AI の知識を向上させ続けてください！
 
-Head over to Lesson 3 where we will look at how to [build with Generative AI Responsibly](../03-using-generative-ai-responsibly/README.md?WT.mc_id=academic-105485-koreyst)!
+[生成 AI で責任を持って構築する](../03-using-generative-ai-responsibly/README.md?WT.mc_id=academic-105485-koreyst)方法を見ていくレッスン 3 に進みます！
