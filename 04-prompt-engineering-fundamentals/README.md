@@ -1,60 +1,60 @@
-# Prompt Engineering Fundamentals
+### Using Examples
+### Prompt Cues
+# プロンプトエンジニアリング基礎
 
 [![Prompt Engineering Fundamentals](./images/04-lesson-banner.png?WT.mc_id=academic-105485-koreyst)](https://youtu.be/GElCu2kUlRs?si=qrXsBvXnCW12epb8)
 
-## Introduction
-This module covers essential concepts and techniques for creating effective prompts in generative AI models. The way you write your prompt to an LLM also matters. A carefully-crafted prompt can achieve a better quality of response. But what exactly do terms like _prompt_ and _prompt engineering_ mean? And how do I improve the prompt _input_ that I send to the LLM? These are the questions we'll try to answer within this chapter and the next.
+## はじめに
+このモジュールでは、生成AIモデルに対して効果的なプロンプトを作成するための基本的な概念と手法を扱います。LLM（大規模言語モデル）へのプロンプトの書き方は重要です。工夫されたプロンプトはより高品質な応答を引き出します。しかし、「プロンプト」や「プロンプトエンジニアリング」といった用語は具体的に何を意味するのでしょうか？また、LLM に送るプロンプト（入力）をどのように改善すればよいのでしょうか？これらは本章と次章で答えを探していく問いです。
 
-_Generative AI_ is capable of creating new content (e.g., text, images, audio, code etc.) in response to user requests. It achieves this using _Large Language Models_ like OpenAI's GPT ("Generative Pre-trained Transformer") series that are trained for using natural language and code.
+生成AIは、ユーザーの要求に応じて新しいコンテンツ（例：テキスト、画像、音声、コードなど）を生成できます。これは、自然言語やコードの処理に長けた OpenAI の GPT（"Generative Pre-trained Transformer"）シリーズのような大規模言語モデルを用いることで実現します。
 
-Users can now interact with these models using familiar paradigms like chat, without needing any technical expertise or training. The models are _prompt-based_ - users send a text input (prompt) and get back the AI response (completion). They can then "chat with the AI" iteratively, in multi-turn conversations, refining their prompt until the response matches their expectations.
+ユーザーはチャットのような馴染みのある対話形式でこれらのモデルとやり取りでき、特別な技術的知識は不要です。モデルは"プロンプトベース"で動作し、ユーザーがテキスト入力（プロンプト）を送ると AI の応答（コンプリーション）が返ってきます。ユーザーはその応答を受けてプロンプトを繰り返し改善し、期待に沿う結果が得られるまで多回合の会話を行うことができます。
 
-"Prompts" now become the primary _programming interface_ for generative AI apps, telling the models what to do and influencing the quality of returned responses. "Prompt Engineering" is a fast-growing field of study that focuses on the _design and optimization_ of prompts to deliver consistent and quality responses at scale.
+「プロンプト」は生成AIアプリの主要なプログラミングインターフェイスになり、モデルに何をさせるかを指示し、返される応答の品質に影響を与えます。"プロンプトエンジニアリング"は、望ましい応答を安定して得るためにプロンプトを設計・最適化する分野として急速に注目されています。
 
-## Learning Goals
+## 学習目標
 
-In this lesson, we learn what Prompt Engineering is, why it matters, and how we can craft more effective prompts for a given model and application objective. We'll understand core concepts and best practices for prompt engineering - and learn about an interactive Jupyter Notebooks "sandbox" environment where we can see these concepts applied to real examples.
+このレッスンでは、プロンプトエンジニアリングとは何か、なぜ重要なのか、そして特定のモデルやアプリケーションの目的に応じてより効果的なプロンプトを作る方法を学びます。主要な概念とベストプラクティスを理解し、Jupyter Notebook のインタラクティブな「サンドボックス」環境で実際の例を試せるようになります。
 
-By the end of this lesson we will be able to:
+このレッスンを終えると、以下ができるようになります：
 
-1. Explain what prompt engineering is and why it matters.
-2. Describe the components of a prompt and how they are used.
-3. Learn best practices and techniques for prompt engineering.
-4. Apply learned techniques to real examples, using an OpenAI endpoint.
+1. プロンプトエンジニアリングとは何か、その重要性を説明できる。
+2. プロンプトの構成要素とその使い方を説明できる。
+3. プロンプトエンジニアリングのベストプラクティスと手法を学ぶ。
+4. 学んだ手法を実際の例（OpenAI エンドポイントを使用）に適用できる。
 
-## Key Terms
+## キー用語
 
-Prompt Engineering: The practice of designing and refining inputs to guide AI models toward producing desired outputs.
-Tokenization: The process of converting text into smaller units, called tokens, that a model can understand and process.
-Instruction-Tuned LLMs: Large Language Models (LLMs) that have been fine-tuned with specific instructions to improve their response accuracy and relevance.
+プロンプトエンジニアリング：モデルに望ましい出力を導くために入力を設計・改善する実践。
+トークン化（Tokenization）：テキストをモデルが理解・処理できる小さな単位（トークン）に変換する処理。
+命令調整済みLLM（Instruction-Tuned LLMs）：指示に従う性能を高めるために追加学習された大規模言語モデル。
 
-## Learning Sandbox
+## 学習用サンドボックス
 
-Prompt engineering is currently more art than science. The best way to improve our intuition for it is to _practice more_ and adopt a trial-and-error approach that combines application domain expertise with recommended techniques and model-specific optimizations.
+プロンプトエンジニアリングは現時点では「芸術」に近く、直感と試行錯誤を重ねることで習得が進みます。本章で紹介する Jupyter Notebook は学んだことを実際に試せるサンドボックス環境を提供します。演習を実行するために必要なものは次の通りです。
 
-The Jupyter Notebook accompanying this lesson provides a _sandbox_ environment where you can try out what you learn - as you go or as part of the code challenge at the end. To execute the exercises, you will need:
+1. **Azure OpenAI API キー** - 配備された LLM のサービスエンドポイント。
+2. **Python 実行環境** - Notebook を動かすためのランタイム。
+3. **ローカル環境変数** - 今すぐ [SETUP](./../00-course-setup/02-setup-local.md?WT.mc_id=academic-105485-koreyst) の手順を完了してください。
 
-1. **An Azure OpenAI API key** - the service endpoint for a deployed LLM.
-2. **A Python Runtime** - in which the Notebook can be executed.
-3. **Local Env Variables** - _complete the [SETUP](./../00-course-setup/02-setup-local.md?WT.mc_id=academic-105485-koreyst) steps now to get ready_.
+ノートブックにはスターター演習が準備されていますが、独自に Markdown（説明）や Code（プロンプト要求）セルを追加して試し、プロンプト設計の直感を磨くことを推奨します。
 
-The notebook comes with _starter_ exercises - but you are encouraged to add your own _Markdown_ (description) and _Code_ (prompt requests) sections to try out more examples or ideas - and build your intuition for prompt design.
+## 図解ガイド
 
-## Illustrated Guide
-
-Want to get the big picture of what this lesson covers before you dive in? Check out this illustrated guide, which gives you a sense of the main topics covered and the key takeaways for you to think about in each one. The lesson roadmap takes you from understanding the core concepts and challenges to addressing them with relevant prompt engineering techniques and best practices. Note that the "Advanced Techniques" section in this guide refers to content covered in the _next_ chapter of this curriculum.
+このレッスンの全体像を先に把握したい場合は、図解ガイドをご覧ください。主要トピックと各トピックで考えるべきポイントが示されており、基礎概念からそれに対処するプロンプト設計手法までの道筋が分かります。図解内の「高度な手法」は次章で扱う内容を指します。
 
 ![Illustrated Guide to Prompt Engineering](./images/04-prompt-engineering-sketchnote.png?WT.mc_id=academic-105485-koreyst)
 
-## Our Startup
+## スタートアップにおける応用
 
-Now, let's talk about how _this topic_ relates to our startup mission to [bring AI innovation to education](https://educationblog.microsoft.com/2023/06/collaborating-to-bring-ai-innovation-to-education?WT.mc_id=academic-105485-koreyst). We want to build AI-powered applications of _personalized learning_ - so let's think about how different users of our application might "design" prompts:
+このトピックが、私たちの「教育への AI イノベーション提供」というスタートアップミッションにどう関係するかを考えてみましょう。パーソナライズされた学習を実現する AI アプリを構築する際に、異なるユーザーがどのようにプロンプトを設計するかを想像してみます：
 
-- **Administrators** might ask the AI to _analyze curriculum data to identify gaps in coverage_. The AI can summarize results or visualize them with code.
-- **Educators** might ask the AI to _generate a lesson plan for a target audience and topic_. The AI can build the personalized plan in a specified format.
-- **Students** might ask the AI to _tutor them in a difficult subject_. The AI can now guide students with lessons, hints & examples tailored to their level.
+- **管理者**：カリキュラムデータを解析してカバレッジの欠落を特定するよう AI に依頼する。AI は結果を要約したり、コードで可視化したりできる。
+- **教育者**：対象とトピックに合わせたレッスンプランを生成するよう AI に依頼する。AI は指定フォーマットで個別化された計画を作成できる。
+- **学習者**：難しい科目のチュータリングを AI に依頼する。AI は学習者のレベルに合わせたレッスン、ヒント、例を提示できる。
 
-That's just the tip of the iceberg. Check out [Prompts For Education](https://github.com/microsoft/prompts-for-edu/tree/main?WT.mc_id=academic-105485-koreyst) - an open-source prompts library curated by education experts - to get a broader sense of the possibilities! _Try running some of those prompts in the sandbox or using the OpenAI Playground to see what happens!_
+可能性はこれだけにとどまりません。教育分野向けにキュレーションされたオープンソースのプロンプトライブラリ [Prompts For Education](https://github.com/microsoft/prompts-for-edu/tree/main?WT.mc_id=academic-105485-koreyst) も参照して、幅広い活用例を試してみてください。サンドボックスや OpenAI Playground でそれらのプロンプトを実行してみることをおすすめします。
 
 <!--
 LESSON TEMPLATE:
@@ -66,79 +66,79 @@ Prompt Engineering.
 Define it and explain why it is needed.
 -->
 
-## What is Prompt Engineering?
+## プロンプトエンジニアリングとは何か
 
-We started this lesson by defining **Prompt Engineering** as the process of _designing and optimizing_ text inputs (prompts) to deliver consistent and quality responses (completions) for a given application objective and model. We can think of this as a 2-step process:
+本章では、**プロンプトエンジニアリング**を「特定のアプリケーション目標とモデルに対して、一貫性のある高品質な応答（コンプリーション）を得るために、テキスト入力（プロンプト）を設計・最適化するプロセス」と定義しました。このプロセスは大きく次の2段階と考えられます：
 
-- _designing_ the initial prompt for a given model and objective
-- _refining_ the prompt iteratively to improve the quality of the response
+- 初期プロンプトの**設計**（与えたいタスクと目的に合わせて作る）
+- 応答品質を高めるための**反復的な改良**（試行錯誤で調整する）
 
-This is necessarily a trial-and-error process that requires user intuition and effort to get optimal results. So why is it important? To answer that question, we first need to understand three concepts:
+最適化は試行錯誤を伴うため直感や労力が必要です。なぜ重要かを理解するために、まず次の3つの概念を押さえましょう：
 
-- _Tokenization_ = how the model "sees" the prompt
-- _Base LLMs_ = how the foundation model "processes" a prompt
-- _Instruction-Tuned LLMs_ = how the model can now see "tasks"
+- トークン化（Tokenization）＝モデルがプロンプトをどう「見る」か
+- 基盤モデル（Base LLM）＝基礎モデルがプロンプトをどう「処理」するか
+- 命令調整済みLLM（Instruction-Tuned LLM）＝モデルが「タスク」をどう捉えるか
 
-### Tokenization
+### トークン化
 
-An LLM sees prompts as a _sequence of tokens_ where different models (or versions of a model) can tokenize the same prompt in different ways. Since LLMs are trained on tokens (and not on raw text), the way prompts get tokenized has a direct impact on the quality of the generated response.
+LLM はプロンプトを _トークンの列_ として扱います。モデルやモデルのバージョンによって、同じプロンプトが異なる方法でトークン化されることがあります。LLM はトークン単位で学習されているため、プロンプトのトークン化の仕方は生成される応答の品質に直接影響します。
 
-To get an intuition for how tokenization works, try tools like the [OpenAI Tokenizer](https://platform.openai.com/tokenizer?WT.mc_id=academic-105485-koreyst) shown below. Copy in your prompt - and see how that gets converted into tokens, paying attention to how whitespace characters and punctuation marks are handled. Note that this example shows an older LLM (GPT-3) - so trying this with a newer model may produce a different result.
+トークン化の仕組みを直感的に理解するために、[OpenAI Tokenizer](https://platform.openai.com/tokenizer?WT.mc_id=academic-105485-koreyst) のようなツールを試してみてください。プロンプトを貼り付けるとどのようにトークン化されるかが分かり、空白や句読点の扱いにも注意できます。なお、この例は古い LLM（GPT-3）の例を示しているため、新しいモデルでは異なる結果になる可能性があります。
 
 ![Tokenization](./images/04-tokenizer-example.png?WT.mc_id=academic-105485-koreyst)
 
-### Concept: Foundation Models
+### 概念：基盤モデル（Foundation Models）
 
-Once a prompt is tokenized, the primary function of the ["Base LLM"](https://blog.gopenai.com/an-introduction-to-base-and-instruction-tuned-large-language-models-8de102c785a6?WT.mc_id=academic-105485-koreyst) (or Foundation model) is to predict the token in that sequence. Since LLMs are trained on massive text datasets, they have a good sense of the statistical relationships between tokens and can make that prediction with some confidence. Note that they don't understand the _meaning_ of the words in the prompt or token; they just see a pattern they can "complete" with their next prediction. They can continue predicting the sequence till terminated by user intervention or some pre-established condition.
+一度プロンプトがトークン化されると、[基盤モデル（Base LLM）](https://blog.gopenai.com/an-introduction-to-base-and-instruction-tuned-large-language-models-8de102c785a6?WT.mc_id=academic-105485-koreyst) の主な役割は、次に来るトークンを予測することです。膨大なテキストデータで学習された LLM はトークン間の統計的関係を把握しており、次に来るトークンをある程度の確信を持って予測できます。ここで注意すべきは、モデルは単語の「意味」を理解しているのではなく、次の予測を行うためのパターンを見ているという点です。ユーザーの介入や事前条件が満たされるまでトークン予測を続けます。
 
-Want to see how prompt-based completion works? Enter the above prompt into the Azure OpenAI Studio [_Chat Playground_](https://oai.azure.com/playground?WT.mc_id=academic-105485-koreyst) with the default settings. The system is configured to treat prompts as requests for information - so you should see a completion that satisfies this context.
+上記のプロンプトでプロンプトベースの補完がどのように動くかを確認するには、Azure OpenAI Studio の [_Chat Playground_](https://oai.azure.com/playground?WT.mc_id=academic-105485-koreyst) に入力して試してみてください。システムはプロンプトを情報要求として扱い、期待されるコンプリーションを返すはずです。
 
-But what if the user wanted to see something specific that met some criteria or task objective? This is where _instruction-tuned_ LLMs come into the picture.
+ただし、ユーザーが特定の条件や形式に合った応答を望む場合もあります。そのような場合に役立つのが命令調整済み LLM です。
 
 ![Base LLM Chat Completion](./images/04-playground-chat-base.png?WT.mc_id=academic-105485-koreyst)
 
-### Concept: Instruction Tuned LLMs
+### 概念：命令調整済み LLM
 
-An [Instruction Tuned LLM](https://blog.gopenai.com/an-introduction-to-base-and-instruction-tuned-large-language-models-8de102c785a6?WT.mc_id=academic-105485-koreyst) starts with the foundation model and fine-tunes it with examples or input/output pairs (e.g., multi-turn "messages") that can contain clear instructions - and the response from the AI attempt to follow that instruction.
+[命令調整済み LLM](https://blog.gopenai.com/an-introduction-to-base-and-instruction-tuned-large-language-models-8de102c785a6?WT.mc_id=academic-105485-koreyst) は、基盤モデルを出発点に、明確な指示を含む入出力例（マルチターンの "messages" など）で微調整され、与えられた指示に従うよう学習されています。
 
-This uses techniques like Reinforcement Learning with Human Feedback (RLHF) that can train the model to _follow instructions_ and _learn from feedback_ so that it produces responses that are better-suited to practical applications and more relevant to user objectives.
+RLHF（Human Feedback を用いた強化学習）のような手法を用いることにより、モデルは指示に従う能力やフィードバックから学習する能力を得て、実用的で関連性の高い応答を生成しやすくなります。
 
-Let's try it out - revisit the prompt above, but now change the _system message_ to provide the following instruction as context:
+試してみましょう。先ほどのプロンプトに対し、システムメッセージを次のように変更してコンテキストを与えます：
 
-> _Summarize content you are provided with for a second-grade student. Keep the result to one paragraph with 3-5 bullet points._
+> _与えられた内容を小学2年生向けに要約してください。結果は1段落にまとめ、3〜5の箇条書きを含めてください。_
 
-See how the result is now tuned to reflect the desired goal and format? An educator can now directly use this response in their slides for that class.
+このように指示を加えると、生成結果は指定した目的や形式に合わせて調整されます。教育者はこの応答をスライドなどで直接利用できます。
 
 ![Instruction Tuned LLM Chat Completion](./images/04-playground-chat-instructions.png?WT.mc_id=academic-105485-koreyst)
 
-## Why do we need Prompt Engineering?
+## なぜプロンプトエンジニアリングが必要か
 
-Now that we know how prompts are processed by LLMs, let's talk about _why_ we need prompt engineering. The answer lies in the fact that current LLMs pose a number of challenges that make _reliable and consistent completions_ more challenging to achieve without putting effort into prompt construction and optimization. For instance:
+プロンプトが LLM によってどのように処理されるかが分かったところで、なぜプロンプトエンジニアリングが必要なのかを見ていきます。現在の LLM には、信頼性や一貫性のあるコンプリーションを得るうえで課題があるため、プロンプトの工夫と最適化が求められます。例えば：
 
-1. **Model responses are stochastic.** The _same prompt_ will likely produce different responses with different models or model versions. And it may even produce different results with the _same model_ at different times. _Prompt engineering techniques can help us minimize these variations by providing better guardrails_.
+1. **モデルの応答は確率的（stochastic）である。** 同一のプロンプトでもモデルやバージョンによって異なる応答が返ることがあり、同一モデルでも時間によって結果が変わることがあります。プロンプトエンジニアリングはこうした変動を抑えるためのガードレールを提供します。
 
-1. **Models can fabricate responses.** Models are pre-trained with _large but finite_ datasets, meaning they lack knowledge about concepts outside that training scope. As a result, they can produce completions that are inaccurate, imaginary, or directly contradictory to known facts. _Prompt engineering techniques help users identify and mitigate such fabrications e.g., by asking AI for citations or reasoning_.
+2. **モデルは虚偽（fabrication）を生成することがある。** モデルは大規模だが有限のデータで事前学習されているため、学習データ外の事実について誤った情報を生成する場合があります。そのため、不正確または架空の情報を生成することがあり得ます。プロンプト設計の手法は、引用を求める、推論を求めるなどの工夫でこうした虚偽を検出・軽減する助けになります。
 
-1. **Models capabilities will vary.** Newer models or model generations will have richer capabilities but also bring unique quirks and tradeoffs in cost & complexity. _Prompt engineering can help us develop best practices and workflows that abstract away differences and adapt to model-specific requirements in scalable, seamless ways_.
+3. **モデルの能力は世代や実装によって異なる。** 新しいモデル世代はより高い能力を持つ一方で、コストや挙動の違いといったトレードオフも存在します。プロンプトエンジニアリングにより、モデル固有の差異を抽象化して、スケーラブルかつシームレスに適応できるワークフローやベストプラクティスを構築できます。
 
-Let's see this in action in the OpenAI or Azure OpenAI Playground:
+これを OpenAI や Azure OpenAI の Playground で実際に試してみてください：
 
-- Use the same prompt with different LLM deployments (e.g, OpenAI, Azure OpenAI, Hugging Face) - did you see the variations?
-- Use the same prompt repeatedly with the _same_ LLM deployment (e.g., Azure OpenAI playground) - how did these variations differ?
+- 異なる LLM デプロイメント（OpenAI、Azure OpenAI、Hugging Face など）で同じプロンプトを使うと、どのように応答が変わるか確認してください。
+- 同一の LLM デプロイメント（例：Azure OpenAI Playground）で同じプロンプトを繰り返し実行し、変動の違いを観察してください。
 
-### Fabrications Example
+### 虚偽（Fabrications）の例
 
-In this course, we use the term **"fabrication"** to reference the phenomenon where LLMs sometimes generate factually incorrect information due to limitations in their training or other constraints. You may also have heard this referred to as _"hallucinations"_ in popular articles or research papers. However, we strongly recommend using _"fabrication"_ as the term so we don't accidentally anthropomorphize the behavior by attributing a human-like trait to a machine-driven outcome. This also reinforces [Responsible AI guidelines](https://www.microsoft.com/ai/responsible-ai?WT.mc_id=academic-105485-koreyst) from a terminology perspective, removing terms that may also be considered offensive or non-inclusive in some contexts.
+本コースでは、LLM が学習データやその他の制約により事実と異なる情報を生成する現象を **"fabrication"（虚偽）** と呼びます。一般の記事や研究では "hallucinations"（幻覚）という用語が使われることもありますが、機械的な振る舞いを人間的な特性に見立てないために本コースでは "fabrication" を推奨しています。これは [Responsible AI ガイドライン](https://www.microsoft.com/ai/responsible-ai?WT.mc_id=academic-105485-koreyst) の言葉遣いにも沿うものです。
 
-Want to get a sense of how fabrications work? Think of a prompt that instructs the AI to generate content for a non-existent topic (to ensure it is not found in the training dataset). For example - I tried this prompt:
+虚偽がどのように発生するかを理解するため、存在しないトピックについての教材を生成するようなプロンプトを想定してください。例えば次のプロンプトを試したとします：
 
 > **Prompt:** generate a lesson plan on the Martian War of 2076.
 
-A web search showed me that there were fictional accounts (e.g., television series or books) on Martian wars - but none in 2076. Commonsense also tells us that 2076 is _in the future_ and thus, cannot be associated with a real event.
+ウェブ検索では Martian war（火星の戦争）に関するフィクションは見つかる場合がありましたが、2076 年という具体的な年に関する実在の出来事は確認できません。常識的にも 2076 年は未来の年なので実在の出来事には結びつきません。
 
-So what happens when we run this prompt with different LLM providers?
+このプロンプトを複数の LLM プロバイダで実行するとどうなるでしょうか？
 
-> **Response 1**: OpenAI Playground (GPT-35)
+> **Response 1**: OpenAI Playground (GPT-35) 
 
 ![Response 1](./images/04-fabrication-oai.png?WT.mc_id=academic-105485-koreyst)
 
@@ -146,30 +146,30 @@ So what happens when we run this prompt with different LLM providers?
 
 ![Response 2](./images/04-fabrication-aoai.png?WT.mc_id=academic-105485-koreyst)
 
-> **Response 3**: : Hugging Face Chat Playground (LLama-2)
+> **Response 3**: Hugging Face Chat Playground (LLama-2)
 
 ![Response 3](./images/04-fabrication-huggingchat.png?WT.mc_id=academic-105485-koreyst)
 
-As expected, each model (or model version) produces slightly different responses thanks to stochastic behavior and model capability variations. For instance, one model targets an 8th grade audience while the other assumes a high-school student. But all three models did generate responses that could convince an uninformed user that the event was real.
+期待どおり、各モデル（またはモデルのバージョン）は確率的な挙動と能力の差によりわずかに異なる応答を生成しました。あるモデルは中学レベルを想定し、別のモデルは高校生を想定するなど応答のターゲット層も異なっていました。しかし、どのモデルも未確認ユーザーを納得させてしまうような虚偽の詳細を生成してしまいました。
 
-Prompt engineering techniques like _metaprompting_ and _temperature configuration_ may reduce model fabrications to some extent. New prompt engineering _architectures_ also incorporate new tools and techniques seamlessly into the prompt flow, to mitigate or reduce some of these effects.
+メタプロンプティング（metaprompting）や温度（temperature）設定といったプロンプトエンジニアリング技術は、ある程度まで虚偽の生成を抑える助けになります。さらに、新しいプロンプトアーキテクチャではツールや補助的手法をプロンプトの流れに組み込み、これらの問題を軽減する試みが進んでいます。
 
-## Case Study: GitHub Copilot
+## ケーススタディ：GitHub Copilot
 
-Let's wrap this section by getting a sense of how prompt engineering is used in real-world solutions by looking at one Case Study: [GitHub Copilot](https://github.com/features/copilot?WT.mc_id=academic-105485-koreyst).
+ここで現実のソリューションにおけるプロンプトエンジニアリングの活用例として、[GitHub Copilot](https://github.com/features/copilot?WT.mc_id=academic-105485-koreyst) を見てみましょう。
 
-GitHub Copilot is your "AI Pair Programmer" - it converts text prompts into code completions and is integrated into your development environment (e.g., Visual Studio Code) for a seamless user experience. As documented in the series of blogs below, the earliest version was based on the OpenAI Codex model - with engineers quickly realizing the need to fine-tune the model and develop better prompt engineering techniques, to improve code quality. In July, they [debuted an improved AI model that goes beyond Codex](https://github.blog/2023-07-28-smarter-more-efficient-coding-github-copilot-goes-beyond-codex-with-improved-ai-model/?WT.mc_id=academic-105485-koreyst) for even faster suggestions.
+GitHub Copilot は「AI ペアプログラマ」で、テキストプロンプトをコード補完に変換し、Visual Studio Code などの開発環境に統合されることでシームレスな体験を提供します。初期のバージョンは OpenAI の Codex モデルに基づいており、エンジニアたちはコード品質を向上させるためにモデルの微調整やプロンプト改善の必要性を早期に認識しました。2023年7月には Codex を超える改良モデルが導入され、より高速な提案が可能になりました。
 
-Read the posts in order, to follow their learning journey.
+以下のブログ記事を時系列で読むと、学習の経緯がよく分かります。
 
 - **May 2023** | [GitHub Copilot is Getting Better at Understanding Your Code](https://github.blog/2023-05-17-how-github-copilot-is-getting-better-at-understanding-your-code/?WT.mc_id=academic-105485-koreyst)
-- **May 2023** | [Inside GitHub: Working with the LLMs behind GitHub Copilot](https://github.blog/2023-05-17-inside-github-working-with-the-llms-behind-github-copilot/?WT.mc_id=academic-105485-koreyst).
-- **Jun 2023** | [How to write better prompts for GitHub Copilot](https://github.blog/2023-06-20-how-to-write-better-prompts-for-github-copilot/?WT.mc_id=academic-105485-koreyst).
-- **Jul 2023** | [.. GitHub Copilot goes beyond Codex with improved AI model](https://github.blog/2023-07-28-smarter-more-efficient-coding-github-copilot-goes-beyond-codex-with-improved-ai-model/?WT.mc_id=academic-105485-koreyst)
+- **May 2023** | [Inside GitHub: Working with the LLMs behind GitHub Copilot](https://github.blog/2023-05-17-inside-github-working-with-the-llms-behind-github-copilot/?WT.mc_id=academic-105485-koreyst)
+- **Jun 2023** | [How to write better prompts for GitHub Copilot](https://github.blog/2023-06-20-how-to-write-better-prompts-for-github-copilot/?WT.mc_id=academic-105485-koreyst)
+- **Jul 2023** | [GitHub Copilot goes beyond Codex with improved AI model](https://github.blog/2023-07-28-smarter-more-efficient-coding-github-copilot-goes-beyond-codex-with-improved-ai-model/?WT.mc_id=academic-105485-koreyst)
 - **Jul 2023** | [A Developer's Guide to Prompt Engineering and LLMs](https://github.blog/2023-07-17-prompt-engineering-guide-generative-ai-llms/?WT.mc_id=academic-105485-koreyst)
 - **Sep 2023** | [How to build an enterprise LLM app: Lessons from GitHub Copilot](https://github.blog/2023-09-06-how-to-build-an-enterprise-llm-application-lessons-from-github-copilot/?WT.mc_id=academic-105485-koreyst)
 
-You can also browse their [Engineering blog](https://github.blog/category/engineering/?WT.mc_id=academic-105485-koreyst) for more posts like [this one](https://github.blog/2023-09-27-how-i-used-github-copilot-chat-to-build-a-reactjs-gallery-prototype/?WT.mc_id=academic-105485-koreyst) that shows how these models and techniques are _applied_ for driving real-world applications.
+彼らの [Engineering blog](https://github.blog/category/engineering/?WT.mc_id=academic-105485-koreyst) には、実際の応用例を示す他の記事も多数あります（例: [ReactJS ギャラリープロトタイプ構築の事例](https://github.blog/2023-09-27-how-i-used-github-copilot-chat-to-build-a-reactjs-gallery-prototype/?WT.mc_id=academic-105485-koreyst)）。
 
 ---
 
@@ -183,26 +183,27 @@ Prompt Design.
 Illustrated with examples.
 -->
 
-## Prompt Construction
+## プロンプトの構成
 
-We've seen why prompt engineering is important - now let's understand how prompts are _constructed_ so we can evaluate different techniques for more effective prompt design.
+プロンプトエンジニアリングが重要である理由を確認したところで、より効果的なプロンプト設計手法を評価できるように、プロンプトがどのように構成されるかを理解しましょう。
 
-### Basic Prompt
+### 基本的なプロンプト
 
-Let's start with the basic prompt: a text input sent to the model with no other context. Here's an example - when we send the first few words of the US national anthem to the OpenAI [Completion API](https://platform.openai.com/docs/api-reference/completions?WT.mc_id=academic-105485-koreyst) it instantly _completes_ the response with the next few lines, illustrating the basic prediction behavior.
+まずは基本的なプロンプトから始めます。モデルに追加のコンテキストを与えずテキストを送ると、モデルはそれを補完します。例えば米国国歌の最初の数語を OpenAI の [Completion API](https://platform.openai.com/docs/api-reference/completions?WT.mc_id=academic-105485-koreyst) に送ると、次の行を補完するように応答します。これは基本的な予測行動を示しています。  
+**コメント：ここで使っているのは Completion API という入力されたプロンプトに対して自然につながる文章を生成するAPIです。対話目的のAPIではありません。ChatGPTのように対話として成り立たせるためには次の複合プロンプトで利用されている Chat Completion API を使います。**
 
 | Prompt (Input)     | Completion (Output)                                                                                                                        |
 | :----------------- | :----------------------------------------------------------------------------------------------------------------------------------------- |
 | Oh say can you see | It sounds like you're starting the lyrics to "The Star-Spangled Banner," the national anthem of the United States. The full lyrics are ... |
 
-### Complex Prompt
+### 複合プロンプト
 
-Now let's add context and instructions to that basic prompt. The [Chat Completion API](https://learn.microsoft.com/azure/ai-services/openai/how-to/chatgpt?WT.mc_id=academic-105485-koreyst) lets us construct a complex prompt as a collection of _messages_ with:
+次に、コンテキストや指示を追加してみます。[Chat Completion API](https://learn.microsoft.com/azure/ai-services/openai/how-to/chatgpt?WT.mc_id=academic-105485-koreyst) を使うと、プロンプトを複数の _messages_（ユーザー／アシスタント／システム）として構築できます。
 
-- Input/output pairs reflecting _user_ input and _assistant_ response.
-- System message setting the context for assistant behavior or personality.
+- ユーザー入力とアシスタント応答の入出力ペア
+- アシスタントの振る舞いや性格を設定するシステムメッセージ
 
-The request is now in the form below, where the _tokenization_ effectively captures relevant information from context and conversation. Now, changing the system context can be as impactful on the quality of completions, as the user inputs provided.
+リクエストは以下のようになります。ここでトークン化が会話やコンテキストから関連情報を取り込みます。システムコンテキストを変えることは、ユーザー入力を変えることと同等に重要な影響を与えます。
 
 ```python
 response = openai.chat.completions.create(
@@ -216,9 +217,9 @@ response = openai.chat.completions.create(
 )
 ```
 
-### Instruction Prompt
+### 命令型プロンプト（Instruction Prompt）
 
-In the above examples, the user prompt was a simple text query that can be interpreted as a request for information. With _instruction_ prompts, we can use that text to specify a task in more detail, providing better guidance to the AI. Here's an example:
+上の例では単純なテキストクエリが情報要求として扱われました。命令型プロンプトでは、タスクをより詳細に指定してモデルに明示的な指示を与えます。例えば：
 
 | Prompt (Input)                                                                                                                                                                                                                         | Completion (Output)                                                                                                        | Instruction Type    |
 | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------- | :------------------ |
@@ -226,76 +227,74 @@ In the above examples, the user prompt was a simple text query that can be inter
 | Write a description of the Civil War. Provide key dates and events and describe their significance                                                                                                                                     | _returned a paragraph followed by a list of key event dates with descriptions_                                             | Complex             |
 | Write a description of the Civil War in 1 paragraph. Provide 3 bullet points with key dates and their significance. Provide 3 more bullet points with key historical figures and their contributions. Return the output as a JSON file | _returns more extensive details in a text box, formatted as JSON that you can copy-paste to a file and validate as needed_ | Complex. Formatted. |
 
-## Primary Content
+## プライマリコンテンツ（Primary Content）
 
-In the above examples, the prompt was still fairly open-ended, allowing the LLM to decide what part of its pre-trained dataset was relevant. With the _primary content_ design pattern, the input text is divided into two parts:
+上の例ではプロンプトは比較的自由度が高く、LLM が学習済みデータセットのどの部分を参照するかを決定できます。プライマリコンテンツ設計パターンでは、入力テキストを次の2つに分けます：
 
-- an instruction (action)
-- relevant content (that influences action)
+- 指示（アクション）
+- 関連コンテンツ（アクションに影響を与える情報）
 
-Here's an example where the instruction is to "summarize this in 2 sentences".
+例えば指示が "これを2文で要約せよ" である場合の例を示します。
 
 | Prompt (Input)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | Completion (Output)                                                                                                                                                                                                                                                                             |
 | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Jupiter is the fifth planet from the Sun and the largest in the Solar System. It is a gas giant with a mass one-thousandth that of the Sun, but two-and-a-half times that of all the other planets in the Solar System combined. Jupiter is one of the brightest objects visible to the naked eye in the night sky, and has been known to ancient civilizations since before recorded history. It is named after the Roman god Jupiter.[19] When viewed from Earth, Jupiter can be bright enough for its reflected light to cast visible shadows,[20] and is on average the third-brightest natural object in the night sky after the Moon and Venus. <br/> **Summarize this in 2 short sentences** | Jupiter, the fifth planet from the Sun, is the largest in the Solar System and is known for being one of the brightest objects in the night sky. Named after the Roman god Jupiter, it's a gas giant whose mass is two-and-a-half times that of all other planets in the Solar System combined. |
 
-The primary content segment can be used in various ways to drive more effective instructions:
+プライマリコンテンツは以下の方法で有効に活用できます：
 
-- **Examples** - instead of telling the model what to do with an explicit instruction, give it examples of what to do and let it infer the pattern.
-- **Cues** - follow the instruction with a "cue" that primes the completion, guiding the model towards more relevant responses.
-- **Templates** - these are repeatable 'recipes' for prompts with placeholders (variables) that can be customized with data for specific use cases.
+- **Examples（例示）** - 明示的な指示の代わりに望ましい出力の例を与えてパターンを学習させる。
+- **Cues（促し）** - 指示の後に出力の形式を示す短い文を続け、モデルがその形式を引き継ぐようにする。
+- **Templates（テンプレート）** - プレースホルダ付きの再利用可能なレシピで、データを差し替えて一貫性のあるプロンプトを生成する。
 
-Let's explore these in action.
+それでは、これらを実際に見ていきましょう。
 
-### Using Examples
+### 例を使う（Using Examples）
 
-This is an approach where you use the primary content to "feed the model" some examples of the desired output for a given instruction, and let it infer the pattern for the desired output. Based on the number of examples provided, we can have zero-shot prompting, one-shot prompting, few-shot prompting etc.
+この手法では、プライマリコンテンツとして望ましい出力の例をモデルに与え、そのパターンを推定させます。例の数に応じてゼロショット、ワンショット、フューショットといった手法が使えます。
 
-The prompt now consists of three components:
+プロンプトは次の3要素で構成されます：
 
-- A task description
-- A few examples of the desired output
-- The start of a new example (which becomes an implicit task description)
+- タスクの説明
+- 望ましい出力のいくつかの例
+- 新しい例の開始（これ自体が暗黙のタスク記述になる）
 
 | Learning Type | Prompt (Input)                                                                                                                                        | Completion (Output)         |
 | :------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------- |
 | Zero-shot     | "The Sun is Shining". Translate to Spanish                                                                                                            | "El Sol está brillando".    |
-| One-shot      | "The Sun is Shining" => ""El Sol está brillando". <br> "It's a Cold and Windy Day" =>                                                                 | "Es un día frío y ventoso". |
+| One-shot      | "The Sun is Shining" => ""El Sol está brillando"". <br> "It's a Cold and Windy Day" =>                                                                 | "Es un día frío y ventoso". |
 | Few-shot      | The player ran the bases => Baseball <br/> The player hit an ace => Tennis <br/> The player hit a six => Cricket <br/> The player made a slam-dunk => | Basketball                  |
-|               |                                                                                                                                                       |                             |
 
-Note how we had to provide explicit instruction ("Translate to Spanish") in zero-shot prompting, but it gets inferred in the one-shot prompting example. The few-shot example shows how adding more examples allows models to make more accurate inferences with no added instructions.
+ゼロショットでは明示的な指示（"Translate to Spanish" 等）を与えますが、ワンショットでは例を与えることで指示が暗黙的に伝わります。フューショットでは複数の例を与えることでモデルの推論精度を高められます。
 
-### Prompt Cues
+### プロンプトのキュー（Cues）
 
-Another technique for using primary content is to provide _cues_ rather than examples. In this case, we are giving the model a nudge in the right direction by _starting it off_ with a snippet that reflects the desired response format. The model then "takes the cue" to continue in that vein.
+別の手法として、例の代わりに _キュー_ を与えることで、望ましい応答の出発点を示します。モデルはそのキューを続ける形で応答を生成します。
 
 | Number of Cues | Prompt (Input)                                                                                                                                                                                                                                                                                                                                                                                                                                               | Completion (Output)                                                                                                                                                                                                                                                                                       |
 | :------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 0              | Jupiter is the fifth planet from the Sun and the largest in the Solar System. It is a gas giant with a mass one-thousandth that of the Sun, but two-and-a-half times that of all the other planets in the Solar System combined. Jupiter is one of the brightest objects visible to the naked eye in the night sky, and has been known to ancient civilizations since before recorded history. <br/>**Summarize This**                                       | Jupiter is the largest planet in our Solar System and the fifth one from the Sun. It is a gas giant with a mass 1/1000th of the Sun's, but it is heavier than all the other planets combined. Ancient civilizations have known about Jupiter for a long time, and it is easily visible in the night sky.. |
 | 1              | Jupiter is the fifth planet from the Sun and the largest in the Solar System. It is a gas giant with a mass one-thousandth that of the Sun, but two-and-a-half times that of all the other planets in the Solar System combined. Jupiter is one of the brightest objects visible to the naked eye in the night sky, and has been known to ancient civilizations since before recorded history. <br/>**Summarize This** <br/> What we learned is that Jupiter | is the fifth planet from the Sun and the largest in the Solar System. It is a gas giant with a mass one-thousandth that of the Sun, but two-and-a-half times that of all the other planets combined. It is easily visible to the naked eye and has been known since ancient times.                        |
 | 2              | Jupiter is the fifth planet from the Sun and the largest in the Solar System. It is a gas giant with a mass one-thousandth that of the Sun, but two-and-a-half times that of all the other planets in the Solar System combined. Jupiter is one of the brightest objects visible to the naked eye in the night sky, and has been known to ancient civilizations since before recorded history. <br/>**Summarize This** <br/> Top 3 Facts We Learned:         | 1. Jupiter is the fifth planet from the Sun and the largest in the Solar System. <br/> 2. It is a gas giant with a mass one-thousandth that of the Sun...<br/> 3. Jupiter has been visible to the naked eye since ancient times ...                                                                       |
-|                |                                                                                                                                                                                                                                                                                                                                                                                                                                                              |                                                                                                                                                                                                                                                                                                           |
 
-### Prompt Templates
+### プロンプトテンプレート
 
-A prompt template is a _pre-defined recipe for a prompt_ that can be stored and reused as needed, to drive more consistent user experiences at scale. In its simplest form, it is simply a collection of prompt examples like [this one from OpenAI](https://platform.openai.com/examples?WT.mc_id=academic-105485-koreyst) that provides both the interactive prompt components (user and system messages) and the API-driven request format - to support reuse.
+プロンプトテンプレートは再利用可能なプロンプトの「レシピ」で、スケールして一貫したユーザー体験を生み出すために保存・再利用できます。単純な形では OpenAI の [Examples](https://platform.openai.com/examples?WT.mc_id=academic-105485-koreyst) のような例のコレクションです。
 
-In it's more complex form like [this example from LangChain](https://python.langchain.com/docs/concepts/prompt_templates/?WT.mc_id=academic-105485-koreyst) it contains _placeholders_ that can be replaced with data from a variety of sources (user input, system context, external data sources etc.) to generate a prompt dynamically. This allows us to create a library of reusable prompts that can be used to drive consistent user experiences **programmatically** at scale.
+より高度な形（例：LangChain のテンプレート）では、プレースホルダーを含み、ユーザー入力やシステムコンテキスト、外部データなどから動的に値を差し替えてプロンプトを生成できます。これにより、プログラム的に一貫したプロンプトを大量に生成できます。
 
-Finally, the real value of templates lies in the ability to create and publish _prompt libraries_ for vertical application domains - where the prompt template is now _optimized_ to reflect application-specific context or examples that make the responses more relevant and accurate for the targeted user audience. The [Prompts For Edu](https://github.com/microsoft/prompts-for-edu?WT.mc_id=academic-105485-koreyst) repository is a great example of this approach, curating a library of prompts for the education domain with emphasis on key objectives like lesson planning, curriculum design, student tutoring etc.
+テンプレートの真価は、業界縦断のドメイン向けに最適化されたプロンプトライブラリを作成・公開できる点にあります。教育分野向けの [Prompts For Edu](https://github.com/microsoft/prompts-for-edu?WT.mc_id=academic-105485-koreyst) は、レッスンプラン作成やカリキュラム設計、学習者支援などの目的に合わせたプロンプトをキュレーションした好例です。
 
-## Supporting Content
+## 補助コンテンツ（Supporting Content）
 
-If we think about prompt construction as having a instruction (task) and a target (primary content), then _secondary content_ is like additional context we provide to **influence the output in some way**. It could be tuning parameters, formatting instructions, topic taxonomies etc. that can help the model _tailor_ its response to be suit the desired user objectives or expectations.
+プロンプトの構成を「指示（タスク）」と「ターゲット（プライマリコンテンツ）」と考えると、_セカンダリコンテンツ_ は出力に影響を与える追加の文脈になります。例えばチューニングパラメータ、フォーマット指示、トピックの分類などが該当し、モデルが期待される目的や要件に合わせて出力を調整する手助けになります。
 
-For example: Given a course catalog with extensive metadata (name, description, level, metadata tags, instructor etc.) on all the available courses in the curriculum:
+例：カリキュラムのコースカタログ（名前、説明、レベル、タグ、担当者などのメタデータ）がある場合：
 
-- we can define an instruction to "summarize the course catalog for Fall 2023"
-- we can use the primary content to provide a few examples of the desired output
-- we can use the secondary content to identify the top 5 "tags" of interest.
+- "Fall 2023 のコースカタログを要約せよ" という指示を定義できる。
+- プライマリコンテンツとして望ましい出力のいくつかの例を与えることができる。
+- セカンダリコンテンツで優先する上位5タグを指定できる。
 
-Now, the model can provide a summary in the format shown by the few examples - but if a result has multiple tags, it can prioritize the 5 tags identified in secondary content.
+こうすることで、モデルは例で示した形式に従った要約を返せます。もし結果に複数タグが含まれる場合は、セカンダリコンテンツで指定した上位5タグを優先できます。
 
 ---
 
@@ -310,37 +309,36 @@ What are some basic techniques for prompt engineering?
 Illustrate it with some exercises.
 -->
 
-## Prompting Best Practices
+## プロンプト設計のベストプラクティス
 
-Now that we know how prompts can be _constructed_, we can start thinking about how to _design_ them to reflect best practices. We can think about this in two parts - having the right _mindset_ and applying the right _techniques_.
+プロンプトの構成方法を理解した上で、設計におけるマインドセットと適用すべき手法について考えます。
 
-### Prompt Engineering Mindset
+### マインドセット
 
-Prompt Engineering is a trial-and-error process so keep three broad guiding factors in mind:
+プロンプトエンジニアリングは試行錯誤のプロセスです。以下の3点を念頭に置いてください：
 
-1. **Domain Understanding Matters.** Response accuracy and relevance is a function of the _domain_ in which that application or user operates. Apply your intuition and domain expertise to **customize techniques** further. For instance, define _domain-specific personalities_ in your system prompts, or use _domain-specific templates_ in your user prompts. Provide secondary content that reflects domain-specific contexts, or use _domain-specific cues and examples_ to guide the model towards familiar usage patterns.
+1. **ドメイン理解が重要**：応答の正確性と関連性は対象ドメインに依存します。ドメイン知識を活かして技法をカスタマイズしましょう。例えば、システムプロンプトにドメイン固有の個性を与えたり、ドメイン固有のテンプレートを使用したりします。
 
-2. **Model Understanding Matters.** We know models are stochastic by nature. But model implementations can also vary in terms of the training dataset they use (pre-trained knowledge), the capabilities they provide (e.g., via API or SDK) and the type of content they are optimized for (e.g, code vs. images vs. text). Understand the strengths and limitations of the model you are using, and use that knowledge to _prioritize tasks_ or build _customized templates_ that are optimized for the model's capabilities.
+2. **モデル理解が重要**：モデルは確率的であることに加え、学習データや提供される機能、最適化領域（コード、画像、テキストなど）で差があります。利用するモデルの強みと制約を理解し、それに応じたタスクの優先順位付けやテンプレート作成を行いましょう。
 
-3. **Iteration & Validation Matters.** Models are evolving rapidly, and so are the techniques for prompt engineering. As a domain expert, you may have other context or criteria _your_ specific application, that may not apply to the broader community. Use prompt engineering tools & techniques to "jump start" prompt construction, then iterate and validate the results using your own intuition and domain expertise. Record your insights and create a **knowledge base** (e.g, prompt libraries) that can be used as a new baseline by others, for faster iterations in the future.
+3. **反復と検証が重要**：モデルと手法は急速に進化しています。自身のアプリケーションに特有の条件や評価基準がある場合は、それに基づいて反復的に検証を行い、知見を記録してナレッジベース（例：プロンプトライブラリ）を構築しましょう。
 
-## Best Practices
+## ベストプラクティス
 
-Now let's look at common best practices that are recommended by [OpenAI](https://help.openai.com/en/articles/6654000-best-practices-for-prompt-engineering-with-openai-api?WT.mc_id=academic-105485-koreyst) and [Azure OpenAI](https://learn.microsoft.com/azure/ai-services/openai/concepts/prompt-engineering#best-practices?WT.mc_id=academic-105485-koreyst) practitioners.
+ここでは [OpenAI](https://help.openai.com/en/articles/6654000-best-practices-for-prompt-engineering-with-openai-api?WT.mc_id=academic-105485-koreyst) や [Azure OpenAI](https://learn.microsoft.com/azure/ai-services/openai/concepts/prompt-engineering#best-practices?WT.mc_id=academic-105485-koreyst) が推奨する一般的な実践を示します。
 
 | What                              | Why                                                                                                                                                                                                                                               |
 | :-------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Evaluate the latest models.       | New model generations are likely to have improved features and quality - but may also incur higher costs. Evaluate them for impact, then make migration decisions.                                                                                |
-| Separate instructions & context   | Check if your model/provider defines _delimiters_ to distinguish instructions, primary and secondary content more clearly. This can help models assign weights more accurately to tokens.                                                         |
-| Be specific and clear             | Give more details about the desired context, outcome, length, format, style etc. This will improve both the quality and consistency of responses. Capture recipes in reusable templates.                                                          |
-| Be descriptive, use examples      | Models may respond better to a "show and tell" approach. Start with a `zero-shot` approach where you give it an instruction (but no examples) then try `few-shot` as a refinement, providing a few examples of the desired output. Use analogies. |
-| Use cues to jumpstart completions | Nudge it towards a desired outcome by giving it some leading words or phrases that it can use as a starting point for the response.                                                                                                               |
-| Double Down                       | Sometimes you may need to repeat yourself to the model. Give instructions before and after your primary content, use an instruction and a cue, etc. Iterate & validate to see what works.                                                         |
-| Order Matters                     | The order in which you present information to the model may impact the output, even in the learning examples, thanks to recency bias. Try different options to see what works best.                                                               |
-| Give the model an “out”           | Give the model a _fallback_ completion response it can provide if it cannot complete the task for any reason. This can reduce chances of models generating false or fabricated responses.                                                         |
-|                                   |                                                                                                                                                                                                                                                   |
+| Evaluate the latest models.       | 新しいモデル世代は機能や品質が改善されている可能性がありますが、コスト面や運用上の差もあります。影響を評価して導入の判断を行いましょう。                                                                                |
+| Separate instructions & context   | モデルやプロバイダが区切り記号（デリミタ）を定義している場合、指示、プライマリ、セカンダリの区別を明確にすることでトークンの重み付けが正確になります。                                                         |
+| Be specific and clear             | 期待するコンテキスト、出力の長さ、フォーマット、スタイルなどを具体的に示すことで、応答の品質と一貫性が向上します。再利用可能なレシピとしてテンプレート化しましょう。                                                          |
+| Be descriptive, use examples      | "示して説明する" アプローチは有効です。まずゼロショットで試し、必要に応じてフューショットで例を増やして精度を高めます。類推（アナロジー）を使うのも有効です。 |
+| Use cues to jumpstart completions | 出力の出発点となるキュー（先頭の語句等）を与えることで、望ましい出力傾向を促せます。                                                                                                               |
+| Double Down                       | 場合によっては同じ指示を繰り返す必要があります。プライマリコンテンツの前後に指示を置いたり、指示とキューを併用したりして試行し、検証しましょう。                                                         |
+| Order Matters                     | 情報を提示する順序は出力に影響を与えることがあります（新しさバイアス等）。最適な順序を試して確認してください。                                                               |
+| Give the model an “out”           | モデルがタスクを完了できない場合のフォールバック応答を与えておくと、誤情報生成のリスクを下げられます。                                                         |
 
-As with any best practice, remember that _your mileage may vary_ based on the model, the task and the domain. Use these as a starting point, and iterate to find what works best for you. Constantly re-evaluate your prompt engineering process as new models and tools become available, with a focus on process scalability and response quality.
+どのベストプラクティスも、モデル・タスク・ドメインにより効果が異なります。これらを出発点として、最終的には自身のケースに合わせて反復的に最適化してください。
 
 <!--
 LESSON TEMPLATE:
@@ -353,50 +351,62 @@ SOLUTION:
 Link to a copy of that Notebook with the prompts filled in and run, showing what one example could be.
 -->
 
-## Assignment
+## 課題（Assignment）
 
-Congratulations! You made it to the end of the lesson! It's time to put some of those concepts and techniques to the test with real examples!
+お疲れさまでした！このレッスンの最後では、学んだ概念と手法を実際の例で試してみましょう。
 
-For our assignment, we'll be using a Jupyter Notebook with exercises you can complete interactively. You can also extend the Notebook with your own Markdown and Code cells to explore ideas and techniques on your own.
+今回の課題は Jupyter Notebook を使った演習です。ノートブックを対話的に実行して、独自に Markdown やコードセルを追加してアイデアや技法を探究してください。
 
-### To get started, fork the repo, then
+### JBS コメント  
+ノートブックは使い慣れたものを使っていただいて構いません。
+利用したことがない方は、VS Code に Jupyter 機能拡張をインストールするして利用することをお薦めします。  
+requirements.txt に ipykernel は記載されていませんが、初回コードを実行する際に、ipykernel はインストールされます。
+![Jupyter](./images/04-assignment-jupyter-extention.png)  
+実施するのは「aoai-assignment.ipynb」のみで結構です。  
+* aoai-assignment.ipynb -> Azure OpenAI用
+* githubmodels-assignment.ipynb -> githubモデル用
+* oai-assignment.ipynb -> OpenAI用
 
-- (Recommended) Launch GitHub Codespaces
-- (Alternatively) Clone the repo to your local device and use it with Docker Desktop
-- (Alternatively) Open the Notebook with your preferred Notebook runtime environment.
 
-### Next, configure your environment variables
+### はじめる手順
 
-- Copy the `.env.copy` file in repo root to `.env` and fill in the `AZURE_OPENAI_API_KEY`, `AZURE_OPENAI_ENDPOINT` and `AZURE_OPENAI_DEPLOYMENT` values. Come back to [Learning Sandbox section](./04-prompt-engineering-fundamentals#learning-sandbox) to learn how.
+-  **（JBS推奨） ローカルにクローンして VS Code でノートブックを開く**
+- （代替）リポジトリをフォークして GitHub Codespaces を起動
+- （代替）ローカルにクローンして Docker Desktop で実行
+- （代替）お好みのノートブックランタイムでノートブックを開く
 
-### Next, open the Jupyter Notebook
+### 環境変数の設定
 
-- Select the runtime kernel. If using options 1 or 2, simply select the default Python 3.10.x kernel provided by the dev container.
+- リポジトリルートの `.env.copy` を `.env` にコピーし、`AZURE_OPENAI_API_KEY`、`AZURE_OPENAI_ENDPOINT`、`AZURE_OPENAI_DEPLOYMENT` を設定してください。設定後、[Learning Sandbox セクション](./04-prompt-engineering-fundamentals#learning-sandbox) に戻って手順を確認します。
 
-You're all set to run the exercises. Note that there are no _right and wrong_ answers here - just exploring options by trial-and-error and building intuition for what works for a given model and application domain.
+### ノートブックを開く
 
-_For this reason there are no Code Solution segments in this lesson. Instead, the Notebook will have Markdown cells titled "My Solution:" that shows one example output for reference._
+- ランタイムカーネルを選択します。オプション1または2を使う場合は、dev container に用意されたデフォルトの Python 3.10.x カーネルを選択してください。
+
+これで演習を実行する準備が整いました。ここでの学びは正解・不正解ではなく、試行錯誤を通じた直感構築が目的です。
+
+_このため本レッスンにはコード解答セクションは用意していません。代わりに、ノートブック中に "My Solution:" と題した Markdown セルで一例の出力を確認できるようにしています。_
 
  <!--
 LESSON TEMPLATE:
 Wrap the section with a summary and resources for self-guided learning.
 -->
 
-## Knowledge check
+## 知識チェック
 
-Which of the following is a good prompt following some reasonable best practices?
+以下のうち、ベストプラクティスに沿った良いプロンプトはどれでしょうか？
 
 1. Show me an image of red car
 2. Show me an image of red car of make Volvo and model XC90 parked by a cliff with the sun setting
 3. Show me an image of red car of make Volvo and model XC90
 
-A: 2, it's the best prompt as it provides details on "what" and goes into specifics (not just any car but a specific make and model) and it also describes the overall setting. 3 is next best as it also contains a lot of description.
+A: 2 が最良です。なぜなら "何を" 求めているか（車の色・メーカー・モデル）や場面（崖、夕日）まで具体的に示しており、単なる "赤い車を見せて" より出力の品質が高まるためです。3 は次善の選択で、詳細はあるが場面の指定がないためです。
 
-## 🚀 Challenge
+## 🚀 チャレンジ
 
-See if you can leverage the "cue" technique with the prompt: Complete the sentence "Show me an image of red car of make Volvo and ". What does it respond with, and how would you improve it?
+プロンプト "Show me an image of red car of make Volvo and " に対してキュー手法を使ってみてください。モデルはどのように応答しますか？また、どのように改善しますか？
 
-## Great Work! Continue Your Learning
+## よくできました！学習を続けましょう。
 
 Want to learn more about different Prompt Engineering concepts? Go to the [continued learning page](https://aka.ms/genai-collection?WT.mc_id=academic-105485-koreyst) to find other great resources on this topic.
 
