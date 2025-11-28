@@ -96,6 +96,8 @@ You need to carry out the following steps:
 - Have created an Azure OpenAI Service resource. See this guide for how to [create a resource](https://learn.microsoft.com/azure/ai-services/openai/how-to/create-resource?pivots=web-portal?WT.mc_id=academic-105485-koreyst).
 
 ### Locate API key and endpoint
+> [!TIP]JBSコメント
+今はMicrosoft Foundry でEndpointやキーを確認する方法が推奨です 。
 
 At this point, you need to tell your `openai` library what API key to use. To find your API key, go to "Keys and Endpoint" section of your Azure OpenAI resource and copy the "Key 1" value.
 
@@ -158,6 +160,15 @@ print(completion.choices[0].message.content)
 More on this functionality in an upcoming chapter.
 
 ## Exercise - your first text generation app
+>[!NOTE]JBSコメント
+ファイル：aoai-app.py  
+
+>[!IMPORTANT]JBSコメント
+ここで記載されているのは古いAzureOpenAI SDKを使用した方法です。
+現在はV1 API という新しいAPIを使うか、Microsft Foundry の ResponseAPI を呼び出す方法が推奨です。
+[Azure AI 推論 SDK から OpenAI SDK への移行](https://learn.microsoft.com/ja-jp/azure/ai-foundry/how-to/model-inference-to-openai-migration?tabs=openai&pivots=programming-language-python&view=foundry-classic)
+[Microsoft Foundry Models でテキスト応答を生成する方法](https://learn.microsoft.com/ja-jp/azure/ai-foundry/foundry-models/how-to/generate-responses?view=foundry-classic&tabs=python)
+
 
 Now that we learned how to set up and configure openai, it's time to build your first text generation app. To build your app, follow these steps:
 
@@ -220,6 +231,7 @@ Prompts can be used for all sorts of tasks. For example:
 - **Generate code**. You can use prompts to generate code, for example developing a regular expression used to validate emails or why not generate an entire program, like a web app?
 
 ## A more practical use case: a recipe generator
+**JBSコメント：aoai-app-recipe.py**
 
 Imagine you have ingredients at home and you want to cook something. For that, you need a recipe. A way to find recipes is to use a search engine or you could use an LLM to do so.
 
