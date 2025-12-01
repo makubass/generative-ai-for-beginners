@@ -123,12 +123,16 @@ Imagine a chat application that understands your company's jargon and anticipate
 Leveraging a domain-specific language models (DSL Models) can enhance user engagement and by providing specialized, contextually relevant interactions. It's a model that is trained or fine-tuned to understand and generate text related to a specific field, industry, or subject. Options for using a DSL model can vary from training one from scratch, to using pre-existing ones through SDKs and APIs. Another option is fine-tuning, which involves taking an existing pre-trained model and adapting it for a specific domain.
 
 ## Customization: Apply fine-tuning
+> [!IMPORTANT]JBSコメント
+fine-tuning は非常に難しくコストも大きくかかります。かつては、fine-tuning に期待されているところもありましたが、現在、fine-tunig は最終手段と考えられており、まずは、RAG やLong Context での解決を探るのが一般的です。お客様に対し軽々しく fine-tuning をご案内するのはやめましょう。 
 
 Fine-tuning is often considered when a pre-trained model falls short in a specialized domain or specific task.
 
 For instance, medical queries are complex and require a lot of context. When a medical professional diagnoses a patient it's based on a variety of factors such as lifestyle or pre-existing conditions, and may even rely on recent medical journals to validate their diagnosis. In such nuanced scenarios, a general-purpose AI chat application cannot be a reliable source.
 
 ### Scenario: a medical application
+> [!IMPORTANT]JBSコメント
+> 医療行為など人の生命にかかわるAIの利用は推奨されていません。また、実際に医療行為に利用ためにAIモデルのトレーニングや fine-tuning を行うのであれば、非常に高度な医療とAIの知識が求められます。JBSが単独で対応できるようなものではありません。
 
 Consider a chat application designed to assist medical practitioners by providing quick references to treatment guidelines, drug interactions, or recent research findings.
 
