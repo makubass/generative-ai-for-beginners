@@ -1,221 +1,221 @@
-# Creating Advanced prompts
+# 高度なプロンプトの作成
 
 [![Creating Advanced Prompts](./images/05-lesson-banner.png?WT.mc_id=academic-105485-koreyst)](https://youtu.be/BAjzkaCdRok?si=NmUIyRf7-cDgbjtt)
 
-Let's recap some learnings from the previous chapter:
+前の章での学習内容をおさらいしましょう：
 
-> Prompt _engineering_ is the process by which we **guide the model towards more relevant responses** by providing more useful instructions or context.
+> プロンプト**エンジニアリング**は、より有用な指示やコンテキストを提供することで**モデルをより関連性の高い応答へ導く**プロセスです。
 
-There are also two steps to writing prompts: constructing the prompt, by providing relevant context, and _optimization_, how to gradually improve the prompt.
+プロンプトを書く際には2つのステップがあります。プロンプトを構成する際に関連するコンテキストを提供することと、プロンプトを段階的に改善する**最適化**です。
 
-At this point, we have some basic understanding of how to write prompts, but we need to go deeper. In this chapter, you will go from trying out various prompts to understanding why one prompt is better than another. You will learn how to construct prompts following some basic techniques that can be applied to any LLM.
+これまで基本的なプロンプトの書き方について理解してきましたが、さらに深く掘り下げる必要があります。本章では、様々なプロンプトを試すことから、なぜあるプロンプトが別のプロンプトより優れているのかを理解することへと進んでいきます。あらゆる LLM に適用できる基本的な技法に従ってプロンプトを構成する方法を学びます。
 
-## Introduction
+## はじめに
 
-In this chapter, we will cover the following topics:
+本章では、以下のトピックをカバーします：
 
-- Extend your knowledge of prompt engineering by applying different techniques to your prompts.
-- Configuring your prompts to vary the output.
+- プロンプトに異なる技法を適用することでプロンプトエンジニアリング知識を広げる
+- 出力を変動させるようにプロンプトを設定する
 
-## Learning goals
+## 学習目標
 
-After completing this lesson, you'll be able to:
+このレッスンを完了した後、以下ができるようになります：
 
-- Apply prompt engineering techniques that improve the outcome of your prompts.
-- Perform prompting that is either varied or deterministic.
+- プロンプトの成果を向上させるプロンプトエンジニアリング技法を適用できる
+- 変動的または決定論的なプロンプティングを実行できる
 
-## Prompt engineering
+## プロンプトエンジニアリング
 
-Prompt engineering is the process of creating prompts that will produce the desired outcome. There's more to prompt engineering than just writing a text prompt. Prompt engineering is not an engineering discipline, it's more a set of techniques that you can apply to get the desired outcome.
+プロンプトエンジニアリングは、望ましい結果を生み出すプロンプトを作成するプロセスです。プロンプトエンジニアリングはテキストプロンプトの作成以上の内容があります。プロンプトエンジニアリングはエンジニアリング規律ではなく、望ましい結果を得るために適用できる技法の集合です。
 
-### An example of a prompt
+### プロンプトの例
 
-Let's take a basic prompt like this one:
+次のような基本的なプロンプトを考えてみましょう：
 
-> Generate 10 questions on geography.
+> 地理に関する 10 個の問題を生成してください。
 
-In this prompt, you are actually applying a set of different prompt techniques.
+このプロンプトでは、異なるプロンプト技法のセットを実際に適用しています。
 
-Let's break this down.
+分解してみましょう。
 
-- **Context**, you specify it should be about "geography".
-- **Limiting the output**, you want no more than 10 questions.
+- **コンテキスト**：「地理」についてであることを指定します。
+- **出力を制限する**：10 個以下の問題を望んでいます。
 
-### Limitations of simple prompting
+### 単純なプロンプティングの制限
 
-You may or may not get the desired outcome. You will get your questions generated, but geography is a big topic and you may not get what you want to due the following reasons:
+望ましい結果が得られるかどうかは保証されません。問題は生成されますが、地理は大きなトピックであり、次の理由で望ましい結果が得られない可能性があります：
 
-- **Big topic**, you don't know if it's going to be about countries, capitals, rivers and so on.
-- **Format**, what if you wanted the questions to be formatted in a certain way?
+- **大きなトピック**：国、首都、川など何についてのものになるか分かりません。
+- **フォーマット**：問題を特定の方法でフォーマットしたい場合はどうしますか？
 
-As you can see, there's a lot to consider when creating prompts.
+ご覧のとおり、プロンプト作成時に考慮すべきことはたくさんあります。
 
-So far, we've seen a simple prompt example, but generative AI is capable of much more to help people in a variety of roles and industries. Let's explore some basic techniques next.
+これまで単純なプロンプト例を見てきましたが、生成AI は様々な役割と業界の人々を支援するために、より多くのことが可能です。次は基本的な技法を探索してみましょう。
 
-### Techniques for prompting
+### プロンプティング技法
 
-First, we need to understand that prompting is an _emergent_ property of an LLM meaning that this is not a feature that is built into the model but rather something we discover as we use the model.
+まず、プロンプティングは LLM の**新興**特性である、つまりモデルに組み込まれた機能ではなく、モデルを使用するにつれて発見するもの、であることを理解する必要があります。
 
-There are some basic techniques that we can use to prompt an LLM. Let's explore them.
+LLM にプロンプトするために使用できるいくつかの基本的な技法があります。それらを探索してみましょう。
 
-- **Zero-shot prompting**, this is the most basic form of prompting. It's a single prompt requesting a response from the LLM based solely on its training data.
-- **Few-shot prompting**, this type of prompting guides the LLM by providing 1 or more examples it can rely on to generate its response.
-- **Chain-of-thought**, this type of prompting tells the LLM how to break down a problem into steps.
-- **Generated knowledge**, to improve the response of a prompt, you can provide generated facts or knowledge additionally to your prompt.
-- **Least to most**, like chain-of-thought, this technique is about breaking down a problem into a series of steps and then ask these steps to be performed in order.
-- **Self-refine**, this technique is about critiquing the LLM's output and then asking it to improve.
-- **Maieutic prompting**. What you want here is to ensure the LLM answer is correct and you ask it to explain various parts of the answer. This is a form of self-refine.
+- **ゼロショット プロンプティング**：最も基本的なプロンプティング形式です。単一のプロンプトで、学習データのみに基づいて LLM からの応答を要求します。
+- **フューショット プロンプティング**：このプロンプティングの種類は、依頼できる 1 つ以上の例を提供することで LLM を導きます。
+- **思考の連鎖（Chain-of-thought）**：このプロンプティングの種類は、問題を段階に分割する方法を LLM に指示します。
+- **生成知識（Generated knowledge）**：プロンプトの応答を改善するために、プロンプトに追加の生成事実または知識を提供できます。
+- **最小から最大（Least to most）**：思考の連鎖と同様に、この技法は問題を一連の段階に分割し、その後それらの段階を順序通りに実行するよう依頼することについてです。
+- **自己改善（Self-refine）**：この技法は LLM の出力を批評し、その後それを改善するよう依頼することについてです。
+- **ソクラテス的プロンプティング（Maieutic prompting）**：ここで必要なのは LLM の答えが正しいことを確認し、答えの様々な部分を説明するよう依頼することです。これは自己改善の一形式です。
 
-### Zero-shot prompting
+### ゼロショット プロンプティング
 
-This style of prompting is very simple, it consists of a single prompt. This technique is probably what you're using as you're starting to learn about LLMs. Here's an example:
+このスタイルのプロンプティングは非常に単純で、単一のプロンプトで構成されます。この技法は、LLM について学習を始めるにつれて、おそらくあなたが使用しているものです。以下は例です：
 
-- Prompt: "What is Algebra?"
-- Answer: "Algebra is a branch of mathematics that studies mathematical symbols and the rules for manipulating these symbols."
+- プロンプト：「代数とは何ですか？」
+- 応答：「代数は数学の分野で、数学的シンボルおよびこれらのシンボルを操作するための規則を研究しています。」
 
-### Few-shot prompting
+### フューショット プロンプティング
 
-This style of prompting helps the model by providing a few examples along with the request. It consists of a single prompt with additional task-specific data. Here's an example:
+このスタイルのプロンプティングは、リクエストとともにいくつかの例を提供することでモデルを支援します。単一のプロンプトに追加のタスク固有データが含まれています。以下は例です：
 
-- Prompt: "Write a poem in the style of Shakespeare. Here are a few examples of Shakespearean sonnets.:
-  Sonnet 18: 'Shall I compare thee to a summer's day? Thou art more lovely and more temperate...'
-  Sonnet 116: 'Let me not to the marriage of true minds Admit impediments. Love is not love Which alters when it alteration finds...'
-  Sonnet 132: 'Thine eyes I love, and they, as pitying me, Knowing thy heart torment me with disdain,...'
-  Now, write a sonnet about the beauty of the moon."
-- Answer: "Upon the sky, the moon doth softly gleam, In silv'ry light that casts its gentle grace,..."
+- プロンプト：「シェークスピアのスタイルで詩を書いてください。シェークスピアのソネットの例をいくつかご紹介します：
+  ソネット 18：「Shall I compare thee to a summer's day? Thou art more lovely and more temperate...」
+  ソネット 116：「Let me not to the marriage of true minds Admit impediments. Love is not love Which alters when it alteration finds...」
+  ソネット 132：「Thine eyes I love, and they, as pitying me, Knowing thy heart torment me with disdain,...」
+  月の美しさについてのソネットを書いてください。」
+- 応答：「Upon the sky, the moon doth softly gleam, In silv'ry light that casts its gentle grace,...」
 
-Examples provide the LLM with the context, format or style of the desired output. They help the model understand the specific task and generate more accurate and relevant responses.
+例は LLM に、望ましい出力のコンテキスト、フォーマット、またはスタイルを提供します。これにより、モデルが特定のタスクを理解し、より正確で関連性の高い応答を生成するのに役立ちます。
 
-### Chain-of-thought
+### 思考の連鎖
 
-Chain-of-thought is a very interesting technique as it's about taking the LLM through a series of steps. The idea is to instruct the LLM in such a way that it understands how to do something. Consider the following example, with and without chain-of-thought:
+思考の連鎖は非常に興味深い技法です。LLM を一連の段階を通じて進めることについてです。考えは、LLM が何をするかを理解する方法で LLM に指示することです。以下の例は、思考の連鎖ありとなしの両方を示しています：
 
-    - Prompt: "Alice has 5 apples, throws 3 apples, gives 2 to Bob and Bob gives one back, how many apples does Alice have?"
-    - Answer: 5
+- プロンプト：「アリスは 5 つのリンゴを持ち、3 つのリンゴを投げ、ボブに 2 つを与え、ボブが 1 つ返します。アリスはいくつのリンゴを持っていますか？」
+- 応答：5
 
-LLM answers with 5, which is incorrect. Correct answer is 1 apple, given the calculation (5 -3 -2 + 1 = 1).
+LLM は 5 で答えますが、これは正しくありません。計算を考えると、正しい答えは 1 個のリンゴです（5-3-2+1=1）。
 
-So how can we teach the LLM to do this correctly?
+では、LLM にこれを正しく行うようどのように教えることができるでしょうか？
 
-Let's try chain-of-thought. Applying chain-of-thought means:
+思考の連鎖を試してみましょう。思考の連鎖を適用することは以下を意味します：
 
-1. Give the LLM a similar example.
-1. Show the calculation, and how to calculate it correctly.
-1. Provide the original prompt.
+1. LLM に同様の例を与えます。
+2. 計算を表示し、正しく計算する方法を示します。
+3. 元のプロンプトを提供します。
 
-Here's how:
+方法は以下の通りです：
 
-- Prompt: "Lisa has 7 apples, throws 1 apple, gives 4 apples to Bart and Bart gives one back:
-  7 -1 = 6
-  6 -4 = 2
-  2 +1 = 3  
-  Alice has 5 apples, throws 3 apples, gives 2 to Bob and Bob gives one back, how many apples does Alice have?"
-  Answer: 1
+- プロンプト：「リサは 7 つのリンゴを持ち、1 つのリンゴを投げ、バートに 4 つのリンゴを与え、バートが 1 つ返します：
+  7-1=6
+  6-4=2
+  2+1=3
+  アリスは 5 つのリンゴを持ち、3 つのリンゴを投げ、ボブに 2 つを与え、ボブが 1 つ返します。アリスはいくつのリンゴを持っていますか？」
+- 応答：1
 
-Note how we write substantially longer prompts with another example, a calculation and then the original prompt and we arrive at the correct answer 1.
+別の例、計算、その後元のプロンプトとともに、実質的に長いプロンプトを書く方法に注目し、正しい答え 1 に到達します。
 
-As you can see chain-of-thought is a very powerful technique.
+ご覧のとおり、思考の連鎖は非常に強力な技法です。
 
-### Generated knowledge
+### 生成知識
 
-Many times when you want to construct a prompt, you want to do so using your own company's data. You want part of the prompt to be from the company and the other part should be the actual prompt you're interested in.
+プロンプトを構成する場合、自社のデータを使用してそうしたいことがよくあります。プロンプトの一部は会社のものであり、他の部分は実際に関心のあるプロンプトである必要があります。
 
-As an example, this is what your prompt then can look like if you're in the insurance business:
+例えば、保険事業に携わっている場合、プロンプトは次のようになります：
 
 ```text
-{{company}}: {{company_name}}
-{{products}}:
+{{company}}：{{company_name}}
+{{products}}：
 {{products_list}}
-Please suggest an insurance given the following budget and requirements:
-Budget: {{budget}}
-Requirements: {{requirements}}
+次の予算と要件を考慮して、保険を提案してください：
+予算：{{budget}}
+要件：{{requirements}}
 ```
 
-Above, you see how the prompt is constructed using a template. In the template there's a number of variables, denoted by `{{variable}}`, that will be replaced with actual values from a company API.
+上記は、テンプレートを使用してプロンプトがどのように構成されるかを示しています。テンプレート内には、`{{variable}}` で示される多くの変数があり、会社 API から実際の値で置き換えられます。
 
-Here's an example of how the prompt could look like once the variables have been replaced by content from your company:
+変数が会社からのコンテンツで置き換えられた後、プロンプトがどのように見えるかの例を示します：
 
 ```text
-Insurance company: ACME Insurance
-Insurance products (cost per month):
-- Car, cheap, 500 USD
-- Car, expensive, 1100 USD
-- Home, cheap, 600 USD
-- Home, expensive, 1200 USD
-- Life, cheap, 100 USD
+保険会社：ACME Insurance
+保険商品（月額コスト）：
+- 車、安い、500 米ドル
+- 車、高い、1100 米ドル
+- 家、安い、600 米ドル
+- 家、高い、1200 米ドル
+- 生命、安い、100 米ドル
 
-Please suggest an insurance given the following budget and requirements:
-Budget: $1000
-Requirements: Car, Home, and Life insurance
+次の予算と要件を考慮して、保険を提案してください：
+予算：1000 米ドル
+要件：自動車、住宅、生命保険
 ```
 
-Running this prompt through an LLM will produce a response like this:
+このプロンプトを LLM で実行すると、次のような応答が生成されます：
 
 ```output
-Given the budget and requirements, we suggest the following insurance package from ACME Insurance:
-- Car, cheap, 500 USD
-- Home, cheap, 600 USD
-- Life, cheap, 100 USD
-Total cost: $1,200 USD
+予算と要件を踏まえて、ACME Insurance の次の保険パッケージをお勧めします：
+- 車、安い、500 米ドル
+- 家、安い、600 米ドル
+- 生命、安い、100 米ドル
+合計コスト：1,200 米ドル
 ```
 
-As you can see, it also suggests the Life insurance, which it shouldn't. This result is an indication that we need to optimize the prompt by changing the prompt to be clearer on what it can allow. After some _trial and error_, we arrive at the following prompt:
+ご覧のとおり、生命保険も提案していますが、これは提案すべきではありません。この結果は、プロンプトを変更して何が許可されるかについてより明確にするためにプロンプトを最適化する必要があることを示しています。何度か試行錯誤した後、次のプロンプトに到達します：
 
 ```text
-Insurance company: ACME Insurance
-Insurance products (cost per month):
-- type: Car, cheap, cost: 500 USD
-- type: Car, expensive, cost: 1100 USD
-- type: Home, cheap, cost: 600 USD
-- type: Home, expensive, cost: 1200 USD
-- type: Life, cheap, cost: 100 USD
+保険会社：ACME Insurance
+保険商品（月額コスト）：
+- type：車、安い、コスト：500 米ドル
+- type：車、高い、コスト：1100 米ドル
+- type：家、安い、コスト：600 米ドル
+- type：家、高い、コスト：1200 米ドル
+- type：生命、安い、コスト：100 米ドル
 
-Please suggest an insurance given the following budget and requirements:
-Budget: $1000 restrict choice to types: Car, Home
+次の予算と要件を考慮して、保険を提案してください：
+予算：1000 米ドル、選択肢を次の種類に限定：車、家
 ```
 
-Note how adding _type_ and _cost_ and also using the keyword _restrict_ helps the LLM to understand what we want.
+_type_ と _cost_ を追加し、キーワード _restrict_ を使用することで、LLM が私たちが望むことを理解するのに役立つ方法に注意してください。
 
-Now we get the following response:
+これで次の応答が得られます：
 
 ```output
-Given the budget and requirements, we suggest the Car, Cheap insurance product which costs 500 USD per month.
+予算と要件を踏まえて、月額 500 米ドルの「車、安い」保険商品をお勧めします。
 ```
 
-The point of this example was to show that even though we're using a basic technique like _generated knowledge_, we still need to optimize the prompt in most cases to get the desired outcome.
+この例の要点は、基本的な技法（生成知識）を使用している場合でも、ほとんどの場合、望ましい結果を得るためにプロンプトを最適化する必要があることを示すことでした。
 
-### Least-to-most
+### 最小から最大
 
-The idea with Least-to-most prompting is to break down a bigger problem into subproblems. That way, you help guide the LLM on how to "conquer" the bigger problem. A good example could be for data science where you can ask the LLM to divide up a problem like so:
+最小から最大へのプロンプティングの考え方は、大きな問題をサブプロブレムに分割することです。こうすることで、LLM が大きな問題を「克服」する方法をガイドするのに役立てます。良い例は、データサイエンスの場合です。LLM に次のように問題を分割するよう求めることができます：
 
-> Prompt: How to perform data science in 5 steps?
+> プロンプト：データサイエンスを 5 ステップで実行する方法は？
 
-With your AI assistant answering with:
+AI アシスタントが以下で答えます：
 
-1. Collect data
-1. Clean data
-1. Analyze data
-1. Plot data
-1. Present data
+1. データを収集する
+2. データをクリーニングする
+3. データを分析する
+4. データをプロットする
+5. データをプレゼンテーションする
 
-### Self-refine, critique the results
+### 自己改善、結果を批評する
 
-With generative AIs and LLMs, you can't trust the output. You need to verify it. After all, the LLM is just presenting you what's the next most likely thing to say, not what's correct. Therefore, a good idea is to ask the LLM to critique itself, which leads us to the self-refine technique.
+生成AI と LLM では、出力を信頼することはできません。検証する必要があります。結局のところ、LLM は次の最も可能性が高いことを言っているだけであり、何が正しいかではなく、提示しているだけです。したがって、LLM に自分自身を批評するよう依頼することが良い考えであり、これにより自己改善技法へ導かれます。
 
-How it works is that you follow the following steps:
+動作方法は次のステップに従うことです：
 
-1. Initial prompt asking the LLM to solve a problem
-1. LLM answers
-1. You critique the answer and ask the AI to improve
-1. LLM answers again, this time considering the critique and suggest solutions it came up with
+1. LLM に問題を解決するよう依頼する初期プロンプト
+2. LLM が応答する
+3. 回答を批評し、AI に改善するよう依頼する
+4. LLM が再び応答します。今回は批評を考慮し、それが考え出したソリューションを提案します
 
-You can repeat this process as many times as you want.
+このプロセスは何度でも繰り返すことができます。
 
-Here's an example using this technique:
+この技法を使用した例は以下の通りです：
 
-> Prompt: "Create a Python Web API with routes products and customers"
+> プロンプト：「products と customers のルートを持つ Python Web API を作成してください」
 
-AI Answer:
+AI の回答：
 
 ```python
 import flask
@@ -230,18 +230,18 @@ def customers():
     return 'Customers'
 ```
 
-> Prompt: suggest 3 improvements of the above code
+> プロンプト：上記のコードの 3 つの改善を提案してください
 
-AI Answer:
+AI の回答：
 
 ```text
-Sure, here are three suggestions to improve the code:
+確かに、コードを改善するための 3 つの提案があります：
 
-Import the correct module: The first line should import Flask instead of flask. The correct import statement should be from flask import Flask.
+正しいモジュールをインポートする：最初の行は flask ではなく Flask をインポートする必要があります。正しいインポートステートメントは from flask import Flask である必要があります。
 
-Add a main function: Add a if __name__ == '__main__': block to the end of the file to run the application when the file is executed.
+メイン関数を追加する：ファイルの最後に if __name__ == '__main__': ブロックを追加して、ファイルが実行されるときにアプリケーションを実行します。
 
-Use f-strings: Use f-strings to format the return statements in the route functions. For example, return 'Products' can be changed to return f'This is the {request.path} page'.
+f-strings を使用する：ルート関数の戻りステートメントをフォーマットするために f-strings を使用します。例えば、return 'Products' は return f'This is the {request.path} page' に変更できます。
 ```
 
 ```python
@@ -261,66 +261,66 @@ if __name__ == '__main__':
     app.run()
 ```
 
-As you can see, the above AI response is improving the first suggested code thanks to critiquing the first answer.
+ご覧のとおり、上記の AI の応答は最初の提案されたコードを最初の答えを批評することによって改善しています。
 
-### Maieutic prompting
+### ソクラテス的プロンプティング
 
-Maieutic prompting is a technique that is similar to self-refine but it's more about asking the LLM to explain itself. The goal is to reduce inconsistencies in the LLM's output so to ensure it arrives at the correct answer. The workflow to follow is:
+ソクラテス的プロンプティングは自己改善に似ていますが、LLM に自分自身を説明するよう求めることに関するものです。目標は LLM の出力の矛盾を減らし、正しい答えに到達することを確認することです。従うべきワークフローは以下の通りです：
 
-1. Ask the LLM to answer a question
-1. For each part of the answer, ask the LLM to explain it more in depth.
-1. If there are inconsistencies, discard the parts that are inconsistent.
+1. LLM に質問に答えるよう依頼する
+2. 答えの各部分について、LLM に詳細に説明するよう依頼する。
+3. 矛盾がある場合は、矛盾している部分を破棄します。
 
-Repeat 2 and 3 until you've gone through all the parts and you're satisfied with the answer.
+すべての部分を通い、答えに満足するまで 2 と 3 を繰り返します。
 
-Here's an example prompt:
+プロンプトの例は以下の通りです：
 
-> prompt: How can I create a crisis plan to mitigate a pandemic in 5 steps?
-> LLM answer:
-
-```text
-1. Identify the risks
-1. Identify the stakeholders
-1. Identify the resources
-1. Identify the actions
-1. Identify the communication channels
-```
-
-It's identified 5 steps, but can we determine if this is correct? Let's ask the LLM to explain each step:
-
-> prompt: Explain the first step in more detail, what are the risks in detail with a pandemic?
+> プロンプト：パンデミックを軽減するための危機計画を 5 つのステップで作成するにはどうすればよいですか？
+> LLM の回答：
 
 ```text
-The risks are the following:
-
-- Loss of life
-- Loss of business
-- Loss of reputation
-- Loss of customers
-- Loss of employees
+1. リスクを特定する
+2. ステークホルダーを特定する
+3. リソースを特定する
+4. アクションを特定する
+5. コミュニケーションチャネルを特定する
 ```
 
-At this point, we want to make sure the LLM is correct so we ask it to explain the first risk in more detail and hope it's consistent with the answer above:
+5 つのステップが特定されていますが、これが正しいかどうかを判定できるでしょうか？各ステップを説明するよう LLM に依頼してみましょう：
 
-> prompt: In a Pandemic, which is the biggest risk and why?
+> プロンプト：最初のステップについて詳しく説明してください。パンデミックに関するリスクについて詳しく教えてください。
 
 ```text
-The biggest risk is loss of life because it's the most important thing to protect.
+リスクは次の通りです：
+
+- 命の喪失
+- ビジネスの喪失
+- 評判の喪失
+- 顧客の喪失
+- 従業員の喪失
 ```
 
-> What are the two biggest risks in a pandemic?
+この時点で、LLM が正しいことを確認したいので、最初のリスクについてより詳細に説明するよう依頼し、上記の答えと一致していることを願っています：
+
+> プロンプト：パンデミックでは、最大のリスクは何で、その理由は？
 
 ```text
-The two biggest risks are loss of life and loss of business.
+最大のリスクは命の喪失です。これが保護する最も重要なことだからです。
 ```
 
-At this point, the LLM is consistent and mentions "life" and "business" as the top two risks. We can now continue to the next step and feel fairly confident. However, we shouldn't trust the LLM blindly, we should always verify the output.
+> パンデミックで最大の 2 つのリスクは何ですか？
 
-## Vary your output
+```text
+最大の 2 つのリスクは、命の喪失とビジネスの喪失です。
+```
 
-LLMs are nondeterministic by nature, meaning that you will get different results each time you run the same prompt. Try the following prompt for example:
+この時点で、LLM は一貫性があり、最大 2 つのリスクとして「命」と「ビジネス」を言及しています。これで次のステップに進むことができ、かなり自信を持つことができます。ただし、LLM を盲目的に信頼すべきではなく、常に出力を検証する必要があります。
 
-> "Generate code for a Python Web API"
+## 出力を変動させる
+
+LLM は本質的に非決定論的であり、同じプロンプトを実行するたびに異なる結果が得られることを意味しています。例えば、次のプロンプトを試してください：
+
+> 「Python Web API のコードを生成してください」
 
 ```python
 # Import necessary modules
@@ -356,7 +356,7 @@ if __name__ == '__main__':
 
 ```
 
-Running the same prompt again generates a slightly different response:
+同じプロンプトを再度実行すると、わずかに異なる応答が生成されます：
 
 ```python
 #import necessary packages
@@ -424,17 +424,17 @@ def api_id():
 app.run()
 ```
 
-> So is the varied output a problem?
+> では、変動的な出力は問題でしょうか？
 
-Depends on what you're trying to do. If you want a specific response then it's a problem. If you're ok with a varied output like "Generate any 3 questions on geography", then it's not a problem.
+何をしようとしているかによって異なります。特定の応答が必要な場合は、問題です。「地理に関する任意の 3 つの問題を生成してください」のような変動的な出力でも構わない場合、問題ではありません。
 
-### Using temperature to vary your output
+### 温度を使用して出力を変動させる
 
-Ok, so we've decided we want to limit the output to be more predictable, that is more deterministic. How do we do that?
+それでは、出力をより予測可能にする、つまりより決定論的にしたいと決めました。どうすればよいでしょうか？
 
-Temperature is a value between 0 and 1, where 0 is the most deterministic and 1 is the most varied. The default value is 0.7. Let's see what happens with two runs of the same prompt with temperature set to 0.1:
+温度は 0 から 1 の値で、0 が最も決定論的で、1 が最も変動的です。デフォルト値は 0.7 です。温度が 0.1 に設定された同じプロンプトの 2 つの実行で何が起こるかを見てみましょう：
 
-> "Generate code for a Python Web API"
+> 「Python Web API のコードを生成してください」
 
 ```python
 #import necessary libraries
@@ -470,7 +470,7 @@ if __name__ == '__main__':
 
 ```
 
-Running the prompt again gives us this outcome:
+プロンプトを再度実行すると、次の結果が得られます：
 
 ```python
 #import necessary libraries
@@ -506,7 +506,7 @@ if __name__ == '__main__':
 
 ```
 
-There's only a tiny difference between these two outputs. Let's do the opposite this time, let's set the temperature to 0.9:
+これら 2 つの出力の間に非常に小さな違いがあります。今度は逆をやってみましょう。温度を 0.9 に設定してみましょう：
 
 ```python
 # Import necessary libraries
@@ -542,7 +542,7 @@ if __name__ == '__main__':
 
 ```
 
-and the second attempt at 0.9 as temperature value:
+温度値として 0.9 で 2 番目の試みを行います：
 
 ```python
 import flask
@@ -565,30 +565,29 @@ def home():
     return '''<h1>Welcome to our book API!</h1>'''
 
 @app.route('/api/v1/resources/books
-
 ```
 
-As you can see, the results couldn't be more varied.
+ご覧のとおり、結果はそれ以上に多様です。
 
-> Note, that there are more parameters you can change to vary the output, like top-k, top-p, repetition penalty, length penalty and diversity penalty but these are outside the scope of this curriculum.
+> 注：出力を変動させるために変更できるパラメータはもっと多くあります。例えば top-k、top-p、繰り返しペナルティ、長さペナルティ、多様性ペナルティなどがありますが、これらはこのカリキュラムの範囲外です。
 
-## Good practices
+## ベストプラクティス
 
-There are many practices you can apply to try to get what you want. You will find your own style as you use prompting more and more.
+プロンプティングをより多く使用するにつれて、望みのものを得るために適用できる多くの実践があります。独自のスタイルを見つけるでしょう。
 
-Additionally to the techniques we've covered, there are some good practices to consider when prompting an LLM.
+カバーした技法に加えて、LLM にプロンプトするときに考慮するべきいくつかのベストプラクティスがあります。
 
-Here are some good practices to consider:
+考慮すべきベストプラクティスは以下の通りです：
 
-- **Specify context**. Context matters, the more you can specify like domain, topic, etc. the better.
-- Limit the output. If you want a specific number of items or a specific length, specify it.
-- **Specify both what and how**. Remember to mention both what you want and how you want it, for example "Create a Python Web API with routes products and customers, divide it into 3 files".
-- **Use templates**. Often, you will want to enrich your prompts with data from your company. Use templates to do this. Templates can have variables that you replace with actual data.
-- **Spell correctly**. LLMs might provide you with a correct response, but if you spell correctly, you will get a better response.
+- **コンテキストを指定する**。コンテキストは重要です。ドメイン、トピックなどを指定できるほど、良いです。
+- 出力を制限します。特定の数のアイテムまたは特定の長さが必要な場合は、指定してください。
+- **「何を」と「どのように」を両方指定する**。たとえば「Create a Python Web API with routes products and customers, divide it into 3 files」のように、何をしたいのか、どのようにしたいのかの両方を言及することを忘れずに。
+- **テンプレートを使用する**。多くの場合、自社のデータを使用してプロンプトを充実させたいのです。この目的でテンプレートを使用してください。テンプレートには、実際のデータで置き換える変数を設定できます。
+- **正しくスペルしてください**。LLM は正しい応答を提供する場合がありますが、正しくスペルする場合、より良い応答が得られます。
 
-## Assignment
+## 課題
 
-Here's code in Python showing how to build a simple API using Flask:
+次は、Flask を使用して単純な API を構築する方法を示す Python コードです：
 
 ```python
 from flask import Flask, request
@@ -604,33 +603,33 @@ if __name__ == '__main__':
     app.run()
 ```
 
-Use an AI assistant like GitHub Copilot or ChatGPT and apply the "self-refine" technique to improve the code.
+GitHub Copilot または ChatGPT のような AI アシスタントを使用し、「自己改善」技法を適用してコードを改善してください。
 
-## Solution
+## ソリューション
 
-Please attempt to solve the assignment by adding suitable prompts to the code.
+課題をコードに適切なプロンプトを追加して解いてください。
 
 > [!TIP]
-> Phrase a prompt to ask it to improve, it's a good idea to limit how many improvements. You can also ask to improve it in a certain way, for example architecture, performance, security, etc.
+> それを改善するよう依頼するプロンプトを文言する。改善の数を制限することが良い考えです。また、特定の方法で改善するよう依頼することもできます。例えば、アーキテクチャ、パフォーマンス、セキュリティなど。
 
-[Solution](./python/aoai-solution.py?WT.mc_id=academic-105485-koreyst)
+[ソリューション](./python/aoai-solution.py?WT.mc_id=academic-105485-koreyst)
 
-## Knowledge check
+## 知識確認
 
-Why would I use chain-of-thought prompting? Show me 1 correct response and 2 incorrect responses.
+思考の連鎖プロンプティングをなぜ使用するのでしょうか？1 つの正しい応答と 2 つの不正解を示してください。
 
-1. To teach the LLM how to solve a problem.
-1. B, To teach the LLM to find errors in code.
-1. C, To instruct the LLM to come up with different solutions.
+1. LLM に問題を解決する方法を教えるため。
+2. B、LLM にコードのエラーを見つけるように教えるため。
+3. C、LLM に異なるソリューションを思いつくように指示するため。
 
-A: 1, because chain-of-thought is about showing the LLM how to solve a problem by providing it with a series of steps, and similar problems and how they were solved.
+A：1 番目です。思考の連鎖は、LLM に一連のステップと同様の問題、およびそれらがどのように解決されたかを提供することで、問題を解決する方法を教えることについてです。
 
-## 🚀 Challenge
+## 🚀 チャレンジ
 
-You just used the self-refine technique in the assignment. Take any program you built and consider what improvements you would want to apply to it. Now use the self-refine technique to apply the proposed changes. What did you think the result, better or worse?
+課題では自己改善技法を使用しました。構築したプログラムを取り上げ、適用したい改善を検討してください。次に自己改善技法を使用して提案された変更を適用してください。結果はどう思いますか？より良い、または悪い？
 
-## Great Work! Continue Your Learning
+## よくできました！学習を続けましょう
 
-After completing this lesson, check out our [Generative AI Learning collection](https://aka.ms/genai-collection?WT.mc_id=academic-105485-koreyst) to continue leveling up your Generative AI knowledge!
+このレッスンを完了したら、[生成AI学習コレクション](https://aka.ms/genai-collection?WT.mc_id=academic-105485-koreyst) をチェックして、生成AI の知識を引き続き深めてください！
 
-Head over to Lesson 6 where we will apply our knowledge of Prompt Engineering by [building text generation apps](../06-text-generation-apps/README.md?WT.mc_id=academic-105485-koreyst)
+次のレッスン 6 に進んで、プロンプトエンジニアリング知識を活用して、[テキスト生成アプリを構築](../06-text-generation-apps/README.md?WT.mc_id=academic-105485-koreyst) しましょう。
