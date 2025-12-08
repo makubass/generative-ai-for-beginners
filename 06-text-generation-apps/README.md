@@ -1,119 +1,119 @@
-# Building Text Generation Applications
+# テキスト生成アプリケーションの構築
 
-[![Building Text Generation Applications](./images/06-lesson-banner.png?WT.mc_id=academic-105485-koreyst)](https://youtu.be/0Y5Luf5sRQA?si=t_xVg0clnAI4oUFZ)
+[![テキスト生成アプリケーションの構築](./images/06-lesson-banner.png?WT.mc_id=academic-105485-koreyst)](https://youtu.be/0Y5Luf5sRQA?si=t_xVg0clnAI4oUFZ)
 
-> _(Click the image above to view video of this lesson)_
+> _(上の画像をクリックしてこのレッスンのビデオを視聴してください)_
 
-You've seen so far through this curriculum that there are core concepts like prompts and even a whole discipline called "prompt engineering". Many tools you can interact with like ChatGPT, Office 365, Microsoft Power Platform and more, support you using prompts to accomplish something.
+このカリキュラムを通じて、プロンプトのようなコア概念があること、そして「プロンプトエンジニアリング」という全体的な規律があることを見てきました。ChatGPT、Office 365、Microsoft Power Platform など、相互作用できる多くのツールは、プロンプトを使用して何かを実現することをサポートしています。
 
-For you to add such an experience to an app, you need to understand concepts like prompts, completions and choose a library to work with. That's exactly what you'll learn in this chapter.
+このような体験をアプリに追加するには、プロンプトや補完などのコンセプトを理解し、使用するライブラリを選択する必要があります。それはまさにこの章で学ぶことです。
 
-## Introduction
+## はじめに
 
-In this chapter, you will:
+この章では、以下を学習します：
 
-- Learn about the openai library and it's core concepts.
-- Build a text generation app using openai.
-- Understand how to use concepts like prompt, temperature, and tokens to build a text generation app.
+- openai ライブラリとそのコア概念について学習する。
+- openai を使用してテキスト生成アプリを構築する。
+- プロンプト、温度、トークンなどのコンセプトを理解してテキスト生成アプリを構築する方法を理解する。
 
-## Learning goals
+## 学習目標
 
-At the end of this lesson, you'll be able to:
+このレッスンの最後に、以下ができるようになります：
 
-- Explain what a text generation app is.
-- Build a text generation app using openai.
-- Configure your app to use more or less tokens and also change the temperature, for a varied output.
+- テキスト生成アプリとは何かを説明できる。
+- openai を使用してテキスト生成アプリを構築できる。
+- より多くまたはより少ないトークンを使用するようにアプリを構成し、また出力を変動させるため温度を変更できる。
 
-## What is a text generation app?
+## テキスト生成アプリとは？
 
-Normally when you build an app it has some kind of interface like the following:
+通常、アプリを構築するとき、それには以下のようなある種のインターフェースがあります：
 
-- Command-based. Console apps are typical apps where you type a command and it carries out a task. For example, `git` is a command-based app.
-- User interface (UI). Some apps have graphical user interfaces (GUIs) where you click buttons, input text, select options and more.
+- コマンドベース。コンソール アプリは、コマンドを入力してタスクを実行する典型的なアプリです。たとえば、`git` はコマンドベースのアプリです。
+- ユーザー インターフェース (UI)。一部のアプリでは、ボタンをクリックしたり、テキストを入力したり、オプションを選択したりできるグラフィカル ユーザー インターフェース (GUI) があります。
 
-### Console and UI apps are limited
+### コンソールと UI アプリは制限されている
 
-Compare it to a command-based app where you type a command:
+コマンドを入力するコマンドベースのアプリと比較してください：
 
-- **It's limited**. You can't just type any command, only the ones that the app supports.
-- **Language specific**. Some apps support many languages, but by default the app is built for a specific language, even if you can add more language support.
+- **制限されている**。任意のコマンドを入力することはできず、アプリがサポートするコマンドのみです。
+- **言語固有**。一部のアプリは多くの言語をサポートしていますが、デフォルトではアプリは特定の言語向けに構築されており、言語サポートを追加できる場合でもそうです。
 
-### Benefits of text generation apps
+### テキスト生成アプリの利点
 
-So how is a text generation app different?
+では、テキスト生成アプリはどう違うのでしょうか？
 
-In a text generation app, you have more flexibility, you're not limited to a set of commands or a specific input language. Instead, you can use natural language to interact with the app. Another benefit is that you're already interacting with a data source that has been trained on a vast corpus of information, whereas a traditional app might be limited on what's in a database.
+テキスト生成アプリでは、より多くの柔軟性があり、コマンドセットや特定の入力言語に限定されません。代わりに、自然言語を使用してアプリと対話できます。もう 1 つの利点は、膨大な情報コーパスで訓練されたデータ ソースと既に相互作用しているという点です。一方、従来のアプリはデータベースに含まれている内容に制限される可能性があります。
 
-### What can I build with a text generation app?
+### テキスト生成アプリで何を構築できますか？
 
-There are many things you can build. For example:
+構築できることはたくさんあります。たとえば：
 
-- **A chatbot**. A chatbot answering questions about topics, like your company and its products could be a good match.
-- **Helper**. LLMs are great at things like summarizing text, getting insights from text, producing text like resumes and more.
-- **Code assistant**. Depending on the language model you use, you can build a code assistant that helps you write code. For example, you can use a product like GitHub Copilot as well as ChatGPT to help you write code.
+- **チャットボット**。チャットボットは会社とその製品のようなトピックに関する質問に答えることができ、良い一致になります。
+- **ヘルパー**。LLM はテキストの要約、テキストから洞察を得るなど、テキストの生成（履歴書など）などが得意です。
+- **コード アシスタント**。使用する言語モデルに応じて、コード作成を支援するコード アシスタントを構築できます。たとえば、GitHub Copilot や ChatGPT などの製品を使用してコードの作成を支援できます。
 
-## How can I get started?
+## どのようにして開始できますか？
 
-Well, you need to find a way to integrate with an LLM which usually entails the following two approaches:
+LLM と統合する方法を見つける必要があり、通常は以下の 2 つのアプローチが必要です：
 
-- Use an API. Here you're constructing web requests with your prompt and get generated text back.
-- Use a library. Libraries help encapsulate the API calls and make them easier to use.
+- API を使用する。ここでは、プロンプトでウェブ リクエストを構築し、生成されたテキストを取得します。
+- ライブラリを使用する。ライブラリは API 呼び出しをカプセル化し、より使いやすくするのに役立ちます。
 
-## Libraries/SDKs
+## ライブラリ/SDK
 
-There are a few well known libraries for working with LLMs like:
+LLM を操作するための有名なライブラリがいくつかあります。たとえば：
 
-- **openai**, this library makes it easy to connect to your model and send in prompts.
+- **openai**、このライブラリを使用すると、モデルに簡単に接続してプロンプトを送信できます。
 
-Then there are libraries that operate on a higher level like:
+その後、より高いレベルで機能するライブラリがあります。たとえば：
 
-- **Langchain**. Langchain is well known and supports Python.
-- **Semantic Kernel**. Semantic Kernel is a library by Microsoft supporting the languages C#, Python, and Java.
+- **Langchain**。Langchain は有名で、Python をサポートしています。
+- **Semantic Kernel**。Semantic Kernel は Microsoft による C#、Python、Java をサポートするライブラリです。
 
-## First app using openai
+## openai を使用した最初のアプリ
 
-Let's see how we can build our first app, what libraries we need, how much is required and so on.
+最初のアプリを構築する方法、必要なライブラリ、必要な量などを見てみましょう。
 
-### Install openai
+### openai をインストール
 
-There are many libraries out there for interacting with OpenAI or Azure OpenAI. It's possible to use numerous programming languages as well like C#, Python, JavaScript, Java and more. We've chosen to use the `openai` Python library, so we'll use `pip` to install it.
+OpenAI または Azure OpenAI と対話するためのライブラリはたくさんあります。C#、Python、JavaScript、Java など、多くのプログラミング言語を使用することも可能です。`openai` Python ライブラリを使用することを選択したため、`pip` を使用してインストールします。
 
 ```bash
 pip install openai
 ```
 
-### Create a resource
+### リソースを作成する
 
-You need to carry out the following steps:
+以下のステップを実行する必要があります：
 
-- Create an account on Azure [https://azure.microsoft.com/free/](https://azure.microsoft.com/free/?WT.mc_id=academic-105485-koreyst).
-- Gain access to Azure OpenAI. Go to [https://learn.microsoft.com/azure/ai-services/openai/overview#how-do-i-get-access-to-azure-openai](https://learn.microsoft.com/azure/ai-services/openai/overview#how-do-i-get-access-to-azure-openai?WT.mc_id=academic-105485-koreyst) and request access.
+- Azure でアカウントを作成する [https://azure.microsoft.com/free/](https://azure.microsoft.com/free/?WT.mc_id=academic-105485-koreyst)。
+- Azure OpenAI にアクセスします。[https://learn.microsoft.com/azure/ai-services/openai/overview#how-do-i-get-access-to-azure-openai](https://learn.microsoft.com/azure/ai-services/openai/overview#how-do-i-get-access-to-azure-openai?WT.mc_id=academic-105485-koreyst) にアクセスしてアクセスをリクエストします。
 
   > [!NOTE]
-  > At the time of writing, you need to apply for access to Azure OpenAI.
+  > 執筆時点では、Azure OpenAI へのアクセスを申請する必要があります。
 
-- Install Python <https://www.python.org/>
-- Have created an Azure OpenAI Service resource. See this guide for how to [create a resource](https://learn.microsoft.com/azure/ai-services/openai/how-to/create-resource?pivots=web-portal?WT.mc_id=academic-105485-koreyst).
+- Python をインストールする <https://www.python.org/>
+- Azure OpenAI Service リソースを作成しました。リソースの作成方法については、[このガイド](https://learn.microsoft.com/azure/ai-services/openai/how-to/create-resource?pivots=web-portal?WT.mc_id=academic-105485-koreyst)を参照してください。
 
-### Locate API key and endpoint
-> [!TIP]JBSコメント
-今はMicrosoft Foundry でEndpointやキーを確認する方法が推奨です 。
+### API キーとエンドポイントを探す
 
-At this point, you need to tell your `openai` library what API key to use. To find your API key, go to "Keys and Endpoint" section of your Azure OpenAI resource and copy the "Key 1" value.
+> [!TIP]現在は Microsoft Foundry でエンドポイントとキーを確認する方法が推奨されています。
 
-![Keys and Endpoint resource blade in Azure Portal](https://learn.microsoft.com/azure/ai-services/openai/media/quickstarts/endpoint.png?WT.mc_id=academic-105485-koreyst)
+この時点で、`openai` ライブラリに使用する API キーを指示する必要があります。API キーを見つけるには、Azure OpenAI リソースの「キーとエンドポイント」セクションに移動して、「Key 1」の値をコピーします。
 
-Now that you have this information copied, let's instruct the libraries to use it.
+![Azure Portal のキーとエンドポイント リソース ブレード](https://learn.microsoft.com/azure/ai-services/openai/media/quickstarts/endpoint.png?WT.mc_id=academic-105485-koreyst)
+
+この情報をコピーしたので、ライブラリに使用するよう指示しましょう。
 
 > [!NOTE]
-> It's worth separating your API key from your code. You can do so by using environment variables.
+> API キーをコードから分離することは値があります。環境変数を使用してそうすることができます。
 >
-> - Set the environment variable `OPENAI_API_KEY` to your API key.
+> - 環境変数 `OPENAI_API_KEY` を API キーに設定します。
 >   `export OPENAI_API_KEY='sk-...'`
 
-### Setup configuration Azure
+### Azure 設定を構成する
 
-If you're using Azure OpenAI, here's how you setup configuration:
+Azure OpenAI を使用している場合、設定を構成する方法は以下の通りです：
 
 ```python
 openai.api_type = 'azure'
@@ -122,57 +122,53 @@ openai.api_version = '2023-05-15'
 openai.api_base = os.getenv("API_BASE")
 ```
 
-Above we're setting the following:
+上記では、以下を設定しています：
 
-- `api_type` to `azure`. This tells the library to use Azure OpenAI and not OpenAI.
-- `api_key`, this is your API key found in the Azure Portal.
-- `api_version`, this is the version of the API you want to use. At the time of writing, the latest version is `2023-05-15`.
-- `api_base`, this is the endpoint of the API. You can find it in the Azure Portal next to your API key.
+- `api_type` を `azure` に設定する。これはライブラリに Azure OpenAI を使用し、OpenAI ではなく使用するよう指示します。
+- `api_key`、これは Azure Portal にあります API キーです。
+- `api_version`、これは使用する API のバージョンです。執筆時点では、最新バージョンは `2023-05-15` です。
+- `api_base`、これは API のエンドポイントです。Azure Portal で API キーの横に見つけることができます。
 
-> [!NOTE] > `os.getenv` is a function that reads environment variables. You can use it to read environment variables like `OPENAI_API_KEY` and `API_BASE`. Set these environment variables in your terminal or by using a library like `dotenv`.
+> [!NOTE]
+> `os.getenv` は環境変数を読み込む関数です。`OPENAI_API_KEY` や `API_BASE` などの環境変数を読み込むために使用できます。これらの環境変数をターミナルで設定するか、`dotenv` などのライブラリを使用して設定します。
 
-## Generate text
+## テキストを生成する
 
-The way to generate text is to use the `Completion` class. Here's an example:
+テキストを生成する方法は、`Completion` クラスを使用することです。以下は例です：
 
 ```python
-prompt = "Complete the following: Once upon a time there was a"
+prompt = "次を完了してください：昔々、そこに"
 
 completion = openai.Completion.create(model="davinci-002", prompt=prompt)
 print(completion.choices[0].text)
 ```
 
-In the above code, we create a completion object and pass in the model we want to use and the prompt. Then we print the generated text.
+上のコードでは、完了オブジェクトを作成し、使用したいモデルとプロンプトを渡します。その後、生成されたテキストを出力します。
 
-### Chat completions
+### チャット補完
 
-So far, you've seen how we've been using `Completion` to generate text. But there's another class called `ChatCompletion` that is more suited for chatbots. Here's an example of using it:
+これまで、`Completion` を使用してテキストを生成する方法を見てきました。しかし、チャットボット用に、`ChatCompletion` という別のクラスがあります。以下はそれを使用する例です：
 
 ```python
 import openai
 
 openai.api_key = "sk-..."
 
-completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": "Hello world"}])
+completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": "こんにちは世界"}])
 print(completion.choices[0].message.content)
 ```
 
-More on this functionality in an upcoming chapter.
+この機能の詳細については、今後のチャプターを参照してください。
 
-## Exercise - your first text generation app
->[!NOTE]JBSコメント
-ファイル：aoai-app.py  
+## 演習 - 最初のテキスト生成アプリ
 
->[!IMPORTANT]JBSコメント
-ここで記載されているのは古いAzureOpenAI SDKを使用した方法です。
-現在はV1 API という新しいAPIを使うか、Microsft Foundry の ResponseAPI を呼び出す方法が推奨です。
-[Azure AI 推論 SDK から OpenAI SDK への移行](https://learn.microsoft.com/ja-jp/azure/ai-foundry/how-to/model-inference-to-openai-migration?tabs=openai&pivots=programming-language-python&view=foundry-classic)
-[Microsoft Foundry Models でテキスト応答を生成する方法](https://learn.microsoft.com/ja-jp/azure/ai-foundry/foundry-models/how-to/generate-responses?view=foundry-classic&tabs=python)
+> [!NOTE]ファイル：aoai-app.py
 
+> [!IMPORTANT]ここで記載されているのは古い Azure OpenAI SDK を使用した方法です。現在は V1 API という新しい API を使うか、Microsoft Foundry の ResponseAPI を呼び出す方法が推奨されます。[Azure AI 推論 SDK から OpenAI SDK への移行](https://learn.microsoft.com/ja-jp/azure/ai-foundry/how-to/model-inference-to-openai-migration?tabs=openai&pivots=programming-language-python&view=foundry-classic)、[Microsoft Foundry Models でテキスト応答を生成する方法](https://learn.microsoft.com/ja-jp/azure/ai-foundry/foundry-models/how-to/generate-responses?view=foundry-classic&tabs=python)
 
-Now that we learned how to set up and configure openai, it's time to build your first text generation app. To build your app, follow these steps:
+openai を設定して構成する方法を学びました。今度は最初のテキスト生成アプリを構築する時が来ました。アプリを構築するには、以下のステップに従います：
 
-1. Create a virtual environment and install openai:
+1. 仮想環境を作成して openai をインストールします：
 
    ```bash
    python -m venv venv
@@ -181,408 +177,418 @@ Now that we learned how to set up and configure openai, it's time to build your 
    ```
 
    > [!NOTE]
-   > If you're using Windows type `venv\Scripts\activate` instead of `source venv/bin/activate`.
+   > Windows を使用している場合は、`source venv/bin/activate` の代わりに `venv\Scripts\activate` と入力します。
 
    > [!NOTE]
-   > Locate your Azure OpenAI key by going to [https://portal.azure.com/](https://portal.azure.com/?WT.mc_id=academic-105485-koreyst) and search for `Open AI` and select the `Open AI resource` and then select `Keys and Endpoint` and copy the `Key 1` value.
+   > [https://portal.azure.com/](https://portal.azure.com/?WT.mc_id=academic-105485-koreyst) に移動して `Open AI` を検索し、`Open AI resource` を選択して `Keys and Endpoint` を選択して `Key 1` の値をコピーして Azure OpenAI キーを探します。
 
-1. Create an _app.py_ file and give it the following code:
+1. _app.py_ ファイルを作成し、以下のコードを与えます：
 
    ```python
    import openai
 
-   openai.api_key = "<replace this value with your open ai key or Azure OpenAI key>"
+   openai.api_key = "<この値を openai キーまたは Azure OpenAI キーで置き換えてください>"
 
    openai.api_type = 'azure'
    openai.api_version = '2023-05-15'
-   openai.api_base = "<endpoint found in Azure Portal where your API key is>"
-   deployment_name = "<deployment name>"
+   openai.api_base = "<Azure Portal で API キーがある場所にあるエンドポイント>"
+   deployment_name = "<デプロイメント名>"
 
-   # add your completion code
-   prompt = "Complete the following: Once upon a time there was a"
+   # 完了コードを追加します
+   prompt = "次を完了してください：昔々、そこに"
    messages = [{"role": "user", "content": prompt}]
 
-   # make completion
+   # 補完を実行する
    completion = openai.chat.completions.create(model=deployment_name, messages=messages)
 
-   # print response
+   # 応答を出力する
    print(completion.choices[0].message.content)
    ```
 
    > [!NOTE]
-   > If you're using Azure OpenAI, you need to set the `api_type` to `azure` and set the `api_key` to your Azure OpenAI key.
+   > Azure OpenAI を使用している場合は、`api_type` を `azure` に設定し、`api_key` を Azure OpenAI キーに設定する必要があります。
 
-   You should see an output like the following:
+   以下のような出力が表示されます：
 
    ```output
-    very unhappy _____.
+   とても不幸な _____.
 
-   Once upon a time there was a very unhappy mermaid.
+   昔々、そこにはとても不幸な人魚がいました。
    ```
 
-## Different types of prompts, for different things
+## 異なることのための異なるタイプのプロンプト
 
-Now you've seen how to generate text using a prompt. You even have a program up and running that you can modify and change to generate different types of text.
+これで、プロンプトを使用してテキストを生成する方法を見ました。異なるタイプのテキストを生成するために変更して変更できる実行中のプログラムさえあります。
 
-Prompts can be used for all sorts of tasks. For example:
+プロンプトはあらゆる種類のタスクに使用できます。たとえば：
 
-- **Generate a type of text**. For example, you can generate a poem, questions for a quiz etc.
-- **Lookup information**. You can use prompts to look for information like the following example 'What does CORS mean in web development?'.
-- **Generate code**. You can use prompts to generate code, for example developing a regular expression used to validate emails or why not generate an entire program, like a web app?
+- **テキストのタイプを生成する**。たとえば、詩を生成したり、クイズの質問を生成したりできます。
+- **情報を検索する**。以下の例「Web 開発で CORS とは？」のような情報を検索するためにプロンプトを使用できます。
+- **コードを生成する**。メール検証に使用される正規表現を開発したり、Web アプリなどのプログラム全体を生成したりできます。
 
-## A more practical use case: a recipe generator
+## より実用的なユース ケース：レシピ ジェネレーター
+
 **JBSコメント：aoai-app-recipe.py**
 
-Imagine you have ingredients at home and you want to cook something. For that, you need a recipe. A way to find recipes is to use a search engine or you could use an LLM to do so.
+家に材料があり、何か調理したいと想像してください。そのためには、レシピが必要です。レシピを見つける方法は、検索エンジンを使用することか、LLM を使用することです。
 
-You could write a prompt like so:
+以下のようなプロンプトを書くことができます：
 
-> "Show me 5 recipes for a dish with the following ingredients: chicken, potatoes, and carrots. Per recipe, list all the ingredients used"
+> 「次の材料でのディッシュの 5 つのレシピを表示してください：鶏肉、ジャガイモ、ニンジン。レシピごとに、使用されたすべての材料をリストしてください」
 
-Given the above prompt, you might get a response similar to:
-
-```output
-1. Roasted Chicken and Vegetables:
-Ingredients:
-- 4 chicken thighs
-- 2 potatoes, cut into cubes
-- 2 carrots, cut into cubes
-- 2 tablespoons olive oil
-- 2 cloves garlic, minced
-- 1 teaspoon dried thyme
-- 1 teaspoon dried oregano
-- Salt and pepper, to taste
-
-2. Chicken and Potato Stew:
-Ingredients:
-- 2 tablespoons olive oil
-- 1 onion, diced
-- 2 cloves garlic, minced
-- 2 chicken breasts, cut into cubes
-- 2 potatoes, cut into cubes
-- 2 carrots, cut into cubes
-- 1 teaspoon dried oregano
-- 1 teaspoon dried thyme
-- 1 cup chicken broth
-- Salt and pepper, to taste
-
-3. Chicken and Potato Bake:
-Ingredients:
-- 2 tablespoons olive oil
-- 2 chicken breasts, cut into cubes
-- 2 potatoes, cut into cubes
-- 2 carrots, cut into cubes
-- 1 onion, diced
-- 2 cloves garlic, minced
-- 1 teaspoon dried oregano
-- 1 teaspoon dried thyme
-- 1 cup chicken broth
-- Salt and pepper, to taste
-
-4. Chicken and Potato Soup:
-Ingredients:
-- 2 tablespoons olive oil
-- 1 onion, diced
-- 2 cloves garlic, minced
-- 2 chicken breasts, cut into cubes
-- 2 potatoes, cut into cubes
-- 2 carrots, cut into cubes
-- 1 teaspoon dried oregano
-- 1 teaspoon dried thyme
-- 4 cups chicken broth
-- Salt and pepper, to taste
-
-5. Chicken and Potato Hash:
-Ingredients:
-- 2 tablespoons olive oil
-- 2 chicken breasts, cut into cubes
-- 2 potatoes, cut into cubes
-- 2 carrots, cut into cubes
-- 1 onion, diced
-- 2 cloves garlic, minced
-- 1 teaspoon dried oregano
-```
-
-This outcome is great, I know what to cook. At this point, what could be useful improvements are:
-
-- Filtering out ingredients I don't like or am allergic to.
-- Produce a shopping list, in case I don't have all the ingredients at home.
-
-For the above cases, let's add an additional prompt:
-
-> "Please remove recipes with garlic as I'm allergic and replace it with something else. Also, please produce a shopping list for the recipes, considering I already have chicken, potatoes and carrots at home."
-
-Now you have a new result, namely:
+上記のプロンプトを考えると、次のような応答が得られる可能性があります：
 
 ```output
-1. Roasted Chicken and Vegetables:
-Ingredients:
-- 4 chicken thighs
-- 2 potatoes, cut into cubes
-- 2 carrots, cut into cubes
-- 2 tablespoons olive oil
-- 1 teaspoon dried thyme
-- 1 teaspoon dried oregano
-- Salt and pepper, to taste
+1. ローストチキンと野菜：
+材料：
+- 鶏もも肉 4 個
+- じゃがいも 2 個、立方体にカット
+- ニンジン 2 本、立方体にカット
+- オリーブ オイル 大さじ 2
+- ニンニク 2 片、みじん切り
+- ドライ タイム小さじ 1
+- ドライ オレガノ小さじ 1
+- 塩とコショウ、お好みで
 
-2. Chicken and Potato Stew:
-Ingredients:
-- 2 tablespoons olive oil
-- 1 onion, diced
-- 2 chicken breasts, cut into cubes
-- 2 potatoes, cut into cubes
-- 2 carrots, cut into cubes
-- 1 teaspoon dried oregano
-- 1 teaspoon dried thyme
-- 1 cup chicken broth
-- Salt and pepper, to taste
+2. チキンとポテト スチュー：
+材料：
+- オリーブ オイル 大さじ 2
+- 玉ねぎ 1 個、粗みじん切り
+- ニンニク 2 片、みじん切り
+- 鶏胸肉 2 個、立方体にカット
+- じゃがいも 2 個、立方体にカット
+- ニンジン 2 本、立方体にカット
+- ドライ オレガノ小さじ 1
+- ドライ タイム小さじ 1
+- 鶏スープ 1 カップ
+- 塩とコショウ、お好みで
 
-3. Chicken and Potato Bake:
-Ingredients:
-- 2 tablespoons olive oil
-- 2 chicken breasts, cut into cubes
-- 2 potatoes, cut into cubes
-- 2 carrots, cut into cubes
-- 1 onion, diced
-- 1 teaspoon dried oregano
-- 1 teaspoon dried thyme
-- 1 cup chicken broth
-- Salt and pepper, to taste
+3. チキンとポテト キャセロール：
+材料：
+- オリーブ オイル 大さじ 2
+- 鶏胸肉 2 個、立方体にカット
+- じゃがいも 2 個、立方体にカット
+- ニンジン 2 本、立方体にカット
+- 玉ねぎ 1 個、粗みじん切り
+- ニンニク 2 片、みじん切り
+- ドライ オレガノ小さじ 1
+- ドライ タイム小さじ 1
+- 鶏スープ 1 カップ
+- 塩とコショウ、お好みで
 
-4. Chicken and Potato Soup:
-Ingredients:
-- 2 tablespoons olive oil
-- 1 onion, diced
-- 2 chicken breasts, cut into cubes
-- 2 potatoes, cut into cubes
-- 2 carrots, cut into cubes
-- 1 teaspoon dried oregano
-- 1 teaspoon dried thyme
-- 4 cups chicken broth
-- Salt and pepper, to taste
+4. チキンとポテト スープ：
+材料：
+- オリーブ オイル 大さじ 2
+- 骨なし、皮なし鶏もも肉 1 ポンド、立方体にカット
+- 玉ねぎ 1 個、粗みじん切り
+- ニンニク 3 片、みじん切り
+- ニンジン 1 本、皮をむいて粗みじん切り
+- じゃがいも 1 個、皮をむいて粗みじん切り
+- ローレル 1 枚
+- タイム小枝 1 本
+- 塩小さじ 1/2
+- 黒こしょう小さじ 1/4
+- 鶏スープ 2 カップ
+- ドライ 白ワイン 1/2 カップ
 
-5. Chicken and Potato Hash:
-Ingredients:
-- 2 tablespoons olive oil
-- 2 chicken breasts, cut into cubes
-- 2 potatoes, cut into cubes
-- 2 carrots, cut into cubes
-- 1 onion, diced
-- 1 teaspoon dried oregano
-
-Shopping List:
-- Olive oil
-- Onion
-- Thyme
-- Oregano
-- Salt
-- Pepper
+5. チキンとポテト カレー：
+材料：
+- 野菜油 大さじ 1
+- 玉ねぎ 1 個、粗みじん切り
+- ニンニク 2 片、みじん切り
+- ニンジン 1 本、皮をむいて粗みじん切り
+- じゃがいも 1 個、皮をむいて粗みじん切り
+- コリアンダーの粉小さじ 1
+- クミンの粉小さじ 1
+- ウコンの粉小さじ 1/2
+- ショウガの粉小さじ 1/2
+- カイエン ペッパー小さじ 1/4
+- 鶏スープ 2 カップ
+- ドライ 白ワイン 1/2 カップ
+- ひよこ豆 1 缶 (15 オンス)、水気を切り、濯ぐ
+- レーズン 1/2 カップ
+- 新鮮なコリアンダーの粗みじん切り 1/2 カップ
 ```
 
-That's your five recipes, with no garlic mentioned and you also have a shopping list considering what you already have at home.
+この結果は素晴らしいです。何を調理するかがわかります。この時点で、何が有用な改善になるかは以下の通りです：
 
-## Exercise - build a recipe generator
+- 好きではない、またはアレルギーがある材料をフィルタリングします。
+- 買い物リストを作成します。ホームでしているすべての材料がない場合に備えて。
 
-Now that we have played out a scenario, let's write code to match the demonstrated scenario. To do so, follow these steps:
+上記のケースでは、追加のプロンプトを追加しましょう：
 
-1. Use the existing _app.py_ file as a starting point
-1. Locate the `prompt` variable and change its code to the following:
+> 「ニンニクがアレルギーがあるため、レシピから削除して、別のもので置き換えてください。また、レシピの買い物リストを作成してください。ホームで既にチキン、ジャガイモ、ニンジンがあることを考えてください。」
+
+これで新しい結果が得られます。つまり：
+
+```output
+1. ローストチキンと野菜：
+材料：
+- 鶏もも肉 4 個
+- じゃがいも 2 個、立方体にカット
+- ニンジン 2 本、立方体にカット
+- オリーブ オイル 大さじ 2
+- ドライ タイム小さじ 1
+- ドライ オレガノ小さじ 1
+- 塩とコショウ、お好みで
+
+2. チキンとポテト スチュー：
+材料：
+- オリーブ オイル 大さじ 2
+- 玉ねぎ 1 個、粗みじん切り
+- 鶏胸肉 2 個、立方体にカット
+- じゃがいも 2 個、立方体にカット
+- ニンジン 2 本、立方体にカット
+- ドライ オレガノ小さじ 1
+- ドライ タイム小さじ 1
+- 鶏スープ 1 カップ
+- 塩とコショウ、お好みで
+
+3. チキンとポテト キャセロール：
+材料：
+- オリーブ オイル 大さじ 2
+- 鶏胸肉 2 個、立方体にカット
+- じゃがいも 2 個、立方体にカット
+- ニンジン 2 本、立方体にカット
+- 玉ねぎ 1 個、粗みじん切り
+- ドライ オレガノ小さじ 1
+- ドライ タイム小さじ 1
+- 鶏スープ 1 カップ
+- 塩とコショウ、お好みで
+
+4. チキンとポテト スープ：
+材料：
+- オリーブ オイル 大さじ 2
+- 骨なし、皮なし鶏胸肉 2 個、立方体にカット
+- じゃがいも 2 個、立方体にカット
+- ニンジン 2 本、立方体にカット
+- ドライ オレガノ小さじ 1
+- ドライ タイム小さじ 1
+- 鶏スープ 4 カップ
+- 塩とコショウ、お好みで
+
+5. チキンとポテト ハッシュ：
+材料：
+- オリーブ オイル 大さじ 2
+- 鶏胸肉 2 個、立方体にカット
+- じゃがいも 2 個、立方体にカット
+- ニンジン 2 本、立方体にカット
+- 玉ねぎ 1 個、粗みじん切り
+- ドライ オレガノ小さじ 1
+
+ショッピング リスト：
+- オリーブ オイル
+- 玉ねぎ
+- タイム
+- オレガノ
+- 塩
+- コショウ
+```
+
+5 つのレシピがあり、ニンニンニンニクについては言及されておらず、ホームで既にあるものを考慮した買い物リストもあります。
+
+## 演習 - レシピ ジェネレーターを構築する
+
+シナリオを演じたことで、それに一致するコードを書きましょう。そうするには、以下のステップに従います：
+
+1. 既存の _app.py_ ファイルを開始点として使用します。
+1. `prompt` 変数を見つけ、そのコードを以下に変更します：
 
    ```python
-   prompt = "Show me 5 recipes for a dish with the following ingredients: chicken, potatoes, and carrots. Per recipe, list all the ingredients used"
+   prompt = "次の材料でのディッシュの 5 つのレシピを表示してください：鶏肉、ジャガイモ、ニンジン。レシピごとに、使用されたすべての材料をリストしてください"
    ```
 
-   If you now run the code, you should see an output similar to:
+   これでコードを実行すると、次のような出力が表示されます：
 
    ```output
-   -Chicken Stew with Potatoes and Carrots: 3 tablespoons oil, 1 onion, chopped, 2 cloves garlic, minced, 1 carrot, peeled and chopped, 1 potato, peeled and chopped, 1 bay leaf, 1 thyme sprig, 1/2 teaspoon salt, 1/4 teaspoon black pepper, 1 1/2 cups chicken broth, 1/2 cup dry white wine, 2 tablespoons chopped fresh parsley, 2 tablespoons unsalted butter, 1 1/2 pounds boneless, skinless chicken thighs, cut into 1-inch pieces
-   -Oven-Roasted Chicken with Potatoes and Carrots: 3 tablespoons extra-virgin olive oil, 1 tablespoon Dijon mustard, 1 tablespoon chopped fresh rosemary, 1 tablespoon chopped fresh thyme, 4 cloves garlic, minced, 1 1/2 pounds small red potatoes, quartered, 1 1/2 pounds carrots, quartered lengthwise, 1/2 teaspoon salt, 1/4 teaspoon black pepper, 1 (4-pound) whole chicken
-   -Chicken, Potato, and Carrot Casserole: cooking spray, 1 large onion, chopped, 2 cloves garlic, minced, 1 carrot, peeled and shredded, 1 potato, peeled and shredded, 1/2 teaspoon dried thyme leaves, 1/4 teaspoon salt, 1/4 teaspoon black pepper, 2 cups fat-free, low-sodium chicken broth, 1 cup frozen peas, 1/4 cup all-purpose flour, 1 cup 2% reduced-fat milk, 1/4 cup grated Parmesan cheese
+   -チキン スチュー（ジャガイモとニンジン付き）：大さじ 3 油、玉ねぎ 1 個みじん切り、ニンニク 2 片みじん切り、ニンジン 1 本、皮をむいて細かく切ったもの、じゃがいも 1 個、皮をむいて細かく切ったもの、ローレル 1 枚、タイム 1 小枝、塩小さじ 1/2、黒こしょう小さじ 1/4、鶏スープ 1 1/2 カップ、ドライ 白ワイン 1/2 カップ、新鮮なパセリのみじん切り 大さじ 2、塩漬けバター 大さじ 1、ドライ タイム小さじ 1、骨なし、皮なし鶏もも肉 1.5 ポンド、1 インチのピースにカット
+   -オーブン ロースト チキン（ジャガイモとニンジン付き）：大さじ 3 エクストラバージン オリーブ オイル、大さじ 1 ディジョン マスタード、大さじ 1 新鮮なローズマリーのみじん切り、大さじ 1 新鮮なタイムのみじん切り、ニンニク 4 片みじん切り、赤じゃがいも 1.5 ポンド小粒、4 分の 1 切り、ニンジン 1.5 ポンド、長さ方向に 4 分の 1 に切ったもの、塩小さじ 1/2、黒こしょう小さじ 1/4、丸ごと鶏肉 1 羽 (4 ポンド)
+   -チキン、ポテト、ニンジン キャセロール：調理用スプレー、玉ねぎ 1 個大粒みじん切り、ニンニク 2 片みじん切り、ニンジン 1 本、皮をむいてすりおろしたもの、じゃがいも 1 個、皮をむいてすりおろしたもの、乾燥タイム葉小さじ 1/2、塩小さじ 1/4、黒こしょう小さじ 1/4、低脂肪低ナトリウム鶏スープ 2 カップ、冷凍グリーン ピース 1 カップ、全粒粉 1/4 カップ、2% 低脂肪乳 1 カップ、パルメザン チーズ粉 1/4 カップ
 
-   -One Pot Chicken and Potato Dinner: 2 tablespoons olive oil, 1 pound boneless, skinless chicken thighs, cut into 1-inch pieces, 1 large onion, chopped, 3 cloves garlic, minced, 1 carrot, peeled and chopped, 1 potato, peeled and chopped, 1 bay leaf, 1 thyme sprig, 1/2 teaspoon salt, 1/4 teaspoon black pepper, 2 cups chicken broth, 1/2 cup dry white wine
+   -ワンポット チキンとポテト ディナー：オリーブ オイル 大さじ 2、骨なし皮なし鶏もも肉 1 ポンド、1 インチのピースに切ったもの、玉ねぎ 1 個大粒みじん切り、ニンニク 3 片みじん切り、ニンジン 1 本、皮をむいてみじん切り、じゃがいも 1 個、皮をむいてみじん切り、ローレル 1 枚、タイム 1 小枝、塩小さじ 1/2、黒こしょう小さじ 1/4、鶏スープ 2 カップ、ドライ 白ワイン 1/2 カップ
 
-   -Chicken, Potato, and Carrot Curry: 1 tablespoon vegetable oil, 1 large onion, chopped, 2 cloves garlic, minced, 1 carrot, peeled and chopped, 1 potato, peeled and chopped, 1 teaspoon ground coriander, 1 teaspoon ground cumin, 1/2 teaspoon ground turmeric, 1/2 teaspoon ground ginger, 1/4 teaspoon cayenne pepper, 2 cups chicken broth, 1/2 cup dry white wine, 1 (15-ounce) can chickpeas, drained and rinsed, 1/2 cup raisins, 1/2 cup chopped fresh cilantro
+   -チキン、ポテト、ニンジン カレー：大さじ 1 野菜油、玉ねぎ 1 個大粒みじん切り、ニンニク 2 片みじん切り、ニンジン 1 本、皮をむいてみじん切り、じゃがいも 1 個、皮をむいてみじん切り、コリアンダーの粉小さじ 1、クミンの粉小さじ 1、ウコンの粉小さじ 1/2、ショウガの粉小さじ 1/2、カイエン ペッパー小さじ 1/4、鶏スープ 2 カップ、ドライ 白ワイン 1/2 カップ、ひよこ豆 1 缶 (15 オンス)、水気を切り、濯ぐ、レーズン 1/2 カップ、新鮮なコリアンダーのみじん切り 1/2 カップ
    ```
 
-   > NOTE, your LLM is nondeterministic, so you might get different results every time you run the program.
+   > 注：LLM は非決定論的なため、プログラムを実行するたびに異なる結果が得られる可能性があります。
 
-   Great, let's see how we can improve things. To improve things, we want to make sure the code is flexible, so ingredients and number of recipes can be improved and changed.
+   素晴らしい、どのようにものを改善できるかを見てみましょう。ものを改善するために、コードが柔軟になるようにしたいので、材料とレシピの数を改善および変更できます。
 
-1. Let's change the code in the following way:
+1. 次のようにコードを変更してみましょう：
 
    ```python
-   no_recipes = input("No of recipes (for example, 5): ")
+   no_recipes = input("レシピ数（例：5）：")
 
-   ingredients = input("List of ingredients (for example, chicken, potatoes, and carrots): ")
+   ingredients = input("材料のリスト（例：鶏肉、ジャガイモ、ニンジン）：")
 
-   # interpolate the number of recipes into the prompt an ingredients
-   prompt = f"Show me {no_recipes} recipes for a dish with the following ingredients: {ingredients}. Per recipe, list all the ingredients used"
+   # レシピの数と材料をプロンプトに補間します
+   prompt = f"次の材料でのディッシュの {no_recipes} つのレシピを表示してください：{ingredients}。レシピごとに、使用されたすべての材料をリストしてください"
    ```
 
-   Taking the code for a test run, could look like this:
+   コードをテスト実行すると、以下のようになります：
 
    ```output
-   No of recipes (for example, 5): 3
-   List of ingredients (for example, chicken, potatoes, and carrots): milk,strawberries
+   レシピ数（例：5）：3
+   材料のリスト（例：鶏肉、ジャガイモ、ニンジン）：牛乳、いちご
 
-   -Strawberry milk shake: milk, strawberries, sugar, vanilla extract, ice cubes
-   -Strawberry shortcake: milk, flour, baking powder, sugar, salt, unsalted butter, strawberries, whipped cream
-   -Strawberry milk: milk, strawberries, sugar, vanilla extract
+   -イチゴ ミルク シェイク：牛乳、いちご、砂糖、バニラ エキス、氷
+   -イチゴ ショートケーキ：牛乳、小麦粉、ベーキング パウダー、砂糖、塩、無塩バター、いちご、ホイップ クリーム
+   -イチゴ ミルク：牛乳、いちご、砂糖、バニラ エキス
    ```
 
-### Improve by adding filter and shopping list
+### フィルターと買い物リストを追加して改善する
 
-We now have a working app capable of producing recipes and it's flexible as it relies on inputs from the user, both on the number of recipes but also the ingredients used.
+これまでのところ、レシピを生成し、レシピ数と使用されている材料の両方のユーザー入力に依存するため、柔軟性のあるコードを実行できました。
 
-To further improve it, we want to add the following:
+さらに改善するために、以下を追加したいです：
 
-- **Filter out ingredients**. We want to be able to filter out ingredients we don't like or are allergic to. To accomplish this change, we can edit our existing prompt and add a filter condition to the end of it like so:
+- **材料をフィルタリングします**。好きではない、またはアレルギーがある材料をフィルタリングできるようにしたいです。この変更を実現するために、既存のプロンプトを編集し、次のようなフィルタ条件をその末尾に追加できます：
 
   ```python
-  filter = input("Filter (for example, vegetarian, vegan, or gluten-free): ")
+  filter = input("フィルター（例：ベジタリアン、ビーガン、またはグルテンフリー）：")
 
-  prompt = f"Show me {no_recipes} recipes for a dish with the following ingredients: {ingredients}. Per recipe, list all the ingredients used, no {filter}"
+  prompt = f"次の材料でのディッシュの {no_recipes} つのレシピを表示してください：{ingredients}。レシピごとに、使用されたすべての材料をリストしてください。{filter} なし"
   ```
 
-  Above, we add `{filter}` to the end of the prompt and we also capture the filter value from the user.
+  上記では、プロンプトの末尾に `{filter}` を追加し、ユーザーからのフィルター値もキャプチャしています。
 
-  An example input of running the program can now look like so:
+  プログラムを実行する入力例は次のようになります：
 
   ```output
-  No of recipes (for example, 5): 3
-  List of ingredients (for example, chicken, potatoes, and carrots): onion,milk
-  Filter (for example, vegetarian, vegan, or gluten-free): no milk
+  レシピ数（例：5）：3
+  材料のリスト（例：鶏肉、ジャガイモ、ニンジン）：玉ねぎ、牛乳
+  フィルター（例：ベジタリアン、ビーガン、またはグルテンフリー）：牛乳なし
 
-  1. French Onion Soup
+  1. フレンチ オニオン スープ
 
-  Ingredients:
+  材料：
 
-  -1 large onion, sliced
-  -3 cups beef broth
-  -1 cup milk
-  -6 slices french bread
-  -1/4 cup shredded Parmesan cheese
-  -1 tablespoon butter
-  -1 teaspoon dried thyme
-  -1/4 teaspoon salt
-  -1/4 teaspoon black pepper
+  -大粒玉ねぎ 1 個、スライス
+  -牛肉スープ 3 カップ
+  -牛乳 1 カップ
+  -フランスパン スライス 6 枚
+  -粉チーズ 1/4 カップ
+  -バター 大さじ 1
+  -ドライ タイム小さじ 1
+  -塩小さじ 1/4
+  -黒こしょう小さじ 1/4
 
-  Instructions:
+  指示：
 
-  1. In a large pot, sauté onions in butter until golden brown.
-  2. Add beef broth, milk, thyme, salt, and pepper. Bring to a boil.
-  3. Reduce heat and simmer for 10 minutes.
-  4. Place french bread slices on soup bowls.
-  5. Ladle soup over bread.
-  6. Sprinkle with Parmesan cheese.
+  1. 大鍋で、バターで玉ねぎを炒め、黄金色になるまで。
+  2. 牛肉スープ、牛乳、タイム、塩、コショウを追加します。沸騰させます。
+  3. 熱を下げ、10 分間弱火で煮込みます。
+  4. スープ ボウルにフランスパン スライスを置きます。
+  5. スープをパンの上に入れます。
+  6. パルメザン チーズをふりかけます。
 
-  2. Onion and Potato Soup
+  2. 玉ねぎとポテト スープ
 
-  Ingredients:
+  材料：
 
-  -1 large onion, chopped
-  -2 cups potatoes, diced
-  -3 cups vegetable broth
-  -1 cup milk
-  -1/4 teaspoon black pepper
+  -大粒玉ねぎ 1 個、粗みじん切り
+  -さいの目切りしたジャガイモ 2 カップ
+  -野菜スープ 3 カップ
+  -牛乳 1 カップ
+  -黒こしょう小さじ 1/4
 
-  Instructions:
+  指示：
 
-  1. In a large pot, sauté onions in butter until golden brown.
-  2. Add potatoes, vegetable broth, milk, and pepper. Bring to a boil.
-  3. Reduce heat and simmer for 10 minutes.
-  4. Serve hot.
+  1. 大鍋で、バターで玉ねぎを炒め、黄金色になるまで。
+  2. ジャガイモ、野菜スープ、牛乳、コショウを追加します。沸騰させます。
+  3. 熱を下げ、10 分間弱火で煮込みます。
+  4. ホットで提供します。
 
-  3. Creamy Onion Soup
+  3. クリーミー オニオン スープ
 
-  Ingredients:
+  材料：
 
-  -1 large onion, chopped
-  -3 cups vegetable broth
-  -1 cup milk
-  -1/4 teaspoon black pepper
-  -1/4 cup all-purpose flour
-  -1/2 cup shredded Parmesan cheese
+  -大粒玉ねぎ 1 個、粗みじん切り
+  -野菜スープ 3 カップ
+  -牛乳 1 カップ
+  -黒こしょう小さじ 1/4
+  -全粒粉 1/4 カップ
+  -粉チーズ 1/2 カップ
 
-  Instructions:
+  指示：
 
-  1. In a large pot, sauté onions in butter until golden brown.
-  2. Add vegetable broth, milk, and pepper. Bring to a boil.
-  3. Reduce heat and simmer for 10 minutes.
-  4. In a small bowl, whisk together flour and Parmesan cheese until smooth.
-  5. Add to soup and simmer for an additional 5 minutes, or until soup has thickened.
+  1. 大鍋で、バターで玉ねぎを炒め、黄金色になるまで。
+  2. 野菜スープ、牛乳、コショウを追加します。沸騰させます。
+  3. 熱を下げ、10 分間弱火で煮込みます。
+  4. 小さなボウルで、小麦粉とパルメザン チーズを一緒に泡立てたが滑らかになるまで。
+  5. スープに追加し、5 分間さらに煮込むか、スープが厚くなるまで。
   ```
 
-  As you can see, any recipes with milk in it has been filtered out. But, if you're lactose intolerant, you might want to filter out recipes with cheese in them as well, so there's a need to be clear.
+  ご覧のとおり、牛乳が含まれるレシピはフィルタリングされています。ただし、乳糖不耐症の場合、チーズが含まれるレシピもフィルタリングしたい場合があるため、明確にする必要があります。
 
-- **Produce a shopping list**. We want to produce a shopping list, considering what we already have at home.
+- **買い物リストを生成します**。ホームで既にあるものを考慮した買い物リストを生成したいです。
 
-  For this functionality, we could either try to solve everything in one prompt or we could split it up into two prompts. Let's try the latter approach. Here we're suggesting adding an additional prompt, but for that to work, we need to add the result of the former prompt as context to the latter prompt.
+  この機能では、1 つのプロンプトですべてを解決したり、2 つのプロンプトに分割したりできます。後者のアプローチを試してみましょう。ここでは、追加のプロンプトを追加することを提案しており、それで動作するために、最初のプロンプトの結果を後者のプロンプトにコンテキストとして追加する必要があります。
 
-  Locate the part in the code that prints out the result from the first prompt and add the following code below:
+  最初のプロンプトからの結果を出力する部分を探し、以下のコードを追加します：
 
   ```python
   old_prompt_result = completion.choices[0].message.content
-  prompt = "Produce a shopping list for the generated recipes and please don't include ingredients that I already have."
+  prompt = "生成されたレシピの買い物リストを作成してください。既にホームにある材料は含めないでください。"
 
   new_prompt = f"{old_prompt_result} {prompt}"
   messages = [{"role": "user", "content": new_prompt}]
   completion = openai.Completion.create(engine=deployment_name, messages=messages, max_tokens=1200)
 
-  # print response
-  print("Shopping list:")
+  # 応答を出力する
+  print("ショッピング リスト：")
   print(completion.choices[0].message.content)
   ```
 
-  Note the following:
+  以下に注意してください：
 
-  1. We're constructing a new prompt by adding the result from the first prompt to the new prompt:
+  1. 最初のプロンプトの結果を新しいプロンプトに追加することで、新しいプロンプトを構築しています：
 
      ```python
      new_prompt = f"{old_prompt_result} {prompt}"
      ```
 
-  1. We make a new request, but also considering the number of tokens we asked for in the first prompt, so this time we say `max_tokens` is 1200.
+  1. 新しいリクエストを行いますが、最初のプロンプトで要求したトークン数も考慮しているため、今回は `max_tokens` が 1200 です。
 
      ```python
      completion = openai.Completion.create(engine=deployment_name, prompt=new_prompt, max_tokens=1200)
      ```
 
-     Taking this code for a spin, we now arrive at the following output:
+     このコードを実行してみると、次の出力に到達します：
 
      ```output
-     No of recipes (for example, 5): 2
-     List of ingredients (for example, chicken, potatoes, and carrots): apple,flour
-     Filter (for example, vegetarian, vegan, or gluten-free): sugar
+     レシピ数（例：5）：2
+     材料のリスト（例：鶏肉、ジャガイモ、ニンジン）：りんご、小麦粉
+     フィルター（例：ベジタリアン、ビーガン、またはグルテンフリー）：砂糖
 
 
-     -Apple and flour pancakes: 1 cup flour, 1/2 tsp baking powder, 1/2 tsp baking soda, 1/4 tsp salt, 1 tbsp sugar, 1 egg, 1 cup buttermilk or sour milk, 1/4 cup melted butter, 1 Granny Smith apple, peeled and grated
-     -Apple fritters: 1-1/2 cups flour, 1 tsp baking powder, 1/4 tsp salt, 1/4 tsp baking soda, 1/4 tsp nutmeg, 1/4 tsp cinnamon, 1/4 tsp allspice, 1/4 cup sugar, 1/4 cup vegetable shortening, 1/4 cup milk, 1 egg, 2 cups shredded, peeled apples
-     Shopping list:
-     -Flour, baking powder, baking soda, salt, sugar, egg, buttermilk, butter, apple, nutmeg, cinnamon, allspice
+     -リンゴと小麦粉のパンケーキ：小麦粉 1 カップ、ベーキング パウダー小さじ 1/2、重曹小さじ 1/2、塩小さじ 1/4、砂糖 大さじ 1、卵 1 個、バターミルクまたはサワー ミルク 1 カップ、溶かしバター 1/4 カップ、グラニー スミス りんご 1 個、皮をむいてすりおろしたもの
+     -リンゴ フリッター：小麦粉 1 - 1/2 カップ、ベーキング パウダー小さじ 1、塩小さじ 1/4、重曹小さじ 1/4、ナツメグ小さじ 1/4、シナモン小さじ 1/4、オールスパイス小さじ 1/4、砂糖 1/4 カップ、野菜ショートニング 1/4 カップ、牛乳 1/4 カップ、卵 1 個、粗くすりおろし、皮をむいたリンゴ 2 カップ
+     ショッピング リスト：
+     -小麦粉、ベーキング パウダー、重曹、塩、砂糖、卵、バターミルク、バター、リンゴ、ナツメグ、シナモン、オールスパイス
      ```
 
-## Improve your setup
+## セットアップを改善する
 
-What we have so far is code that works, but there are some tweaks we should be doing to improve things further. Some things we should do are:
+これまでのところ、動作するコードがありますが、さらに改善するために実行するべき調整があります。実行する必要があることは以下の通りです：
 
-- **Separate secrets from code**, like the API key. Secrets do not belong in code and should be stored in a secure location. To separate secrets from code, we can use environment variables and libraries like `python-dotenv` to load them from a file. Here's how that would look like in code:
+- **API キーなどのシークレットをコードから分離します**。シークレットはコードに属さず、安全な場所に保存する必要があります。シークレットをコードから分離するには、環境変数と `python-dotenv` などのライブラリを使用してそれらをファイルから読み込むことができます。コードでどのように見えるかを示します：
 
-  1. Create a `.env` file with the following content:
+  1. 以下の内容で `.env` ファイルを作成します：
 
      ```bash
      OPENAI_API_KEY=sk-...
      ```
 
-     > Note, for Azure, you need to set the following environment variables:
+     > 注：Azure の場合は、以下の環境変数を設定する必要があります：
 
      ```bash
      OPENAI_API_TYPE=azure
      OPENAI_API_VERSION=2023-05-15
-     OPENAI_API_BASE=<replace>
+     OPENAI_API_BASE=<置き換え>
      ```
 
-     In code, you would load the environment variables like so:
+     コードで、環境変数は次のようにロードします：
 
      ```python
      from dotenv import load_dotenv
@@ -592,76 +598,76 @@ What we have so far is code that works, but there are some tweaks we should be d
      openai.api_key = os.environ["OPENAI_API_KEY"]
      ```
 
-- **A word on token length**. We should consider how many tokens we need to generate the text we want. Tokens cost money, so where possible, we should try to be economical with the number of tokens we use. For example, can we phrase the prompt so that we can use less tokens?
+- **トークン長に関する単語**。テキストを生成するために必要なトークン数をどの程度考慮する必要があります。トークンは費用がかかるため、可能な場合は、使用するトークン数で経済的であることを試みるべきです。たとえば、プロンプトをフレーズして使用するトークンが少なくなるようにできますか？
 
-  To change the tokens used, you can use the `max_tokens` parameter. For example, if you want to use 100 tokens, you would do:
+  使用されるトークンを変更するには、`max_tokens` パラメータを使用できます。たとえば、100 トークンを使用する場合は、以下を実行します：
 
   ```python
   completion = client.chat.completions.create(model=deployment, messages=messages, max_tokens=100)
   ```
 
-- **Experimenting with temperature**. Temperature is something we haven't mentioned so far but is an important context for how our program performs. The higher the temperature value the more random the output will be. Conversely the lower the temperature value the more predictable the output will be. Consider whether you want variation in your output or not.
+- **温度で実験しています**。温度は、これまで言及していないもの、しかしプログラムがどのようにパフォーマンスするかのための重要なコンテキストです。温度値が高いほど、出力がランダムになります。逆に、温度値が低いほど、出力がより予測可能になります。出力に変動を希望するか、そうでないかを検討してください。
 
-  To alter the temperature, you can use the `temperature` parameter. For example, if you want to use a temperature of 0.5, you would do:
+  温度を変更するには、`temperature` パラメータを使用できます。たとえば、温度 0.5 を使用したい場合は、以下を実行します：
 
   ```python
   completion = client.chat.completions.create(model=deployment, messages=messages, temperature=0.5)
   ```
 
-  > Note, the closer to 1.0, the more varied the output.
+  > 注：1.0 に近づくほど、出力はより多様になります。
 
-## Assignment
+## 割り当て
 
-For this assignment, you can choose what to build.
+この割り当ての場合、構築するものを選択できます。
 
-Here are some suggestions:
+いくつかの提案があります：
 
-- Tweak the recipe generator app to improve it further. Play around with temperature values, and the prompts to see what you can come up with.
-- Build a "study buddy". This app should be able to answer questions about a topic for example Python, you could have prompts like "What is a certain topic in Python?", or you could have a prompt that says, show me code for a certain topic etc.
-- History bot, make history come alive, instruct the bot to play a certain historical character and ask it questions about its life and times.
+- レシピ ジェネレーター アプリを微調整して、さらに改善します。温度値とプロンプトで遊んで、何を思い付くかを見てください。
+- 「勉強仲間」を構築します。このアプリは、トピックに関する質問、たとえば Python に答えることができるべきです。「Python の特定のトピックとは何ですか？」のようなプロンプトが出ている場合や、特定のトピックのコードを表示するプロンプトが出ている場合があります。
+- 歴史ボット。歴史を生きて作成します。ボットに特定の歴史的人物を演じるよう指示し、その人生と時代について質問してください。
 
-## Solution
+## ソリューション
 
-### Study buddy
+### 勉強仲間
 
-Below is a starter prompt, see how you can use it and tweak it to your liking.
-
-```text
-- "You're an expert on the Python language
-
-    Suggest a beginner lesson for Python in the following format:
-
-    Format:
-    - concepts:
-    - brief explanation of the lesson:
-    - exercise in code with solutions"
-```
-
-### History bot
-
-Here are some prompts you could be using:
+以下はスターター プロンプトです。あなたの好みに応じてそれを使用して微調整する方法を見てください。
 
 ```text
-- "You are Abe Lincoln, tell me about yourself in 3 sentences, and respond using grammar and words like Abe would have used"
-- "You are Abe Lincoln, respond using grammar and words like Abe would have used:
+- 「あなたは Python 言語の専門家です
 
-   Tell me about your greatest accomplishments, in 300 words"
+    Python 用の初心者向けレッスンを、以下の形式で提案してください：
+
+    フォーマット：
+    - コンセプト：
+    - レッスンの簡潔な説明：
+    - コードでの演習とソリューション」
 ```
 
-## Knowledge check
+### 歴史ボット
 
-What does the concept temperature do?
+以下は使用できるいくつかのプロンプトです：
 
-1. It controls how random the output is.
-1. It controls how big the response is.
-1. It controls how many tokens are used.
+```text
+- 「あなたはエイブ・リンカーンです。3 文で自分自身について教えてください。エイブが使用したであろう文法と言葉を使用して応答してください」
+- 「あなたはエイブ・リンカーンです。エイブが使用したであろう文法と言葉を使用して応答してください：
 
-## 🚀 Challenge
+   あなたの最大の成果について 300 ワードで教えてください」
+```
 
-When working on the assignment, try to vary the temperature, try setting it to 0, 0.5, and 1. Remember that 0 is the least varied and 1 is the most. What value works best for your app?
+## 知識確認
 
-## Great Work! Continue Your Learning
+温度の概念は何をしますか？
 
-After completing this lesson, check out our [Generative AI Learning collection](https://aka.ms/genai-collection?WT.mc_id=academic-105485-koreyst) to continue leveling up your Generative AI knowledge!
+1. 出力がどの程度ランダムであるかを制御します。
+2. 応答がどの程度大きいかを制御します。
+3. 使用するトークン数を制御します。
 
-Head over to Lesson 7 where we will look at how to [build chat applications](../07-building-chat-applications/README.md?WT.mc_id=academic-105485-koreyst)!
+## 🚀 チャレンジ
+
+割り当てで作業する場合、温度を変動させてみてください。0、0.5、1 に設定してみてください。0 は最も多様性が低く、1 が最も多様性があることを覚えています。アプリにはどの値が最適に機能しますか？
+
+## よくできました！学習を続けましょう
+
+このレッスンを完了したら、[生成AI学習コレクション](https://aka.ms/genai-collection?WT.mc_id=academic-105485-koreyst)をチェックして、生成AI の知識を引き続き深めてください！
+
+レッスン 7 に進んで、[チャット アプリケーションの構築](../07-building-chat-applications/README.md?WT.mc_id=academic-105485-koreyst) 方法を見てください！
