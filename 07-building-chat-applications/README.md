@@ -1,66 +1,66 @@
-# Building Generative AI-Powered Chat Applications
+# 生成AI対応のチャット アプリケーションの構築
 
-[![Building Generative AI-Powered Chat Applications](./images/07-lesson-banner.png?WT.mc_id=academic-105485-koreyst)](https://youtu.be/R9V0ZY1BEQo?si=IHuU-fS9YWT8s4sA)
+[![生成AI対応のチャット アプリケーションの構築](./images/07-lesson-banner.png?WT.mc_id=academic-105485-koreyst)](https://youtu.be/R9V0ZY1BEQo?si=IHuU-fS9YWT8s4sA)
 
-> _(Click the image above to view video of this lesson)_
+> _(上の画像をクリックしてこのレッスンのビデオを視聴してください)_
 
-Now that we've seen how we can build text-generation apps, let's look into chat applications.
+これまで、テキスト生成アプリを構築する方法を見てきました。ここでは、チャット アプリケーションについて見てみましょう。
 
-Chat applications have become integrated into our daily lives, offering more than just a means of casual conversation. They're integral parts of customer service, technical support, and even sophisticated advisory systems. It's likely that you've gotten some help from a chat application not too long ago. As we integrate more advanced technologies like generative AI into these platforms, the complexity increases and so does the challenges.
+チャット アプリケーションは私たちの日常生活に統合され、単なるカジュアルな会話の手段以上のものを提供しています。カスタマー サービス、テクニカル サポート、さらには高度なアドバイザリ システムの不可欠な部分です。つい最近、チャット アプリケーションからいくつかのサポートを受けたことがある可能性があります。これらのプラットフォームにより高度なテクノロジー（生成AI など）を統合するにつれて、複雑さが増し、課題も増えます。
 
-Some questions we need to be answered are:
+答える必要がある質問の一部は以下の通りです：
 
-- **Building the app**. How do we efficiently build and seamlessly integrate these AI-powered applications for specific use cases?
-- **Monitoring**. Once deployed, how can we monitor and ensure that the applications are operating at the highest level of quality, both in terms of functionality and adhering to the [six principles of responsible AI](https://www.microsoft.com/ai/responsible-ai?WT.mc_id=academic-105485-koreyst)?
+- **アプリを構築する**。特定のユース ケースのため、AI対応アプリケーションを効率的に構築し、シームレスに統合するにはどうすればよいでしょうか？
+- **監視**。デプロイ後、アプリケーションが機能性の観点から最高レベルの品質で動作していることをどのように監視し、確保できますか？また、[責任のある AI の 6 つの原則](https://www.microsoft.com/ai/responsible-ai?WT.mc_id=academic-105485-koreyst)に準拠していることを確保できますか？
 
-As we move further into an age defined by automation and seamless human-machine interactions, understanding how generative AI transforms the scope, depth, and adaptability of chat applications becomes essential. This lesson will investigate the aspects of architecture that support these intricate systems, delve into the methodologies for fine-tuning them for domain-specific tasks, and evaluate the metrics and considerations pertinent to ensuring responsible AI deployment.
+自動化とシームレスなヒューマン マシン相互作用で定義された時代へ進むにつれて、生成AI がチャット アプリケーションのスコープ、深さ、適応性をどのように変換するかを理解することが重要になります。このレッスンは、これらの複雑なシステムをサポートするアーキテクチャの側面を調査し、ドメイン固有のタスク用に微調整するための方法論を掘り下げ、責任のある AI 展開を確保することに関する指標と考慮事項を評価します。
 
-## Introduction
+## はじめに
 
-This lesson covers:
+このレッスンは、以下をカバーしています：
 
-- Techniques for efficiently building and integrating chat applications.
-- How to apply customization and fine-tuning to applications.
-- Strategies and considerations to effectively monitor chat applications.
+- チャット アプリケーションを効率的に構築し、統合するための技法。
+- アプリケーションにカスタマイズと微調整を適用する方法。
+- チャット アプリケーションを効果的に監視するための戦略と考慮事項。
 
-## Learning Goals
+## 学習目標
 
-By the end of this lesson, you'll be able to:
+このレッスンの最後に、以下ができるようになります：
 
-- Describe considerations for building and integrating chat applications into existing systems.
-- Customize chat applications for specific use-cases.
-- Identify key metrics and considerations to effectively monitor and maintain the quality of AI-powered chat applications.
-- Ensure chat applications leverage AI responsibly.
+- チャット アプリケーションを既存のシステムに構築および統合するための考慮事項を説明できます。
+- 特定のユース ケースのためにチャット アプリケーションをカスタマイズできます。
+- AI対応チャット アプリケーションの品質を効果的に監視および維持するための主要な指標と考慮事項を特定できます。
+- チャット アプリケーションが AI を責任を持って活用していることを確認できます。
 
-## Integrating Generative AI into Chat Applications
+## チャット アプリケーションに生成AI を統合する
 
-Elevating chat applications through generative AI isn't only centered around making them smarter; it's about optimizing their architecture, performance, and user interface to deliver a quality user experience. This involves investigating the architectural foundations, API integrations, and user interface considerations. This section aims to offer you a comprehensive roadmap for navigating these complex landscapes, whether you're plugging them into existing systems or building them as stand-alone platforms.
+生成AI を通じてチャット アプリケーションを昇格させることは、スマートにすることだけに限定されません。その約、パフォーマンス、およびユーザー インターフェースを最適化して、高品質のユーザー体験を提供することについてです。これには、アーキテクチャの基礎、API 統合、ユーザー インターフェースの考慮事項の調査が含まれます。このセクションは、これらの複雑なランドスケープをナビゲートするための包括的なロードマップを提供することを目的としており、既存のシステムに接続するか、スタンドアロン プラットフォームとして構築するかを問わず対応しています。
 
-By the end of this section, you'll be equipped with the expertise needed to efficiently construct and incorporate chat applications.
+このセクションの最後に、チャット アプリケーションを効率的に構築し、組み込むために必要な専門知識を備えることができます。
 
-### Chatbot or Chat application?
+### チャットボット、またはチャット アプリケーション？
 
-Before we dive into building chat applications, let's compare 'chatbots' against 'AI-powered chat applications,' which serve distinct roles and functionalities. A chatbot's main purpose is to automate specific conversational tasks, such as answering frequently asked questions or tracking a package. It's typically governed by rule-based logic or complex AI algorithms. In contrast, an AI-powered chat application is a far more expansive environment designed to facilitate various forms of digital communication, such as text, voice, and video chats among human users. Its defining feature is the integration of a generative AI model that simulates nuanced, human-like conversations, generating responses based on a wide variety of input and contextual cues. A generative AI powered chat application can engage in open-domain discussions, adapt to evolving conversational contexts, and even produce creative or complex dialogue.
+チャット アプリケーション構築に入る前に、「チャットボット」と「AI対応チャット アプリケーション」を比較してみましょう。これらは異なる役割と機能を果たしています。チャットボットの主な目的は、よくある質問への回答やパッケージの追跡など、特定の会話タスクを自動化することです。通常、ルール ベースのロジックまたは複雑な AI アルゴリズムによって統治されます。一方、AI対応チャット アプリケーションは、テキスト、音声、ビデオ チャットなどの人間ユーザー間の様々な形式のデジタル通信を容易にするために設計された、はるかに広い環境です。その定義特性は、生成AI モデルの統合であり、微妙で人間的な会話をシミュレートし、広い範囲の入力とコンテキスト キューに基づいて応答を生成します。生成AI対応チャット アプリケーションは、オープン ドメインの議論に従事し、進化する会話の文脈に適応し、さらに創造的または複雑な対話を生成することさえできます。
 
-The table below outlines the key differences and similarities to help us understand their unique roles in digital communication.
+以下の表は、主な違いと類似点をまとめており、デジタル通信における独自の役割を理解するのに役立ちます。
 
-| Chatbot                               | Generative AI-Powered Chat Application |
-| ------------------------------------- | -------------------------------------- |
-| Task-Focused and rule based           | Context-aware                          |
-| Often integrated into larger systems  | May host one or multiple chatbots      |
-| Limited to programmed functions       | Incorporates generative AI models      |
-| Specialized & structured interactions | Capable of open-domain discussions     |
+| チャットボット                    | 生成AI対応チャット アプリケーション |
+| --------------------------------- | ----------------------------------- |
+| タスク指向でルール ベース          | コンテキスト認識                    |
+| しばしば大規模なシステムに統合される | 1 つ以上のチャットボットをホストできる |
+| プログラムされた機能に限定されている | 生成AI モデルを組み込む              |
+| 特殊化された構造化された相互作用    | オープン ドメイン討論が可能          |
 
-### Leveraging pre-built functionalities with SDKs and APIs
+### SDK と API を使用した既製機能の活用
 
-When building a chat application, a great first step is to assess what is already out there. Using SDKs and APIs to build chat applications is an advantageous strategy for a variety of reasons. By integrating well-documented SDKs and APIs, you're strategically positioning your application for long-term success, addressing scalability and maintenance concerns.
+チャット アプリケーションを構築するとき、優れた最初のステップは、既に何があるかを評価することです。SDK と API を使用してチャット アプリケーションを構築することは、さまざまな理由から有利な戦略です。十分に文書化された SDK と API を統合することで、長期的な成功のためにアプリケーションを戦略的に配置し、スケーラビリティと保守性の問題に対応しています。
 
-- **Expedites the development process and reduces overhead**: Relying on pre-built functionalities instead of the expensive process of building them yourself allows you to focus on other aspects of your application that you may find more important, such as business logic.
-- **Better performance**: When building functionality from scratch, you'll eventually ask yourself "How does it scale? Is this application capable of handling a sudden influx of users?" Well maintained SDK and APIs often have built in solutions for these concerns.
-- **Easier maintenance**: Updates and improvements are easier to manage as most APIs and SDKs simply require an update to a library when a newer version is released.
-- **Access to cutting edge technology**: Leveraging models that have been fined tuned and trained on extensive datasets provides your application with natural language capabilities.
+- **開発プロセスを加速し、オーバーヘッドを削減する**：自分自身でそれらを構築する高価なプロセスの代わりに既製機能に依存することで、ビジネス ロジックなど、アプリケーションの他の側面に焦点を当てることができます。
+- **パフォーマンスの向上**：最初からフンクショナリティを構築するときは、「スケーリングはどうなっているか？このアプリケーションは突然のユーザー数の急増に対応できるか？」と自問することになります。十分に保守された SDK と API には、これらの懸念事項の組み込みソリューションがあることが多いです。
+- **より簡単な保守**：ほとんどの API と SDK は、新しいバージョンがリリースされたときにライブラリへの更新を必要とするだけなので、更新と改善の管理が容易になります。
+- **最先端のテクノロジーへのアクセス**：広範なデータセットで微調整および訓練されたモデルを活用することで、アプリケーションに自然言語機能を提供します。
 
-Accessing functionality of an SDK or API typically involves obtaining permission to use the provided services, which is often through the use of a unique key or authentication token. We'll use the OpenAI Python Library to explore what this looks like. You can also try it out on your own in the following [notebook for OpenAI](./python/oai-assignment.ipynb?WT.mc_id=academic-105485-koreyst) or [notebook for Azure OpenAI Services](./python/aoai-assignment.ipynb?WT.mc_id=academic-105485-koreys) for this lesson.
+SDK または API の機能へのアクセスは、通常、一意のキーまたは認証トークンを使用して、提供されるサービスを使用するための許可を取得することが含まれます。OpenAI Python ライブラリを使用してこれがどのように見えるかを探索します。このレッスンのために、以下の [OpenAI 用ノートブック](./python/oai-assignment.ipynb?WT.mc_id=academic-105485-koreyst) または [Azure OpenAI Services 用ノートブック](./python/aoai-assignment.ipynb?WT.mc_id=academic-105485-koreys) でそれ自体を試すこともできます。
 
 ```python
 import os
@@ -72,117 +72,117 @@ client = OpenAI(
     api_key=API_KEY
     )
 
-chat_completion = client.chat.completions.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": "Suggest two titles for an instructional lesson on chat applications for generative AI."}])
+chat_completion = client.chat.completions.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": "生成AI のチャット アプリケーションに関する指導レッスンのための 2 つのタイトルを提案してください。"}])
 ```
 
-The above example uses the GPT-3.5 Turbo model to complete the prompt, but notice that the API key is set prior to doing so. You'd receive an error if you didn't set the key.
+上の例は GPT-3.5 Turbo モデルを使用してプロンプトを完了していますが、API キーが事前に設定されていることに注意してください。キーを設定しないとエラーが発生します。
 
-## User Experience (UX)
+## ユーザー体験 (UX)
 
-General UX principles apply to chat applications, but here are some additional considerations that become particularly important due to the machine learning components involved.
+一般的な UX 原則がチャット アプリケーションに適用されますが、機械学習コンポーネントが関係しているため、特に重要になるいくつかの追加の考慮事項があります。
 
-- **Mechanism for addressing ambiguity**: Generative AI models occasionally generate ambiguous answers. A feature that allows users to ask for clarification can be helpful should they come across this problem.
-- **Context retention**: Advanced generative AI models have the ability to remember context within a conversation, which can be a necessary asset to the user experience. Giving users the ability to control and manage context improves the user experience, but introduces the risk of retaining sensitive user information. Considerations for how long this information is stored, such as introducing a retention policy, can balance the need for context against privacy.
-- **Personalization**: With the ability to learn and adapt, AI models offer an individualized experience for a user. Tailoring the user experience through features like user profiles not only makes the user feel understood, but it also helps their pursuit of finding specific answers, creating a more efficient and satisfying interaction.
+- **あいまいさに対処するメカニズム**：生成AI モデルは時々あいまいな答えを生成します。ユーザーがこの問題に遭遇した場合に役立つ、ユーザーが明確にするよう要求できる機能。
+- **コンテキスト保持**：高度な生成AI モデルには、会話内のコンテキストを記憶する能力があり、ユーザー体験の必要な資産になる可能性があります。ユーザーがコンテキストを制御および管理する能力を与えることはユーザー体験を改善しますが、機密ユーザー情報を保持するリスクが生じます。この情報がどのくらいの期間保存されるかについての考慮事項（保持ポリシーの導入など）は、コンテキストの必要性とプライバシーとのバランスを取ることができます。
+- **パーソナライゼーション**：学習と適応する能力により、AI モデルはユーザーに個別化された体験を提供します。ユーザー プロファイルなどの機能を通じてユーザー体験をカスタマイズすることで、ユーザーは理解されていると感じるだけでなく、特定の答えを見つける追求に役立ち、より効率的で満足度の高い相互作用を作成します。
 
-One such example of personalization is the "Custom instructions" settings in OpenAI's ChatGPT. It allows you to provide information about yourself that may be important context for your prompts. Here's an example of a custom instruction.
+パーソナライゼーションの一例は、OpenAI の ChatGPT の「カスタム指示」設定です。これにより、プロンプトの重要なコンテキストになる可能性のある自分自身に関する情報を提供できます。カスタム指示の例を示します。
 
-![Custom Instructions Settings in ChatGPT](./images/custom-instructions.png?WT.mc_id=academic-105485-koreyst)
+![ChatGPT のカスタム指示設定](./images/custom-instructions.png?WT.mc_id=academic-105485-koreyst)
 
-This "profile" prompts ChatGPT to create a lesson plan on linked lists. Notice that ChatGPT takes into account that the user may want a more in depth lesson plan based on her experience.
+この「プロファイル」は ChatGPT にリンク リストに関するレッスン計画を作成するよう指示します。ChatGPT がユーザーが彼女の経験に基づいてより詳細なレッスン計画を望むことを考慮していることに注意してください。
 
-![A prompt in ChatGPT for a lesson plan about linked lists](./images/lesson-plan-prompt.png?WT.mc_id=academic-105485-koreyst)
+![リンク リストについてのレッスン計画の ChatGPT のプロンプト](./images/lesson-plan-prompt.png?WT.mc_id=academic-105485-koreyst)
 
-### Microsoft's System Message Framework for Large Language Models
+### 大規模言語モデル用の Microsoft のシステム メッセージ フレームワーク
 
-[Microsoft has provided guidance](https://learn.microsoft.com/azure/ai-services/openai/concepts/system-message#define-the-models-output-format?WT.mc_id=academic-105485-koreyst) for writing effective system messages when generating responses from LLMs broken down into 4 areas:
+[Microsoft は ガイダンスを提供しました](https://learn.microsoft.com/azure/ai-services/openai/concepts/system-message#define-the-models-output-format?WT.mc_id=academic-105485-koreyst)。LLM からの応答を生成するときに効果的なシステム メッセージを書くためのガイダンス。4 つの領域に分かれています：
 
-1. Defining who the model is for, as well as its capabilities and limitations.
-2. Defining the model's output format.
-3. Providing specific examples that demonstrate intended behavior of the model.
-4. Providing additional behavioral guardrails.
+1. モデルが対象とする人、およびその機能と制限を定義します。
+2. モデルの出力形式を定義します。
+3. モデルの意図された動作を実証する特定の例を提供します。
+4. 追加の動作ガードレールを提供します。
 
-### Accessibility
+### アクセシビリティ
 
-Whether a user has visual, auditory, motor, or cognitive impairments, a well-designed chat application should be usable by all. The following list breaks down specific features aimed at enhancing accessibility for various user impairments.
+ユーザーが視覚、聴覚、運動、認知的障害を持つかどうかに関係なく、十分に設計されたチャット アプリケーションはすべてのユーザーが使用できる必要があります。以下のリストは、様々なユーザー障害のアクセシビリティを向上させることを目的とした特定の機能を詳細に説明しています。
 
-- **Features for Visual Impairment**: High contrast themes and resizable text, screen reader compatibility.
-- **Features for Auditory Impairment**: Text-to-speech and speech-to-text functions, visual cues for audio notifications.
-- **Features for Motor Impairment**: Keyboard navigation support, voice commands.
-- **Features for Cognitive Impairment**: Simplified language options.
+- **視覚障害の機能**：高コントラスト テーマとサイズ変更可能なテキスト、スクリーン リーダー互換性。
+- **聴覚障害の機能**：テキスト読み上げおよび音声テキスト機能、オーディオ通知の視覚的キュー。
+- **運動障害の機能**：キーボード ナビゲーション サポート、音声コマンド。
+- **認知障害の機能**：言語オプションの簡潔さ。
 
-## Customization and Fine-tuning for Domain-Specific Language Models
+## ドメイン固有の言語モデルのカスタマイズと微調整
 
-Imagine a chat application that understands your company's jargon and anticipates the specific queries its user base commonly has. There are a couple of approaches worth mentioning:
+あなたの会社のジャーゴンを理解し、ユーザー ベースが一般的に持つ特定のクエリを予測するチャット アプリケーションを想像してください。言及する価値があるいくつかのアプローチがあります：
 
-- **Leveraging DSL models**. DSL stands for domain specific language. You can leverage a so called DSL model trained on a specific domain to understand it's concepts and scenarios.
-- **Apply fine-tuning**. Fine-tuning is the process of further training your model with specific data.
+- **DSL モデルの活用**。DSL はドメイン固有言語を表します。特定のドメインで訓練された、いわゆる DSL モデルを活用して、その概念とシナリオを理解することができます。
+- **微調整を適用する**。微調整は、特定のデータを使用してモデルをさらに訓練するプロセスです。
 
-## Customization: Using a DSL
+## カスタマイズ：DSL の使用
 
-Leveraging a domain-specific language models (DSL Models) can enhance user engagement and by providing specialized, contextually relevant interactions. It's a model that is trained or fine-tuned to understand and generate text related to a specific field, industry, or subject. Options for using a DSL model can vary from training one from scratch, to using pre-existing ones through SDKs and APIs. Another option is fine-tuning, which involves taking an existing pre-trained model and adapting it for a specific domain.
+ドメイン固有言語モデル（DSL モデル）を活用することで、特定の分野、業界、または主題に関連するテキストを理解および生成するようにトレーニングまたは微調整されたモデルです。ユーザーの関与を向上させ、特化した文脈に関連した相互作用を提供することができます。DSL モデルを使用するためのオプションは、最初から 1 つをトレーニングすることから、SDK と API を通じた既製のものを使用することまで異なります。もう 1 つのオプションは微調整であり、既存の事前訓練されたモデルを取得して特定のドメインに適応させることが含まれます。
 
-## Customization: Apply fine-tuning
-> [!IMPORTANT]JBSコメント
-fine-tuning は非常に難しくコストも大きくかかります。かつては、fine-tuning に期待されているところもありましたが、現在、fine-tunig は最終手段と考えられており、まずは、RAG やLong Context での解決を探るのが一般的です。お客様に対し軽々しく fine-tuning をご案内するのはやめましょう。 
+## カスタマイズ：微調整を適用する
 
-Fine-tuning is often considered when a pre-trained model falls short in a specialized domain or specific task.
+> [!IMPORTANT]fine-tuning は非常に難しくコストも大きくかかります。かつては、fine-tuning に期待されているところもありましたが、現在、fine-tuning は最終手段と考えられており、まずは、RAG や Long Context での解決を探るのが一般的です。お客様に対し軽々しく fine-tuning をご案内するのはやめましょう。
 
-For instance, medical queries are complex and require a lot of context. When a medical professional diagnoses a patient it's based on a variety of factors such as lifestyle or pre-existing conditions, and may even rely on recent medical journals to validate their diagnosis. In such nuanced scenarios, a general-purpose AI chat application cannot be a reliable source.
+微調整は、事前訓練されたモデルが特殊なドメインまたは特定のタスクで不足している場合、しばしば考慮されます。
 
-### Scenario: a medical application
-> [!IMPORTANT]JBSコメント
-> 医療行為など人の生命にかかわるAIの利用は推奨されていません。また、実際に医療行為に利用ためにAIモデルのトレーニングや fine-tuning を行うのであれば、非常に高度な医療とAIの知識が求められます。JBSが単独で対応できるようなものではありません。
+たとえば、医療クエリは複雑で、大量のコンテキストが必要です。医療専門家が患者を診断するとき、生活様式や既存の状態などの様々な要因に基づいており、彼らの診断を検証するために最近の医学ジャーナルに依存することさえできます。このような微妙なシナリオでは、汎用 AI チャット アプリケーションは信頼できるソースではありません。
 
-Consider a chat application designed to assist medical practitioners by providing quick references to treatment guidelines, drug interactions, or recent research findings.
+### シナリオ：医療アプリケーション
 
-A general-purpose model might be adequate for answering basic medical questions or providing general advice, but it may struggle with the following:
+> [!IMPORTANT]医療行為など人の生命にかかわる AI の利用は推奨されていません。また、実際に医療行為に利用するために AI モデルのトレーニングや微調整を行うのであれば、非常に高度な医療と AI の知識が求められます。
 
-- **Highly specific or complex cases**. For example, a neurologist might ask the application, "What are the current best practices for managing drug-resistant epilepsy in pediatric patients?"
-- **Lacking recent advancements**. A general-purpose model could struggle to provide a current answer that incorporates the most recent advancements in neurology and pharmacology.
+医療行為者にクイック リファレンスを提供することで支援するために設計されたチャット アプリケーションを考慮してください。治療ガイドライン、薬物相互作用、または最近の研究成果です。
 
-In instances such as these, fine-tuning the model with a specialized medical dataset can significantly improve its ability to handle these intricate medical inquiries more accurately and reliably. This requires access to a large and relevant dataset that represents the domain-specific challenges and questions that need to be addressed.
+汎用モデルは基本的な医療質問に答えたり、一般的なアドバイスを提供したりするのに適切かもしれませんが、以下で苦労する可能性があります：
 
-## Considerations for a High Quality AI-Driven Chat Experience
+- **非常に具体的または複雑なケース**。たとえば、神経学者はアプリケーションに「小児患者における薬剤耐性てんかんを管理するための現在のベスト プラクティスは何か？」と尋ねるかもしれません。
+- **最近の進歩の不足**。汎用モデルは、神経学と薬理学の最近の進歩を組み込んだ最新の回答を提供するのに苦労する可能性があります。
 
-This section outlines the criteria for "high-quality" chat applications, which include the capture of actionable metrics and adherence to a framework that responsibly leverages AI technology.
+このような場合、特化した医療データセットを使用してモデルを微調整することで、これらの複雑な医療クエリをより正確かつ信頼性が高く処理する能力を大幅に向上させることができます。これには、対処する必要があるドメイン固有の課題と質問を表す大規模で関連するデータセットへのアクセスが必要です。
 
-### Key Metrics
+## 高品質な AI 駆動チャット体験のための考慮事項
 
-To maintain the high-quality performance an application, it's essential to keep track of key metrics and considerations. These measurements not only ensure the functionality of the application but also assess the quality of the AI model and user experience. Below is a list that covers basic, AI, and user experience metrics to consider.
+このセクションでは、「高品質な」チャット アプリケーションの基準の概要を説明します。これには、実用的な指標のキャプチャと、AI テクノロジーを責任を持って活用するフレームワークへの準拠が含まれます。
 
-| Metric                        | Definition                                                                                                             | Considerations for Chat Developer                                         |
-| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| **Uptime**                    | Measures the time the application is operational and accessible by users.                                              | How will you minimize downtime?                                           |
-| **Response Time**             | The time taken by the application to reply to a user's query.                                                          | How can you optimize query processing to improve response time?           |
-| **Precision**                 | The ratio of true positive predictions to the total number of positive predictions                                     | How will you validate the precision of your model?                        |
-| **Recall (Sensitivity)**      | The ratio of true positive predictions to the actual number of positives                                               | How will you measure and improve recall?                                  |
-| **F1 Score**                  | The harmonic mean of precision and recall, that balances the trade-off between both.                                   | What is your target F1 Score? How will you balance precision and recall?  |
-| **Perplexity**                | Measures how well the probability distribution predicted by the model aligns with the actual distribution of the data. | How will you minimize perplexity?                                         |
-| **User Satisfaction Metrics** | Measures the user's perception of the application. Often captured through surveys.                                     | How often will you collect user feedback? How will you adapt based on it? |
-| **Error Rate**                | The rate at which the model makes mistakes in understanding or output.                                                 | What strategies do you have in place to reduce error rates?               |
-| **Retraining Cycles**         | The frequency with which the model is updated to incorporate new data and insights.                                    | How often will you retrain the model? What triggers a retraining cycle?   |
-| **Anomaly Detection**         | Tools and techniques for identifying unusual patterns that do not conform to expected behavior.                        | How will you respond to anomalies?                                        |
+### 主要な指標
 
-### Implementing Responsible AI Practices in Chat Applications
+アプリケーションの高品質なパフォーマンスを維持するために、主要な指標と考慮事項を追跡することが重要です。これらの測定は、アプリケーションの機能性を確保するだけでなく、AI モデルとユーザー体験の品質も評価します。以下は、考慮する基本的な、AI、およびユーザー体験指標をカバーするリストです。
 
-Microsoft's approach to Responsible AI has identified six principles that should guide AI development and use. Below are the principles, their definition, and things a chat developer should consider and why they should take them seriously.
+| 指標                      | 定義                                                                                         | チャット開発者のための考慮事項                           |
+| ------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| **アップタイム**          | アプリケーションが動作可能でユーザーがアクセスできる時間を測定します。                         | ダウンタイムを最小化するにはどうしますか？              |
+| **応答時間**              | アプリケーションがユーザーのクエリに回答するのにかかる時間。                                 | クエリ処理を最適化して応答時間を改善する方法は？       |
+| **精度**                  | 真の正の予測と予測された正の総数の比率                                                      | モデルの精度をどのように検証しますか？                 |
+| **再呼び出し（感度）**    | 実際の正の総数に対する真の正の予測の比率                                                    | 再呼び出しをどのように測定および改善しますか？          |
+| **F1 スコア**             | 精度と再呼び出しの調和平均。両者の間のトレードオフのバランスを取ります。                     | ターゲット F1 スコアは？精度と再呼び出しのバランスは？  |
+| **パープレキシティ**      | モデルで予測された確率分布が実際のデータ分布とどの程度一致しているかを測定します。           | パープレキシティを最小化するにはどうしますか？          |
+| **ユーザー満足度指標**    | アプリケーションに対するユーザーの認識を測定します。多くの場合、調査でキャプチャされます。   | どのくらいの頻度でユーザー フィードバックを収集しますか？ |
+| **エラー率**              | モデルが理解または出力で間違えるレート。                                                    | エラー率を削減するための戦略をどのようにしていますか？   |
+| **再トレーニング サイクル** | モデルを新しいデータと洞察を組み込む更新する頻度。                                          | どのくらいの頻度でモデルを再訓練しますか？何がトリガーになる？ |
+| **異常検出**              | 予期された動作に準拠しない異常なパターンを特定するためのツールと技法。                       | 異常にどのように対応しますか？                         |
 
-| Principles             | Microsoft's Definition                                | Considerations for Chat Developer                                      | Why It's Important                                                                     |
-| ---------------------- | ----------------------------------------------------- | ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| Fairness               | AI systems should treat all people fairly.            | Ensure the chat application does not discriminate based on user data.  | To build trust and inclusivity among users; avoids legal ramifications.                |
-| Reliability and Safety | AI systems should perform reliably and safely.        | Implement testing and fail-safes to minimize errors and risks.         | Ensures user satisfaction and prevents potential harm.                                 |
-| Privacy and Security   | AI systems should be secure and respect privacy.      | Implement strong encryption and data protection measures.              | To safeguard sensitive user data and comply with privacy laws.                         |
-| Inclusiveness          | AI systems should empower everyone and engage people. | Design UI/UX that is accessible and easy-to-use for diverse audiences. | Ensures a wider range of people can use the application effectively.                   |
-| Transparency           | AI systems should be understandable.                  | Provide clear documentation and reasoning for AI responses.            | Users are more likely to trust a system if they can understand how decisions are made. |
-| Accountability         | People should be accountable for AI systems.          | Establish a clear process for auditing and improving AI decisions.     | Enables ongoing improvement and corrective measures in case of mistakes.               |
+### チャット アプリケーションでの責任のある AI 実践の実装
 
-## Assignment
+Microsoft の責任のある AI へのアプローチは、AI 開発と使用をガイドすべき 6 つの原則を特定しました。以下は原則、その定義、およびチャット開発者が考慮すべき事項と、なぜそれを真剣に受け止めるべきかについて示します。
 
-See [assignment](./python?WT.mc_id=academic-105485-koreyst). It will take you through a series of exercises from running your first chat prompts, to classifying and summarizing text and more. Notice that the assignments are available in different programming languages!
+| 原則             | Microsoft の定義                                 | チャット開発者のための考慮事項                         | 重要な理由                                                   |
+| ---------------- | ------------------------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------ |
+| 公正性           | AI システムはすべての人を公正に扱うべきです。     | チャット アプリケーションがユーザー データに基づいて差別しないことを確認します。 | ユーザー間の信頼と包括性を構築するため。法的な影響を回避します。 |
+| 信頼性と安全     | AI システムは確実かつ安全に機能するべきです。     | エラーとリスクを最小化するためのテストと安全装置を実装します。 | ユーザー満足度を確保し、潜在的な害を防ぎます。                 |
+| プライバシーとセキュリティ | AI システムは安全でプライバシーを尊重するべきです。 | 強力な暗号化とデータ保護措置を実装します。                  | 機密ユーザー データを保護し、プライバシー法に準拠するため。    |
+| 包括性           | AI システムはすべてのユーザーに権限を与えるべきです。 | 多様なユーザーにアクセスしやすく使いやすい UI/UX を設計します。 | より多くの人がアプリケーションを効果的に使用できるようにします。 |
+| 透明性           | AI システムは理解可能であるべきです。            | AI 応答の明確なドキュメントと推論を提供します。       | ユーザーは決定がどのように下されているかを理解できる場合、システムをより信頼しやすくなります。 |
+| 説明責任         | 人々は AI システムに責任を持つべきです。          | AI 決定の監査と改善のための明確なプロセスを確立します。 | 継続的な改善と、間違いの場合の是正措置が可能になります。      |
 
-## Great Work! Continue the Journey
+## 割り当て
 
-After completing this lesson, check out our [Generative AI Learning collection](https://aka.ms/genai-collection?WT.mc_id=academic-105485-koreyst) to continue leveling up your Generative AI knowledge!
+[割り当て](./python?WT.mc_id=academic-105485-koreyst)を参照してください。最初のチャット プロンプトの実行から、テキストの分類と要約などまで、一連の演習を実行できます。割り当てが異なるプログラミング言語で利用可能であることに注意してください！
 
-Head over to Lesson 8 to see how you can start [building search applications](../08-building-search-applications/README.md?WT.mc_id=academic-105485-koreyst)!
+## よくできました！旅を続けてください
+
+このレッスンを完了した後、[生成AI学習コレクション](https://aka.ms/genai-collection?WT.mc_id=academic-105485-koreyst)をチェックして、生成AI の知識を引き続き深めてください！
+
+レッスン 8 に進んで、[検索アプリケーションの構築](../08-building-search-applications/README.md?WT.mc_id=academic-105485-koreyst)を開始する方法を確認してください！
