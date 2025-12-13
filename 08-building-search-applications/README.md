@@ -1,130 +1,129 @@
-# Building a Search Applications
+# 検索アプリケーションの構築
 
-[![Introduction to Generative AI and Large Language Models](./images/08-lesson-banner.png?WT.mc_id=academic-105485-koreyst)](https://youtu.be/W0-nzXjOjr0?si=GcsqiTTvd7RKbo7V)
+[![生成AIと大規模言語モデルの紹介](./images/08-lesson-banner.png?WT.mc_id=academic-105485-koreyst)](https://youtu.be/W0-nzXjOjr0?si=GcsqiTTvd7RKbo7V)
 
-> > _Click the image above to view video of this lesson_
+> > _上の画像をクリックすると、このレッスンのビデオが表示されます_
 
-There's more to LLMs than chatbots and text generation. It's also possible to build search applications using Embeddings. Embeddings are numerical representations of data also known as vectors, and can be used for semantic search for data.
+LLM（大規模言語モデル）はチャットボットやテキスト生成だけではありません。埋め込み（Embedding）を使って検索アプリケーションを構築することもできます。埋め込みはベクトルとしても知られるデータの数値表現であり、意味（セマンティック）に基づく検索に使用できます。
 
-In this lesson, you are going to build a search application for our education startup. Our startup is a non-profit organization that provides free education to students in developing countries. Our startup has a large number of YouTube videos that students can use to learn about AI. Our startup wants to build a search application that allows students to search for a YouTube video by typing a question.
+このレッスンでは、教育系スタートアップ向けの検索アプリケーションを構築します。私たちのスタートアップは途上国の学生に無料教育を提供する非営利団体で、多数のYouTube動画を教材として保有しています。学生が質問を入力してYouTube動画を検索できる検索アプリケーションを作成します。
 
-For example, a student might type in 'What are Jupyter Notebooks?' or 'What is Azure ML' and the search application will return a list of YouTube videos that are relevant to the question, and better still, the search application will return a link to the place in the video where the answer to the question is located.
+たとえば、生徒が「What are Jupyter Notebooks?」や「What is Azure ML」と入力すると、検索アプリはその質問に関連するYouTube動画の一覧を返し、さらに回答が含まれる動画内の位置（タイムスタンプ）へのリンクを返します。
 
-## Introduction
+## 導入
 
-In this lesson, we will cover:
+このレッスンで学ぶ内容:
 
-- Semantic vs Keyword search.
-- What are Text Embeddings.
-- Creating a Text Embeddings Index.
-- Searching a Text Embeddings Index.
+- セマンティック検索とキーワード検索の違い
+- テキスト埋め込み（Text Embeddings）とは何か
+- テキスト埋め込みインデックスの作成
+- テキスト埋め込みインデックスの検索
 
-## Learning Goals
+## 学習目標
 
-After completing this lesson, you will be able to:
+このレッスンを修了すると、以下ができるようになります:
 
-- Tell the difference between semantic and keyword search.
-- Explain what Text Embeddings are.
-- Create an application using Embeddings to search for data.
+- セマンティック検索とキーワード検索の違いを説明できる
+- テキスト埋め込みとは何かを説明できる
+- 埋め込み（Embeddings）を用いた検索アプリケーションを作成できる
 
-## Why build a search application?
+## なぜ検索アプリを作るのか？
 
-Creating a search application will help you understand how to use Embeddings to search for data. You will also learn how to build a search application that can be used by students to find information quickly.
+検索アプリケーションを構築することにより、埋め込みを使ったデータ検索の仕組みを理解できます。また、学生が必要な情報を素早く見つけられる実用的な検索アプリの作り方を学べます。
 
-The lesson includes an Embedding Index of the YouTube transcripts for the Microsoft [AI Show](https://www.youtube.com/playlist?list=PLlrxD0HtieHi0mwteKBOfEeOYf0LJU4O1) YouTube channel. The AI Show is a YouTube channel that teaches you about AI and machine learning. The Embedding Index contains the Embeddings for each of the YouTube transcripts up until Oct 2023. You will use the Embedding Index to build a search application for our startup. The search application returns a link to the place in the video where the answer to the question is located. This is a great way for students to find the information they need quickly.
+本レッスンには、Microsoft の YouTube チャンネル「AI Show」(https://www.youtube.com/playlist?list=PLlrxD0HtieHi0mwteKBOfEeOYf0LJU4O1) の動画トランスクリプトから作成した埋め込みインデックスが含まれています。AI Show は AI と機械学習を教えるチャンネルです。埋め込みインデックスは2023年10月までの各動画トランスクリプトに対する埋め込みを含んでいます。これを利用して検索アプリを構築し、質問に対する回答が含まれている動画の該当箇所へのリンクを返す機能を実装します。
 
-The following is an example of a semantic query for the question 'can you use rstudio with azure ml?'. Check out the YouTube url, you'll see the url contains a timestamp that takes you to the place in the video where the answer to the question is located.
+以下は「can you use rstudio with azure ml?」という質問に対するセマンティック検索の例です。YouTubeのURLを見ると、URLにタイムスタンプが含まれており、回答がある動画内の場所へ直接移動できることが分かります。
 
-![Semantic query for the question "can you use rstudio with Azure ML"](./images/query-results.png?WT.mc_id=academic-105485-koreyst)
+![「can you use rstudio with Azure ML?」という質問に対するセマンティック検索の例](./images/query-results.png?WT.mc_id=academic-105485-koreyst)
 
-## What is semantic search?
+## セマンティック検索とは何か？
 
-Now you might be wondering, what is semantic search? Semantic search is a search technique that uses the semantics, or meaning, of the words in a query to return relevant results.
+セマンティック検索とは、クエリ内の単語の意味（セマンティクス）に基づいて関連性の高い結果を返す検索手法です。
 
-Here is an example of a semantic search. Let's say you were looking to buy a car, you might search for 'my dream car', semantic search understands that you are not `dreaming` about a car, but rather you are looking to buy your `ideal` car. Semantic search understands your intention and returns relevant results. The alternative is `keyword search` which would literally search for dreams about cars and often returns irrelevant results.
+例として、「車を買いたい」とします。キーワード検索で「my dream car」と検索すると、字義どおり「dream」と「car」にマッチする結果が返る可能性がありますが、セマンティック検索はこのクエリを「理想の車を探している」という意図として解釈し、より関連性の高い結果を返します。
 
-## What are Text Embeddings?
+## テキスト埋め込みとは何か？
 
-[Text embeddings](https://en.wikipedia.org/wiki/Word_embedding?WT.mc_id=academic-105485-koreyst) are a text representation technique used in [natural language processing](https://en.wikipedia.org/wiki/Natural_language_processing?WT.mc_id=academic-105485-koreyst). Text embeddings are semantic numerical representations of text. Embeddings are used to represent data in a way that is easy for a machine to understand. There are many models for building text embeddings, in this lesson, we will focus on generating embeddings using the OpenAI Embedding Model.
+[テキスト埋め込み](https://en.wikipedia.org/wiki/Word_embedding?WT.mc_id=academic-105485-koreyst)は、自然言語処理で使われるテキスト表現技術で、テキストを意味的に数値化したものです。埋め込みは機械が理解しやすい形でデータを表現します。本レッスンでは、OpenAIの埋め込みモデルを使って埋め込みを生成する方法に注目します。
 
-Here's an example, imagine the following text is in a transcript from one of the episodes on the AI Show YouTube channel:
+次のような文がトランスクリプトにあるとします:
 
 ```text
 Today we are going to learn about Azure Machine Learning.
 ```
 
-We'd pass the text to the OpenAI Embedding API and it would return the following embedding consisting of 1536 numbers aka a vector. Each number in the vector represents a different aspect of the text. For brevity, here are the first 10 numbers in the vector.
+これを OpenAI Embedding API に渡すと、1536 個の数値（ベクトル）で表される埋め込みが返されます。ベクトル内の各数値はテキストが持つ異なる意味的側面を表します。短縮してベクトルの最初の10個の数値を示すと以下のようになります。
 
 ```python
 [-0.006655829958617687, 0.0026128944009542465, 0.008792596869170666, -0.02446001023054123, -0.008540431968867779, 0.022071078419685364, -0.010703742504119873, 0.003311325330287218, -0.011632772162556648, -0.02187200076878071, ...]
 ```
 
-## How is the Embedding index created?
+## 埋め込みインデックスはどのように作られるのか？
 
-The Embedding index for this lesson was created with a series of Python scripts. You'll find the scripts along with instructions in the [README](./scripts/README.md?WT.mc_id=academic-105485-koreyst) in the 'scripts` folder for this lesson. You don't need to run these scripts to complete this lesson as the Embedding Index is provided for you.
+このレッスンの埋め込みインデックスは、複数の Python スクリプトで生成されました。スクリプトと手順は `scripts` フォルダーの [README](./scripts/README.md?WT.mc_id=academic-105485-koreyst) に記載されています。埋め込みインデックスは既に提供されているため、レッスンを進めるだけならスクリプトを実行する必要はありません。
 
-The scripts perform the following operations:
+スクリプトは次の処理を行います:
 
-1. The transcript for each YouTube video in the [AI Show](https://www.youtube.com/playlist?list=PLlrxD0HtieHi0mwteKBOfEeOYf0LJU4O1) playlist is downloaded.
-2. Using [OpenAI Functions](https://learn.microsoft.com/azure/ai-services/openai/how-to/function-calling?WT.mc_id=academic-105485-koreyst), an attempt is made to extract the speaker name from the first 3 minutes of the YouTube transcript. The speaker name for each video is stored in the Embedding Index named `embedding_index_3m.json`.
-3. The transcript text is then chunked into **3 minute text segments**. The segment includes about 20 words overlapping from the next segment to ensure that the Embedding for the segment is not cut off and to provide better search context.
-4. Each text segment is then passed to the OpenAI Chat API to summarize the text into 60 words. The summary is also stored in the Embedding Index `embedding_index_3m.json`.
-5. Finally, the segment text is passed to the OpenAI Embedding API. The Embedding API returns a vector of 1536 numbers that represent the semantic meaning of the segment. The segment along with the OpenAI Embedding vector is stored in an Embedding Index `embedding_index_3m.json`.
+1. [AI Show](https://www.youtube.com/playlist?list=PLlrxD0HtieHi0mwteKBOfEeOYf0LJU4O1) プレイリスト内の各動画のトランスクリプトをダウンロードします。
+2. [OpenAI Functions](https://learn.microsoft.com/azure/ai-services/openai/how-to/function-calling?WT.mc_id=academic-105485-koreyst) を利用してトランスクリプトの最初の3分から話者の名前を抽出しようとします。抽出した話者名は `embedding_index_3m.json` に格納されます。
+3. トランスクリプトを**3分ごとのテキストセグメント**に分割します。次のセグメントと約20語を重複させることで、セグメントの境界で意味が切れないようにし、検索の文脈を保ちます。
+4. 各テキストセグメントを OpenAI Chat API に渡して60語程度に要約します。要約も `embedding_index_3m.json` に保存されます。
+5. 最後に、各セグメントのテキストを OpenAI Embedding API に渡し、1536個の数値ベクトルを取得します。セグメントテキストと対応する埋め込みベクトルは `embedding_index_3m.json` に保存されます。
 
-### Vector Databases
+### ベクターデータベース
 
-For lesson simplicity, the Embedding Index is stored in a JSON file named `embedding_index_3m.json` and loaded into a Pandas DataFrame. However, in production, the Embedding Index would be stored in a vector database such as [Azure Cognitive Search](https://learn.microsoft.com/training/modules/improve-search-results-vector-search?WT.mc_id=academic-105485-koreyst), [Redis](https://cookbook.openai.com/examples/vector_databases/redis/readme?WT.mc_id=academic-105485-koreyst), [Pinecone](https://cookbook.openai.com/examples/vector_databases/pinecone/readme?WT.mc_id=academic-105485-koreyst), [Weaviate](https://cookbook.openai.com/examples/vector_databases/weaviate/readme?WT.mc_id=academic-105485-koreyst), to name but a few.
+このレッスンでは簡便さのため、埋め込みインデックスを `embedding_index_3m.json` という JSON ファイルに保存し、Pandas DataFrame に読み込んで利用しています。実運用では、埋め込みインデックスは [Azure Cognitive Search](https://learn.microsoft.com/training/modules/improve-search-results-vector-search?WT.mc_id=academic-105485-koreyst)、[Redis](https://cookbook.openai.com/examples/vector_databases/redis/readme?WT.mc_id=academic-105485-koreyst)、[Pinecone](https://cookbook.openai.com/examples/vector_databases/pinecone/readme?WT.mc_id=academic-105485-koreyst)、[Weaviate](https://cookbook.openai.com/examples/vector_databases/weaviate/readme?WT.mc_id=academic-105485-koreyst) などのベクターデータベースに保存することが一般的です。
 
-## Understanding cosine similarity
+## コサイン類似度（cosine similarity）を理解する
 
-We've learned about text embeddings, the next step is to learn how to use text embeddings to search for data and in particular find the most similar embeddings to a given query using cosine similarity.
+テキスト埋め込みについて学んだら、その埋め込みを使ってデータ検索を行う方法、特にクエリに対して最も類似した埋め込みを見つける方法（コサイン類似度）を学びます。
 
-### What is cosine similarity?
+### コサイン類似度とは？
 
-Cosine similarity is a measure of similarity between two vectors, you'll also hear this referred to as `nearest neighbor search`. To perform a cosine similarity search you need to _vectorize_ for _query_ text using the OpenAI Embedding API. Then calculate the _cosine similarity_ between the query vector and each vector in the Embedding Index. Remember, the Embedding Index has a vector for each YouTube transcript text segment. Finally, sort the results by cosine similarity and the text segments with the highest cosine similarity are the most similar to the query.
+コサイン類似度は2つのベクトル間の類似度を測る尺度で、`最近傍検索（nearest neighbor search）` として知られることもあります。コサイン類似度検索を行うには、クエリテキストを OpenAI Embedding API でベクトル化し、そのクエリベクトルと埋め込みインデックス内の各ベクトルとのコサイン類似度を計算します。埋め込みインデックスは各YouTubeトランスクリプトのテキストセグメントごとにベクトルを保持しており、類似度の高い順にソートすることでクエリに最も近いテキストセグメントを見つけられます。
 
-From a mathematic perspective, cosine similarity measures the cosine of the angle between two vectors projected in a multidimensional space. This measurement is beneficial, because if two documents are far apart by Euclidean distance because of size, they could still have a smaller angle between them and therefore higher cosine similarity. For more information about cosine similarity equations, see [Cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity?WT.mc_id=academic-105485-koreyst).
+数学的には、コサイン類似度は多次元空間における2つのベクトルのなす角の余弦を測ります。ユークリッド距離が大きくても、ベクトル間の角度が小さければコサイン類似度は高くなるため、文書の類似性評価に有益です。コサイン類似度の数式については、[Cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity?WT.mc_id=academic-105485-koreyst) を参照してください。
 
-## Building your first search application
+## 最初の検索アプリケーションを構築する
 
-Next, we're going to learn how to build a search application using Embeddings. The search application will allow students to search for a video by typing a question. The search application will return a list of videos that are relevant to the question. The search application will also return a link to the place in the video where the answer to the question is located.
+ここからは、埋め込みを使った検索アプリケーションの構築方法をステップで学びます。検索アプリは質問を受け取り、それに関連する動画一覧と該当箇所へのリンクを返します。
 
-This solution was built and tested on Windows 11, macOS, and Ubuntu 22.04 using Python 3.10 or later. You can download Python from [python.org](https://www.python.org/downloads/?WT.mc_id=academic-105485-koreyst).
+このソリューションは Windows 11、macOS、Ubuntu 22.04 上で Python 3.10 以降を使って構築・テストされています。Python は [python.org](https://www.python.org/downloads/?WT.mc_id=academic-105485-koreyst) からダウンロードできます。
 
-## Assignment - building a search application, to enable students
+## 課題：学生のための検索アプリケーションを構築する
 
-We introduced our startup at the beginning of this lesson. Now it's time to enable the students to build a search application for their assessments.
+このレッスンの冒頭で紹介したスタートアップのために、学生が評価課題として検索アプリケーションを構築できるようにします。
 
-In this assignment, you will create the Azure OpenAI Services that will be used to build the search application. You will create the following Azure OpenAI Services. You'll need an Azure subscription to complete this assignment.
+この課題では、検索アプリで使用する Azure OpenAI サービスを作成します。作業を進めるには Azure サブスクリプションが必要です。
 
-### Start the Azure Cloud Shell
+### Azure Cloud Shell を起動する
 
-1. Sign in to the [Azure portal](https://portal.azure.com/?WT.mc_id=academic-105485-koreyst).
-2. Select the Cloud Shell icon in the upper-right corner of the Azure portal.
-3. Select **Bash** for the environment type.
+1. [Azure ポータル](https://portal.azure.com/?WT.mc_id=academic-105485-koreyst) にサインインします。
+2. Azure ポータルの右上にある Cloud Shell アイコンを選択します。
+3. 環境タイプとして **Bash** を選択します。
 
-#### Create a resource group
+#### リソースグループを作成する
 
-> For these instructions, we're using the resource group named "semantic-video-search" in East US.
-> You can change the name of the resource group, but when changing the location for the resources,
-> check the [model availability table](https://aka.ms/oai/models?WT.mc_id=academic-105485-koreyst).
+> この手順では、East US にあるリソースグループ名を `semantic-video-search` としています。
+> リソースグループ名は変更できますが、リソースのロケーションを変更する場合は [モデルの利用可能性テーブル](https://aka.ms/oai/models?WT.mc_id=academic-105485-koreyst) を確認してください。
 
 ```shell
 az group create --name semantic-video-search --location eastus
 ```
 
-#### Create an Azure OpenAI Service resource
+#### Azure OpenAI サービスリソースを作成する
 
-From the Azure Cloud Shell, run the following command to create an Azure OpenAI Service resource.
+Azure Cloud Shell から次のコマンドを実行して Azure OpenAI サービスのリソースを作成します。
 
 ```shell
 az cognitiveservices account create --name semantic-video-openai --resource-group semantic-video-search \
     --location eastus --kind OpenAI --sku s0
 ```
 
-#### Get the endpoint and keys for usage in this application
+#### このアプリケーションで使用するエンドポイントとキーを取得する
 
-From the Azure Cloud Shell, run the following commands to get the endpoint and keys for the Azure OpenAI Service resource.
+Azure Cloud Shell から次のコマンドを実行して、Azure OpenAI サービスのエンドポイントとキーを取得します。
 
 ```shell
 az cognitiveservices account show --name semantic-video-openai \
@@ -133,9 +132,9 @@ az cognitiveservices account keys list --name semantic-video-openai \
    --resource-group semantic-video-search | jq -r .key1
 ```
 
-#### Deploy the OpenAI Embedding model
+#### OpenAI Embedding モデルをデプロイする
 
-From the Azure Cloud Shell, run the following command to deploy the OpenAI Embedding model.
+Azure Cloud Shell から次のコマンドを実行して OpenAI の埋め込みモデルをデプロイします。
 
 ```shell
 az cognitiveservices account deployment create \
@@ -148,16 +147,16 @@ az cognitiveservices account deployment create \
     --sku-capacity 100 --sku-name "Standard"
 ```
 
-## Solution
+## ソリューション
 
-Open the [solution notebook](./python/aoai-solution.ipynb?WT.mc_id=academic-105485-koreyst) in GitHub Codespaces and follow the instructions in the Jupyter Notebook.
+GitHub Codespaces 上で [ソリューションノートブック](./python/aoai-solution.ipynb?WT.mc_id=academic-105485-koreyst) を開き、Jupyter Notebook の指示に従ってください。
 
-When you run the notebook, you'll be prompted to enter a query. The input box will look like this:
+ノートブックを実行するとクエリの入力が求められます。入力ボックスは次のようになります:
 
-![Input box for the user to input a query](./images/notebook-search.png?WT.mc_id=academic-105485-koreyst)
+![ユーザーがクエリを入力するための入力ボックス](./images/notebook-search.png?WT.mc_id=academic-105485-koreyst)
 
-## Great Work! Continue Your Learning
+## お疲れ様でした！学習を続けましょう
 
-After completing this lesson, check out our [Generative AI Learning collection](https://aka.ms/genai-collection?WT.mc_id=academic-105485-koreyst) to continue leveling up your Generative AI knowledge!
+レッスンを修了したら、[Generative AI Learning コレクション](https://aka.ms/genai-collection?WT.mc_id=academic-105485-koreyst) を参照して生成AIの学習を続けてください。
 
-Head over to Lesson 9 where we will look at how to [build image generation applications](../09-building-image-applications/README.md?WT.mc_id=academic-105485-koreyst)!
+次は Lesson 9 に進み、[画像生成アプリケーションの構築](../09-building-image-applications/README.md?WT.mc_id=academic-105485-koreyst) を学びましょう！
