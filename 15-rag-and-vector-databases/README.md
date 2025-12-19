@@ -1,90 +1,78 @@
-# Retrieval Augmented Generation (RAG) and Vector Databases
+# Retrieval Augmented Generation（RAG）とベクトルデータベース
 
 [![Retrieval Augmented Generation (RAG) and Vector Databases](./images/15-lesson-banner.png?WT.mc_id=academic-105485-koreyst)](https://youtu.be/4l8zhHUBeyI?si=BmvDmL1fnHtgQYkL)
 
-In the search applications lesson, we briefly learned how to integrate your own data into Large Language Models (LLMs). In this lesson, we will delve further into the concepts of grounding your data in your LLM application, the mechanics of the process and the methods for storing data, including both embeddings and text.
+検索アプリケーションのレッスンでは、独自データを大規模言語モデル（LLM）に統合する方法を簡単に学びました。このレッスンでは、LLMアプリケーションにおけるデータのグラウンディング（根拠付け）や処理の仕組み、埋め込み（embeddings）とテキストの両方を含むデータ保存の方法について詳しく掘り下げます。
 
-> **Video Coming Soon**
+> **ビデオは近日公開予定**
 
-## Introduction
+## はじめに
 
-In this lesson we will cover the following:
+このレッスンでは以下を扱います：
 
-- An introduction to RAG, what it is and why it is used in AI (artificial intelligence).
+- RAG のイントロ（何か、なぜAIで使われるのか）
+- ベクトルデータベースとは何か、それをアプリケーション用に作成する方法
+- RAG をアプリケーションに統合する実践例
 
-- Understanding what vector databases are and creating one for our application.
+## 学習目標
 
-- A practical example on how to integrate RAG into an application.
+このレッスンを終えると、次ができるようになります：
 
-## Learning Goals
+- データ取得と処理の観点で RAG の重要性を説明できる
+- RAG アプリケーションをセットアップして LLM にデータをグラウンドできる
+- LLM アプリケーションで RAG とベクトルデータベースを効果的に統合できる
 
-After completing this lesson, you will be able to:
+## シナリオ：独自データで LLM を拡張する
 
-- Explain the significance of RAG in data retrieval and processing.
+このレッスンでは、教育スタートアップのノート（学習メモ）を追加して、チャットボットが各科目についてより多くの情報を参照できるようにします。ノートを活用することで、学習者はより効果的に学べ、試験対策の復習がしやすくなります。本シナリオで使用するものは次の通りです：
 
-- Setup RAG application and ground your data to an LLM
+- `Azure OpenAI`: チャットボット作成に使用する LLM
+- `AI for beginners' lesson on Neural Networks`: LLM をグラウンドするためのデータ
+- `Azure AI Search` と `Azure Cosmos DB`: データを保存し検索インデックスを作成するためのベクトルデータベース
 
-- Effective integration of RAG and Vector Databases in LLM Applications.
+ユーザーはノートから練習問題を作成したり、復習用フラッシュカードを生成したり、要約を作成したりできるようになります。まずは RAG が何で、どのように機能するかを見ていきましょう。
 
-## Our Scenario: enhancing our LLMs with our own data
+## Retrieval Augmented Generation（RAG）とは
 
-For this lesson, we want to add our own notes into the education startup, which allows the chatbot to get more information on the different subjects. Using the notes that we have, learners will be able to study better and understand the different topics, making it easier to revise for their examinations. To create our scenario, we will use:
+LLM を用いたチャットボットは、ユーザーのプロンプトを処理して応答を生成します。対話的に様々なトピックに対応できますが、応答は与えられたコンテキストと基礎学習データに依存します。例えば GPT-4 の知識カットオフは 2021 年 9 月であり、それ以降の出来事は知らない可能性があります。また、LLM の学習データは個人のノートや企業のマニュアルといった機密情報を含まない場合が一般的です。
 
-- `Azure OpenAI:` the LLM we will use to create our chatbot
+### RAG の仕組み
 
-- `AI for beginners' lesson on Neural Networks`: this will be the data we ground our LLM on
+![RAG の動作を示す図](images/how-rag-works.png?WT.mc_id=academic-105485-koreyst)
 
-- `Azure AI Search` and `Azure Cosmos DB:` vector database to store our data and create a search index
+ノートからクイズを作るチャットボットを展開したいとします。このときナレッジベース（知識ベース）への接続が必要になります。RAG は次のように動作します：
 
-Users will be able to create practice quizzes from their notes, revision flash cards and summarize it to concise overviews. To get started, let us look at what is RAG and how works:
+- **ナレッジベース**：事前に文書を取り込み、前処理（大きな文書を小さなチャンクに分割し、テキスト埋め込みに変換してデータベースに保存するなど）を行います。
+- **ユーザークエリ**：ユーザーが質問をする。
+- **検索（Retrieval）**：クエリを埋め込みに変換し、ナレッジベースから関連情報を取得してプロンプトに追加する。
+- **拡張生成（Augmented Generation）**：取得したデータを用いて LLM がより適切な応答を生成します。LLM は事前学習データだけでなく、追加されたコンテキストに基づいて答えを作成します。
 
-## Retrieval Augmented Generation (RAG)
+![RAG のアーキテクチャ図](images/encoder-decode.png?WT.mc_id=academic-105485-koreyst)
 
-An LLM powered chatbot processes user prompts to generate responses. It is designed to be interactive and engages with users on a wide array of topics. However, its responses are limited to the context provided and its foundational training data. For instance, GPT-4 knowledge cutoff is September 2021, meaning, it lacks knowledge of events that have occurred after this period. In addition, the data used to train LLMs excludes confidential information such as personal notes or a company's product manual.
+RAG のアーキテクチャはエンコーダとデコーダの2つの部分で構成されるトランスフォーマーベースの実装が多いです。ユーザーの質問はエンコードされて意味を表したベクトルになり、そのベクトルがドキュメントインデックスと照合され、応答生成にデコードされます。LLM はエンコーダ・デコーダのモデルを使って出力を生成します。
 
-### How RAGs (Retrieval Augmented Generation) work
+研究論文 [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://arxiv.org/pdf/2005.11401.pdf?WT.mc_id=academic-105485-koreyst) では、RAG の実装に次の二つのアプローチが提案されています：
 
-![drawing showing how RAGs work](images/how-rag-works.png?WT.mc_id=academic-105485-koreyst)
+- **RAG-Sequence**：取得したドキュメント全体を用いて最適な回答を予測する方法
+- **RAG-Token**：ドキュメントを使って次のトークンを生成し、その結果を逐次取得して応答を作る方法
 
-Suppose you want to deploy a chatbot that creates quizzes from your notes, you will require a connection to the knowledge base. This is where RAG comes to the rescue. RAGs operate as follows:
+### なぜ RAG を使うのか？
 
-- **Knowledge base:** Before retrieval, these documents need to be ingested and preprocessed, typically breaking down large documents into smaller chunks, transforming them to text embedding and storing them in a database.
+- **情報の豊富さ**：テキスト応答を最新の情報で補強できるため、ドメイン特化タスクの性能が向上します。
+- **虚偽生成（ファブリケーション）の抑制**：ナレッジベース内の検証可能なデータを参照することで、事実に基づかない回答を減らせます。
+- **コスト効果**：LLM のファインチューニングに比べて経済的に効率が良い場合があります。
 
-- **User Query:** the user asks a question
+## ナレッジベースの作成
 
-- **Retrieval:** When a user asks a question, the embedding model retrieves relevant information from our knowledge base to provide more context that will be incorporated into the prompt.
+本アプリケーションでは、個人のデータ（AI for Beginners のニューラルネットワークレッスン）を使います。
 
-- **Augmented Generation:** the LLM enhances its response based on the data retrieved. It allows the response generated to be not only based on pre-trained data but also relevant information from the added context. The retrieved data is used to augment the LLM's responses. The LLM then returns an answer to the user's question.
+### ベクトルデータベース
 
-![drawing showing how RAGs architecture](images/encoder-decode.png?WT.mc_id=academic-105485-koreyst)
+ベクトルデータベースは、従来型データベースとは異なり、埋め込みベクトルを保存・管理・検索するために設計された専門的なデータベースです。文書の数値的表現（embeddings）を保存します。テキストを数値ベクトルに変換することで、AI システムがデータの意味を理解・処理しやすくなります。
 
-The architecture for RAGs is implemented using transformers consisting of two parts: an encoder and a decoder. For example, when a user asks a question, the input text 'encoded' into vectors capturing the meaning of words and the vectors are 'decoded' into our document index and generates new text based on the user query. The LLM uses both an encoder-decoder model to generate the output.
+LLM は入力トークン数に制限があるため、埋め込み全体を一度に渡せないことが多く、文書をチャンクに分割して類似する埋め込みだけを返す必要があります。チャンク化は渡すトークン数を削減し、コストの節約にもつながります。
 
-Two approaches when implementing RAG according to the proposed paper: [Retrieval-Augmented Generation for Knowledge intensive NLP (natural language processing software) Tasks](https://arxiv.org/pdf/2005.11401.pdf?WT.mc_id=academic-105485-koreyst) are:
-
-- **_RAG-Sequence_** using retrieved documents to predict the best possible answer to a user query
-
-- **RAG-Token** using documents to generate the next token, then retrieve them to answer the user's query
-
-### Why would you use RAGs? 
-
-- **Information richness:** ensures text responses are up to date and current. It, therefore, enhances performance on domain specific tasks by accessing the internal knowledge base.
-
-- Reduces fabrication by utilizing **verifiable data** in the knowledge base to provide context to the user queries.
-
-- It is **cost effective** as they are more economical compared to fine-tuning an LLM
-
-## Creating a knowledge base
-
-Our application is based on our personal data i.e., the Neural Network lesson on AI For Beginners curriculum.
-
-### Vector Databases
-
-A vector database, unlike traditional databases, is a specialized database designed to store, manage and search embedded vectors. It stores numerical representations of documents. Breaking down data to numerical embeddings makes it easier for our AI system to understand and process the data.
-
-We store our embeddings in vector databases as LLMs have a limit of the number of tokens they accept as input. As you cannot pass the entire embeddings to an LLM, we will need to break them down into chunks and when a user asks a question, the embeddings most like the question will be returned together with the prompt. Chunking also reduces costs on the number of tokens passed through an LLM.
-
-Some popular vector databases include Azure Cosmos DB, Clarifyai, Pinecone, Chromadb, ScaNN, Qdrant and DeepLake. You can create an Azure Cosmos DB model using Azure CLI with the following command:
+代表的なベクトルデータベースには Azure Cosmos DB、Clarifyai、Pinecone、Chromadb、ScaNN、Qdrant、DeepLake などがあります。Azure Cosmos DB を Azure CLI で作成する例は次の通りです：
 
 ```bash
 az login
@@ -93,9 +81,9 @@ az cosmosdb create -n <cosmos-db-name> -r <resource-group-name>
 az cosmosdb list-keys -n <cosmos-db-name> -g <resource-group-name>
 ```
 
-### From text to embeddings
+### テキストから埋め込みへ
 
-Before we store our data, we will need to convert it to vector embeddings before it is stored in the database. If you are working with large documents or long texts, you can chunk them based on queries you expect. Chunking can be done at sentence level, or at a paragraph level. As chunking derives meanings from the words around them, you can add some other context to a chunk, for example, by adding the document title or including some text before or after the chunk. You can chunk the data as follows:
+データを保存する前に、テキストをベクトル埋め込みに変換する必要があります。長文や大きなドキュメントを扱う場合、想定されるクエリに合わせてチャンク化することができます。チャンク化は文や段落単位で行えます。また、周辺の文脈を保持するために文書タイトルやチャンク前後のテキストを付与することも有効です。例としてチャンク化は次のように行えます：
 
 ```python
 def split_text(text, max_length, min_length):
@@ -116,40 +104,38 @@ def split_text(text, max_length, min_length):
     return chunks
 ```
 
-Once chunked, we can then embed our text using different embedding models. Some models you can use include: word2vec, ada-002 by OpenAI, Azure Computer Vision and many more. Selecting a model to use will depend on the languages you're using, the type of content encoded (text/images/audio), the size of input it can encode and length of the embedding output.
+チャンク化した後、異なる埋め込みモデルを使ってテキストを埋め込み化します。利用できるモデルには word2vec、OpenAI の `text-embedding-ada-002`、Azure の各種埋め込みなどがあります。モデル選択は使用言語、エンコード対象（テキスト/画像/音声）、入力長や出力ベクトル長に依存します。
 
-An example of embedded text using OpenAI's `text-embedding-ada-002` model is:
-![an embedding of the word cat](images/cat.png?WT.mc_id=academic-105485-koreyst)
+OpenAI の `text-embedding-ada-002` を用いた埋め込みの例（図）：
 
-## Retrieval and Vector Search
+!["cat" の埋め込み例](images/cat.png?WT.mc_id=academic-105485-koreyst)
 
-When a user asks a question, the retriever transforms it into a vector using the query encoder, it then searches through our document search index for relevant vectors in the document that are related to the input. Once done, it converts both the input vector and document vectors into text and passes it through the LLM.
+## 検索（Retrieval）とベクトル検索
 
-### Retrieval
+ユーザーが質問をすると、検索器（retriever）はクエリを埋め込みに変換し、ドキュメントインデックス内の関連ベクトルを探します。見つかった結果はテキストとして組み込まれ、LLM に渡されます。
 
-Retrieval happens when the system tries to quickly find the documents from the index that satisfy the search criteria. The goal of the retriever is to get documents that will be used to provide context and ground the LLM on your data.
+### 検索（Retrieval）
 
-There are several ways to perform search within our database such as:
+検索は、インデックスから条件を満たす文書をすばやく見つけるプロセスです。retriever の目的は、LLM にコンテキストを与え、データに基づいた応答を生成できるような文書を取得することです。
 
-- **Keyword search** - used for text searches
+データベース内検索の方法としては次のようなものがあります：
 
-- **Semantic search** - uses the semantic meaning of words
+- **キーワード検索** - テキスト検索に使用する
+- **セマンティック検索** - 単語の意味に基づいて検索する
+- **ベクトル検索** - 文書を埋め込みベクトルに変換し、クエリベクトルに最も近いベクトルを検索する
+- **ハイブリッド** - キーワード検索とベクトル検索の組み合わせ
 
-- **Vector search** - converts documents from text to vector representations using embedding models. Retrieval will be done by querying the documents whose vector representations are closest to the user question.
+データベース内にクエリと類似する応答が存在しない場合、システムは最善の情報を返しますが、関連度の閾値（最大距離）を設定したり、キーワードとベクトル検索を組み合わせるハイブリッド検索を用いることで精度を改善できます。レッスンではハイブリッド検索を用い、チャンクと埋め込みを格納したデータフレームを扱います。
 
-- **Hybrid** - a combination of both keyword and vector search.
+### ベクトル類似度
 
-A challenge with retrieval comes in when there is no similar response to the query in the database, the system will then return the best information they can get, however, you can use tactics like set up the maximum distance for relevance or use hybrid search that combines both keywords and vector search. In this lesson we will use hybrid search, a combination of both vector and keyword search. We will store our data into a dataframe with columns containing the chunks as well as embeddings.
+retriever はナレッジベース内で近い埋め込みを検索します。ユーザーのクエリを埋め込みに変換し、最も類似する埋め込みを返します。類似度を測る一般的な手法はコサイン類似度で、二つのベクトル間の角度に基づいて類似性を評価します。
 
-### Vector Similarity
+ほかにもユークリッド距離（ベクトルの端点間の直線距離）やドット積（対応要素の積和）を利用することができます。
 
-The retriever will search through the knowledge database for embeddings that are close together, the closest neighbour, as they are texts that are similar. In the scenario a user asks a query, it is first embedded then matched with similar embeddings. The common measurement that is used to find how similar different vectors are is cosine similarity which is based on the angle between two vectors.
+### 検索インデックス
 
-We can measure similarity using other alternatives we can use are Euclidean distance which is the straight line between vector endpoints and dot product which measures the sum of the products of corresponding elements of two vectors.
-
-### Search index
-
-When doing retrieval, we will need to build a search index for our knowledge base before we perform search. An index will store our embeddings and can quickly retrieve the most similar chunks even in a large database. We can create our index locally using:
+検索を行う前に、ナレッジベースの検索インデックスを構築する必要があります。インデックスは埋め込みを保存し、大規模データでも類似チャンクを高速に取得できます。ローカルでインデックスを作成する例：
 
 ```python
 from sklearn.neighbors import NearestNeighbors
@@ -163,9 +149,9 @@ nbrs = NearestNeighbors(n_neighbors=5, algorithm='ball_tree').fit(embeddings)
 distances, indices = nbrs.kneighbors(embeddings)
 ```
 
-### Re-ranking
+### 再ランキング（Re-ranking）
 
-Once you have queried the database, you might need to sort the results from the most relevant. A reranking LLM utilizes Machine Learning to improve the relevance of search results by ordering them from the most relevant. Using Azure AI Search, reranking is done automatically for you using a semantic reranker. An example of how reranking works using nearest neighbours:
+データベースに問い合わせた結果を、関連度の高い順に並べ替える必要がある場合があります。再ランキング用の LLM は機械学習を用いて検索結果の関連度を改善します。Azure AI Search ではセマンティックリランカーを使って自動的に再ランキングが行われます。Nearest Neighbors を使った再ランキングの例：
 
 ```python
 # Find the most similar documents
@@ -183,9 +169,9 @@ for i in range(3):
         print(f"Index {index} not found in DataFrame")
 ```
 
-## Bringing it all together
+## すべてを統合する
 
-The last step is adding our LLM into the mix to be able to get responses that are grounded on our data. We can implement it as follows:
+最後のステップは、LLM を組み込んでデータに根拠のある応答を返すようにすることです。実装例は次の通りです：
 
 ```python
 user_input = "what is a perceptron?"
@@ -224,44 +210,37 @@ def chatbot(user_input):
 chatbot(user_input)
 ```
 
-## Evaluating our application
+## アプリケーションの評価
 
-### Evaluation Metrics
+### 評価指標
 
-- Quality of responses supplied ensuring it sounds natural, fluent and human-like
+- 応答の品質：自然で流暢か、人間らしいか
+- データに基づいているか（Groundedness）：応答が提供された文書から導かれているか
+- 関連性：応答が質問に一致し関連しているか
+- 流暢さ：文法的に意味が通っているか
 
-- Groundedness of the data: evaluating whether the response that came from supplied docs
+## RAG とベクトルデータベースのユースケース
 
-- Relevance: evaluating the response matches and is related to the question asked
+関数呼び出し（function calls）がアプリを改善するようなユースケースは多くあります：
 
-- Fluency - whether the response makes sense grammatically
+- Q&A：社内データをグラウンドしたチャットを社員の問い合わせ対応に利用
+- レコメンデーションシステム：映画やレストランなど、類似性に基づくマッチングを行う
+- チャットボットサービス：チャット履歴を保存し、ユーザーデータに基づいて会話をパーソナライズ
+- 画像埋め込みによる画像検索：画像認識や異常検出に有用
 
-## Use Cases for using RAG (Retrieval Augmented Generation) and vector databases
+## まとめ
 
-There are many different use cases where function calls can improve your app like:
+このレッスンでは、アプリにデータを追加する方法、ユーザーのクエリ、出力に至る一連の RAG の基本を扱いました。RAG の作成を簡素化するために、Semantic Kernel、LangChain、Autogen などのフレームワークを活用できます。
 
-- Question and Answering: grounding your company data to a chat that can be used by employees to ask questions.
+## 課題
 
-- Recommendation Systems: where you can create a system that matches the most similar values e.g. movies, restaurants and many more.
+Retrieval Augmented Generation（RAG）の学習を続けるために、次の課題を試してください：
 
-- Chatbot services: you can store chat history and personalize the conversation based on the user data.
+- お好みのフレームワークを使ってアプリのフロントエンドを作成する
+- LangChain または Semantic Kernel といったフレームワークを利用し、アプリケーションを再構築する
 
-- Image search based on vector embeddings, useful when doing image recognition and anomaly detection.
+レッスン修了、おめでとうございます 👏。
 
-## Summary
+## 学びはここで止まりません、旅を続けましょう
 
-We have covered the fundamental areas of RAG from adding our data to the application, the user query and output. To simplify creation of RAG, you can use frameworks such as Semanti Kernel, Langchain or Autogen.
-
-## Assignment
-
-To continue your learning of Retrieval Augmented Generation (RAG) you can build:
-
-- Build a front-end for the application using the framework of your choice
-
-- Utilize a framework, either LangChain or Semantic Kernel, and recreate your application.
-
-Congratulations for completing the lesson 👏.
-
-## Learning does not stop here, continue the Journey
-
-After completing this lesson, check out our [Generative AI Learning collection](https://aka.ms/genai-collection?WT.mc_id=academic-105485-koreyst) to continue leveling up your Generative AI knowledge!
+このレッスンを終えたら、[Generative AI Learning コレクション](https://aka.ms/genai-collection?WT.mc_id=academic-105485-koreyst) をチェックして、さらなる学習を続けてください！
