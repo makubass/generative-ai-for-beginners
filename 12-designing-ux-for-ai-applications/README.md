@@ -1,121 +1,117 @@
-# Designing UX for AI Applications
+# AI アプリケーションのための UX 設計
 
 [![Designing UX for AI Applications](./images/12-lesson-banner.png?WT.mc_id=academic-105485-koreyst)](https://youtu.be/VKbCejSICA8?si=MKj7GQYHfXRZyWW6)
 
-> _(Click the image above to view video of this lesson)_
+> _(上の画像をクリックすると、このレッスンのビデオが表示されます)_
 
-User experience is a very important aspect of building apps. Users need to be able to use your app in an efficient way to perform tasks. Being efficient is one thing but you also need to design apps so that they can be used by everyone, to make them _accessible_. This chapter will focus on this area so you hopefully end up designing an app that people can and want to use.
+ユーザー体験（UX）はアプリを作る上で非常に重要な側面です。ユーザーがタスクを効率よく実行できることが必要です。「効率的である」ことは重要ですが、同時に誰でも使えるようにアプリを設計して、アクセシビリティを確保する必要があります。本章ではこの領域に焦点を当て、誰もが使いたくなる・使えるアプリを設計することを目指します。
 
-## Introduction
+## はじめに
 
-User experience is how a user interacts with and uses a specific product or service be it a system, tool, or design. When developing AI applications, developers not only focus on ensuring the user experience is effective but also ethical. In this lesson, we cover how to build Artificial Intelligence (AI) applications that address user needs.
+ユーザー体験（UX）とは、システムやツール、デザインなど、特定の製品やサービスに対するユーザーの関わり方や使い方のことです。AI アプリケーションを開発する際、開発者は UX が効果的であるだけでなく倫理的であることにも注意を払う必要があります。このレッスンでは、ユーザーのニーズに応える AI アプリケーションの作り方を扱います。
 
-The lesson will cover the following areas:
+このレッスンで扱う内容：
 
-- Introduction to User Experience and Understanding User Needs
-- Designing AI Applications for Trust and Transparency
-- Designing AI Applications for Collaboration and Feedback
+- ユーザー体験の概要とユーザーのニーズの理解
+- 信頼性と透明性を考慮した AI アプリ設計
+- 協働とフィードバックを促す AI アプリ設計
 
-## Learning goals
+## 学習目標
 
-After taking this lesson, you'll be able to:
+このレッスンを終えると、次のことができるようになります：
 
-- Understand how to build AI applications that meet the user needs.
-- Design AI applications that promote trust and collaboration.
+- ユーザーのニーズに合った AI アプリケーションの構築方法を理解する。
+- 信頼と協働を促進する AI アプリを設計する。
 
-### Prerequisite
+### 前提条件
 
-Take some time and read more about [user experience and design thinking.](https://learn.microsoft.com/training/modules/ux-design?WT.mc_id=academic-105485-koreyst)
+時間を取って [ユーザー体験とデザイン思考](https://learn.microsoft.com/training/modules/ux-design?WT.mc_id=academic-105485-koreyst) についてさらに読んでください。
 
-## Introduction to User Experience and Understanding User Needs
+## ユーザー体験の導入とユーザーのニーズの理解
 
-In our fictitious education startup, we have two primary users, teachers and students. Each of the two users has unique needs. A user-centered design prioritizes the user ensuring the products are relevant and beneficial for those it is intended for.
+この架空の教育スタートアップでは、主に教師と生徒という二つの主要なユーザーがいます。それぞれのユーザーが持つニーズは異なります。ユーザー中心設計は、製品が意図した利用者にとって有益で関連性があるように、ユーザーを優先します。
 
-The application should be **useful, reliable, accessible and pleasant** to provide a good user experience.
+アプリケーションは「**有用（Useful）で、信頼でき（Reliable）、アクセシブル（Accessible）で、快適（Pleasant）である**」べきです。これが良いユーザー体験の提供につながります。
 
-### Usability
+### 使いやすさ（Usability）
 
-Being useful means that the application has functionality that matches its intended purpose, such as automating the grading process or generating flashcards for revision. An application that automates the grading process should be able to accurately and efficiently assign scores to students' work based on predefined criteria. Similarly, an application that generates revision flashcards should be able to create relevant and diverse questions based on its data.
+「有用である」とは、アプリが目的に合った機能を持つことを意味します。例えば、採点プロセスを自動化したり、復習用のフラッシュカードを生成したりする機能です。採点の自動化機能は、事前定義された基準に基づいて正確かつ効率的に生徒の答案に点数を付与できる必要があります。同様に、復習用のフラッシュカードを生成する機能は、関連性があり多様な問題をデータに基づいて作れる必要があります。
 
-### Reliability
+### 信頼性（Reliability）
 
-Being reliable means that the application can perform its task consistently and without errors. However, AI just like humans is not perfect and may be prone to errors. The applications may encounter errors or unexpected situations that require human intervention or correction. How do you handle errors? In the last section of this lesson, we will cover how AI systems and applications are designed for collaboration and feedback.
+「信頼できる」とは、アプリが一貫して誤りなくタスクを実行できることを意味します。ただし、AI は人間と同様に完全ではなく、誤りを犯す可能性があります。アプリはエラーや予期せぬ状況に遭遇することがあり、人間の介入や修正を必要とする場合があります。エラーをどのように扱うか？このレッスンの最後のセクションでは、AI システムとアプリを協働とフィードバックのためにどのように設計するかを扱います。
 
-### Accessibility
+### アクセシビリティ（Accessibility）
 
-Being accessible means extending the user experience to users with various abilities, including those with disabilities, ensuring no one is left out. By following accessibility guidelines and principles, AI solutions become more inclusive, usable, and beneficial for all users.
+「アクセシブルである」とは、障がいのあるユーザーを含む様々な能力を持つユーザーに対して UX を広げ、誰も取り残されないようにすることです。アクセシビリティのガイドラインや原則に従うことで、AI ソリューションはより包括的で使いやすく、すべてのユーザーにとって有益になります。
 
-### Pleasant
+### 快適さ（Pleasant）
 
-Being pleasant means that the application is enjoyable to use. An appealing user experience can have a positive impact on the user encouraging them to return to the application and increasing business revenue.
+「快適である」とは、アプリの利用が楽しいことを意味します。魅力的なユーザー体験はユーザーの再訪を促し、ビジネスの収益向上にもつながります。
 
-![image illustrating UX considerations in AI](./images/uxinai.png?WT.mc_id=academic-105485-koreyst)
+![AI における UX の考慮事項を示す画像](./images/uxinai.png?WT.mc_id=academic-105485-koreyst)
 
-Not every challenge can be solved with AI. AI comes in to augment your user experience, be it automating manual tasks, or personalizing user experiences.
+すべての課題が AI によって解決できるわけではありません。AI は、手作業の自動化やユーザー体験のパーソナライズなど、UX を補強する目的で利用されます。
 
-## Designing AI Applications for Trust and Transparency
+## 信頼と透明性を備えた AI アプリケーションの設計
 
-Building trust is critical when designing AI applications. Trust ensures a user is confident that the application will get the work done, deliver results consistently and the results are what the user needs. A risk in this area is mistrust and overtrust. Mistrust occurs when a user has little or no trust in an AI system, this leads to the user rejecting your application. Overtrust occurs when a user overestimates the capability of an AI system, leading to users trusting the AI system too much. For example, an automated grading system in the case of overtrust might lead the teacher not to proof through some of the papers to ensure the grading system works well. This could result in unfair or inaccurate grades for the students, or missed opportunities for feedback and improvement.
+AI アプリケーションを設計する際に、信頼構築は極めて重要です。信頼があればユーザーはアプリが役割を果たし、結果を一貫して提供し、結果がニーズに合致していると確信できます。この領域でのリスクは「不信」や「過信」です。不信はユーザーが AI システムをほとんど信頼しない状況で、アプリが拒否される原因になります。過信はユーザーが AI の能力を過大評価しすぎる状況で、AI を過度に信頼することにつながります。たとえば、自動採点システムで過信が生じると、教師が一部の答案を確認しないことになり、不公平または不正確な成績や、フィードバックや改善の機会の逸失につながる可能性があります。
 
-Two ways to ensure that trust is put right at the center of design are explainability and control.
+信頼を中心に据えた設計を行うための二つの方法は「説明可能性（Explainability）」と「コントロール（Control）」です。
 
-### Explainability
+### 説明可能性（Explainability）
 
-When AI helps inform decisions such as imparting knowledge to future generations, it is critical for teachers and parents to understand how AI decisions are made. This is explainability - understanding how AI applications make decisions. Designing for explainability includes adding details that highlight how AI arrived at the output. Audience must be aware that the output is generated by AI and not a human. For example, instead of saying "Start chatting with your tutor now" say "Use AI tutor that adapts to your needs and helps you learn at your pace."
+AI が意思決定に関わる場合、特に教育など将来の世代に知識を伝える場面では、教師や保護者が AI の判断プロセスを理解することが重要です。これが説明可能性です—AI アプリがどのように意思決定しているかを理解できること。説明可能に設計するには、AI がどのように出力に至ったかを示す説明を追加します。利用者は、その出力が AI によって生成されたものであり人間ではないことを認識している必要があります。たとえば「今すぐチューターとチャットを始めよう」と言う代わりに、「あなたに合わせて学習を支援する AI チューターを利用しましょう」と表現する、などです。
 
-![an app landing page with clear illustration of explainability in AI applications](./images/explanability-in-ai.png?WT.mc_id=academic-105485-koreyst)
+![AI アプリにおける説明可能性を示すランディングページ](./images/explanability-in-ai.png?WT.mc_id=academic-105485-koreyst)
 
-Another example is how AI uses user and personal data. For example, a user with the persona student may have limitations based on their persona. The AI may not be able to reveal answers to questions but may help guide the user to think through how they can solve a problem.
+もう一つの例は、AI がユーザーや個人データをどのように使うかの説明です。たとえば「生徒」というペルソナを持つユーザーは、そのペルソナに基づいた制約があるかもしれません。AI は直接解答を明かせない場合でも、ユーザーが自分で問題を解けるよう導く手助けはできるかもしれません。
 
-![AI replying to questions based on persona](./images/solving-questions.png?WT.mc_id=academic-105485-koreyst)
+![ペルソナに基づいて質問に回答する AI](./images/solving-questions.png?WT.mc_id=academic-105485-koreyst)
 
-One last key part of explainability is the simplification of explanations. Students and teachers may not be AI experts, therefore explanations of what the application can or cannot do should be simplified and easy to understand.
+説明可能性のもう一つの重要点は、説明を簡略化することです。生徒や教師は AI の専門家ではないため、アプリのできること・できないことに関する説明は、わかりやすく簡潔であるべきです。
 
-![simplified explanations on AI capabilities](./images/simplified-explanations.png?WT.mc_id=academic-105485-koreyst)
+![AI の機能について簡潔に説明する例](./images/simplified-explanations.png?WT.mc_id=academic-105485-koreyst)
 
-### Control
+### コントロール（Control）
 
-Generative AI creates a collaboration between AI and the user, where for instance a user can modify prompts for different results. Additionally, once an output is generated, users should be able to modify the results giving them a sense of control. For example, when using Bing, you can tailor your prompt based on format, tone and length. Additionally, you can add changes to your output and modify the output as shown below:
+生成系 AI は AI とユーザーの協働を生みます。ユーザーは異なる結果を得るためにプロンプトを修正できますし、出力が生成された後に結果を編集して自分で調整することも望まれます。例えば Bing を使うときは、フォーマット、トーン、長さに基づいてプロンプトを調整できます。さらに生成された出力に変更を加えて出力を修正することもできます。
 
-![Bing search results with options to modify the prompt and output](./images/bing1.png?WT.mc_id=academic-105485-koreyst "Bing search results with options to modify the prompt and output")
+![プロンプトや出力を修正するオプションがある Bing の検索結果](./images/bing1.png?WT.mc_id=academic-105485-koreyst "プロンプトや出力を修正するオプションがある Bing の検索結果")
 
-Another feature in Bing that allows a user to have control over the application is the ability to opt in and opt out of the data AI uses. For a school application, a student might want to use their notes as well as the teachers' resources as revision material.
+Bing のもう一つの機能は、AI が使用するデータに対してユーザーがオプトイン/オプトアウトできる点です。学校向けアプリケーションでは、生徒が自分のノートや教師の教材を復習用の素材として使いたい場合に、そうしたデータの利用を選択できるようにすることが考えられます。
 
-![Bing search results with options to modify the prompt and output](./images/bing2.png?WT.mc_id=academic-105485-koreyst "Bing search results with options to modify the prompt and output")
+![プロンプトや出力を修正するオプションがある Bing の検索結果](./images/bing2.png?WT.mc_id=academic-105485-koreyst "プロンプトや出力を修正するオプションがある Bing の検索結果")
 
-> When designing AI applications, intentionality is key in ensuring users do not overtrust setting unrealistic expectations of its capabilities. One way to do this is by creating friction between the prompts and the results. Reminding the user, that this is AI and not a fellow human being
+> AI アプリケーションを設計する際は、意図性（Intentionality）が重要です。ユーザーが能力を過信しないように現実的な期待を設定することが必要です。一つの方法は、プロンプトと結果との間に小さな摩擦（フリクション）を設け、これは AI であり人間ではないことをユーザーに思い出させることです。
 
-## Designing AI Applications for Collaboration and Feedback
+## 協働とフィードバックのための AI アプリ設計
 
-As earlier mentioned, generative AI creates a collaboration between the user and AI. Most engagements are with a user inputting a prompt and the AI generating an output. What if the output is incorrect? How does the application handle errors if they occur? Does the AI blame the user or take time to explain the error?
+前述のとおり、生成系 AI はユーザーと AI の協働を生みます。多くの場合、ユーザーがプロンプトを入力し、AI が出力を生成します。では、出力が誤っていたらどうしますか？エラーが発生した場合、アプリはどのように対処しますか？AI がユーザーを非難するでしょうか、それとも時間をかけてエラーを説明するでしょうか？
 
-AI applications should be built in to receive and give feedback. This not only helps the AI system improve but also builds trust with the users. A feedback loop should be included in the design, an example can be a simple thumbs up or down on the output.
+AI アプリケーションはフィードバックを受け取り、かつフィードバックを返すように設計されるべきです。これは AI システムの改善に役立つだけでなく、ユーザーとの信頼構築にもつながります。デザインにはフィードバックループを組み込み、例として出力に対する単純な「サムズアップ/サムズダウン」ボタンを用意するとよいでしょう。
 
-Another way to handle this is to clearly communicate the capabilities and limitations of the system. When a user makes an error requesting something beyond the AI capabilities, there should also be a way to handle this, as shown below.
+もう一つの対処法は、システムの能力と限界を明確に伝えることです。ユーザーが AI の能力を超える要求をした場合、それを扱う方法も設計に含める必要があります。
 
-![Giving feedback and handling errors](./images/feedback-loops.png?WT.mc_id=academic-105485-koreyst)
+![フィードバックを与え、エラーを扱う様子](./images/feedback-loops.png?WT.mc_id=academic-105485-koreyst)
 
-System errors are common with applications where the user might need assistance with information outside the scope of the AI or the application may have a limit on how many questions/subjects a user can generate summaries. For example, an AI application trained with data on limited subjects for example, History and Math may not be able to handle questions around Geography. To mitigate this, the AI system can give a response like: "Sorry, our product has been trained with data in the following subjects....., I cannot be able to respond to the question you asked."
+システムエラーは、ユーザーが AI の範囲外の情報を求めている場合や、アプリにユーザーが生成できる質問／トピック数の上限がある場合に発生します。たとえば、ある AI アプリが「歴史」と「数学」に関するデータでしか学習されていない場合、「地理」に関する質問には対応できないかもしれません。これを緩和するために、AI は次のように応答できます：「申し訳ありません。本製品は以下の教科のデータで学習しています：……。ご質問にはお答えできません。」
 
-AI applications are not perfect, therefore, they are bound to make mistakes. When designing your applications, you should ensure you create room for feedback from users and error handling in a way that is simple and easily explainable.
+AI アプリは完璧ではないため、誤りを避けられません。アプリ設計時には、ユーザーからのフィードバックとエラー処理の余地を確保し、それが簡単で説明しやすい形であることを重視してください。
 
-## Assignment
+## 課題
 
-Take any AI apps you've built so far, consider implementing the below steps in your app:
+これまでに作成した AI アプリを一つ取り、以下のステップを実装することを検討してください：
 
-- **Pleasant:** Consider how you can make your app more pleasant. Are you adding explanations everywhere? Are you encouraging the user to explore? How are you wording your error messages?
+- **快適さ（Pleasant）:** アプリをより快適にするにはどうするか検討してください。至る所に説明を入れていませんか？ユーザーに探索を促していますか？エラーメッセージの文言はどうですか？
+- **使いやすさ（Usability）:** Web アプリを構築している場合、マウスとキーボードの両方でナビゲートできることを確認してください。
+- **信頼と透明性（Trust and transparency）:** AI の出力を完全に信用せず、人間を検証プロセスに加える方法を検討してください。他にも信頼と透明性を達成する方法があれば実装してください。
+- **コントロール（Control）:** ユーザーがアプリに提供するデータの扱いをユーザーにコントロールさせてください。データ収集に対するオプトイン／オプトアウトを実装する方法を用意してください。
 
-- **Usability:** Building a web app. Make sure your app is navigable by both mouse and keyboard.
+<!-- ## [授業後クイズ](quiz-url) -->
 
-- **Trust and transparency:** Don't trust the AI completely and its output, consider how you would add a human to the process to verify the output. Also, consider and implement other ways to achieve trust and transparency.
+## さらに学習を進めましょう！
 
-- **Control:** Give the user control of the data they provide to the application. Implement a way a user can opt-in and opt-out of data collection in the AI application.
+このレッスンを終えたら、[Generative AI Learning コレクション](https://aka.ms/genai-collection?WT.mc_id=academic-105485-koreyst) をチェックして、さらに知識を深めてください！
 
-<!-- ## [Post-lecture quiz](quiz-url) -->
-
-## Continue Your Learning!
-
-After completing this lesson, check out our [Generative AI Learning collection](https://aka.ms/genai-collection?WT.mc_id=academic-105485-koreyst) to continue leveling up your Generative AI knowledge!
-
-Head over to Lesson 13, where we will look at how to [securing AI applications](../13-securing-ai-applications/README.md?WT.mc_id=academic-105485-koreyst)!
-
+次はレッスン 13 へ進み、[AI アプリケーションのセキュリティ](../13-securing-ai-applications/README.md?WT.mc_id=academic-105485-koreyst) について見ていきます！
