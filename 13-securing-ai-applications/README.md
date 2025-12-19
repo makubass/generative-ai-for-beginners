@@ -1,164 +1,162 @@
-# Securing Your Generative AI Applications
+# 生成系AIアプリケーションのセキュリティ
 
 [![Securing Your Generative AI Applications](./images/13-lesson-banner.png?WT.mc_id=academic-105485-koreyst)](https://youtu.be/m0vXwsx5DNg?si=TYkr936GMKz15K0L)
 
-## Introduction
+## はじめに
 
-This lesson will cover:
+このレッスンでは以下を扱います：
 
-- Security within the context of AI systems.
-- Common risks and threats to AI systems.
-- Methods and considerations for securing AI systems.
+- AIシステムの文脈におけるセキュリティ
+- AIシステムに対する一般的なリスクと脅威
+- AIシステムを保護するための手法と考慮点
 
-## Learning Goals
+## 学習目標
 
-After completing this lesson, you will have an understanding of:
+このレッスンを終えると、次のことが理解できるようになります：
 
-- The threats and risks to AI systems.
-- Common methods and practices for securing AI systems.
-- How implementing security testing can prevent unexpected results and erosion of user trust.
+- AIシステムに対する脅威とリスク
+- AIシステムを保護するための一般的な手法と実践
+- セキュリティテストを実施することで、予期せぬ結果やユーザー信頼の低下を防げること
 
-## What does security mean within the context of generative AI?
+## 生成系AIにおける「セキュリティ」とは何か？
 
-As Artificial Intelligence (AI) and Machine Learning (ML) technologies increasingly shape our lives, it’s crucial to protect not only customer data but also the AI systems themselves. AI/ML is increasingly used in support of high-value decision-making processes in industries where the wrong decision may result in serious consequences.
+人工知能（AI）や機械学習（ML）の技術が私たちの生活にますます影響を与える中、顧客データだけでなくAIシステム自体の保護も重要になっています。AI/MLは、誤った判断が重大な影響をもたらす業界における高価値の意思決定支援にも使われています。
 
-Here are key points to consider:
+考慮すべき主要な点は次の通りです：
 
-- **Impact of AI/ML**: AI/ML have significant impacts on daily life and as such safeguarding them has become essential.
-- **Security Challenges**: This impact that AI/ML has needs proper attention in order to address the need to protect AI-based products from sophisticated attacks, whether by trolls or organized groups.
-- **Strategic Problems**: The tech industry must proactively address strategic challenges to ensure long-term customer safety and data security.
+- **AI/MLの影響力**：AI/MLは日常生活に大きな影響を与えるため、その保護は不可欠です。
+- **セキュリティ上の課題**：AI/MLの影響力は、いたずら目的の個人や組織的な攻撃など、洗練された攻撃から製品を守る必要があることを意味します。
+- **戦略的課題**：技術業界は長期的な顧客の安全とデータ保護を確保するために、戦略的課題に積極的に取り組む必要があります。
 
-Additionally, Machine Learning models are largely unable to discern between malicious input and benign anomalous data. A significant source of training data is derived from uncurated, unmoderated, public datasets, which are open to 3rd-party contributions. Attackers don’t need to compromise datasets when they're free to contribute to them. Over time, low-confidence malicious data becomes high-confidence trusted data, if the data structure/formatting remains correct.
+また、機械学習モデルは悪意のある入力と無害な異常データを見分けることが苦手です。学習データの大部分は未整理で未検閲の公開データセットから派生しており、第三者の寄稿を受け入れることが多くあります。攻撃者はデータセットを改ざんする必要がなく、単に寄稿するだけで攻撃が成立する場合があります。時間の経過とともに、低信頼度の悪意あるデータが構造やフォーマットが合っていれば高信頼のデータとして扱われてしまいます。
 
-This is why it is critical to ensure the integrity and protection of the data stores your models use to make decisions with.
+したがって、モデルが意思決定に使うデータストアの整合性と保護を確保することが重要です。
 
-## Understanding the threats and risks of AI
+## AIの脅威とリスクを理解する
 
-In terms of AI and related systems, data poisoning stands out as the most significant security threat today. Data poisoning is when someone intentionally changes the information used to train an AI, causing it to make mistakes. This is due to the absence of standardized detection and mitigation methods, coupled with our reliance on untrusted or uncurated public datasets for training. To maintain data integrity and prevent a flawed training process, it is crucial to track the origin and lineage of your data. Otherwise, the old adage “garbage in, garbage out” holds true, leading to compromised model performance.
+AIおよび関連システムに関しては、データ汚染（データポイズニング）が今日最も重要なセキュリティ脅威として挙げられます。データポイズニングとは、誰かが意図的にAIの学習に使う情報を改変し、誤った挙動を引き起こすことです。標準化された検出・緩和手法が存在しないことや、信頼できない公開データセットに依存していることが原因で起こります。データの出自（オリジン）や履歴（ラインエージ）を追跡してデータの整合性を保たなければ、「ゴミを入れればゴミが出る（garbage in, garbage out）」が実際の問題になります。
 
-Here are examples of how data poisoning can affect your models:
+データポイズニングがモデルに与える影響の例：
 
-1. **Label Flipping**: In a binary classification task, an adversary intentionally flips the labels of a small subset of training data. For instance, benign samples are labeled as malicious, leading the model to learn incorrect associations.\
-   **Example**: A spam filter misclassifying legitimate emails as spam due to manipulated labels.
-2. **Feature Poisoning**: An attacker subtly modifies features in the training data to introduce bias or mislead the model.\
-   **Example**: Adding irrelevant keywords to product descriptions to manipulate recommendation systems.
-3. **Data Injection**: Injecting malicious data into the training set to influence the model’s behavior.\
-   **Example**: Introducing fake user reviews to skew sentiment analysis results.
-4. **Backdoor Attacks**: An adversary inserts a hidden pattern (backdoor) into the training data. The model learns to recognize this pattern and behaves maliciously when triggered.\
-   **Example**: A face recognition system trained with backdoored images that misidentifies a specific person.
+1. **ラベル反転（Label Flipping）**：二値分類タスクで攻撃者が訓練データの一部のラベルを意図的に反転させます。例えば、正常なサンプルが悪意のあるラベルにされ、モデルが誤った関連付けを学習します。
+   **例**：スパムフィルタが改ざんされたラベルにより正当なメールをスパムと誤判定する。
+2. **特徴（Feature）ポイズニング**：攻撃者が訓練データの特徴を微妙に変更して偏りを導入したり、モデルを誤誘導します。
+   **例**：推薦システムのための商品説明に無関係なキーワードを追加して結果を操作する。
+3. **データ注入（Data Injection）**：学習データに悪意あるデータを注入してモデルの挙動に影響を与えます。
+   **例**：偽のユーザーレビューを投入して感情分析の結果を操作する。
+4. **バックドア攻撃（Backdoor Attacks）**：攻撃者が学習データに隠れたパターン（バックドア）を挿入し、トリガーが与えられたときにモデルが悪意ある動作をします。
+   **例**：バックドアが仕込まれた画像により顔認識システムが特定人物を誤認する。
 
-The MITRE Corporation has created [ATLAS (Adversarial Threat Landscape for Artificial-Intelligence Systems)](https://atlas.mitre.org/?WT.mc_id=academic-105485-koreyst), a knowledgebase of tactics and techniques employed by adversaries in real-world attacks on AI systems.
+MITRE は [ATLAS（Adversarial Threat Landscape for Artificial-Intelligence Systems）](https://atlas.mitre.org/?WT.mc_id=academic-105485-koreyst) を作成しており、AIシステムに対する実際の攻撃で用いられる戦術や手法のナレッジベースを提供しています。
 
-> There are a growing number of vulnerabilities in AI-enabled systems, as the incorporation of AI increases the attack surface of existing systems beyond those of traditional cyber-attacks. We developed ATLAS to raise awareness of these unique and evolving vulnerabilities, as the global community increasingly incorporates AI into various systems. ATLAS is modeled after the MITRE ATT&CK® framework and its tactics, techniques, and procedures (TTPs) are complementary to those in ATT&CK.
+> AIを取り入れることで既存システムの攻撃面が広がり、AI対応システムでは脆弱性が増えています。我々はATLASを通じて、こうした独自かつ進化する脆弱性への認識を高めることを目的としています。ATLASはMITRE ATT&CK®フレームワークをモデルにしており、その戦術・手法・手順（TTP）はATT&CKと補完的です。
 
-Much like the MITRE ATT&CK® framework, which is extensively used in traditional cybersecurity for planning advanced threat emulation scenarios, ATLAS provides an easily searchable set TTPs that can help to better understand and prepare for defending against emerging attacks.
+MITRE ATT&CK®フレームワークが従来のサイバーセキュリティで高度な脅威シナリオの計画に広く使われているのと同様に、ATLASは新たに出現する攻撃に備えるためのTTPを理解し準備するのに役立ちます。
 
-Additionally, the Open Web Application Security Project (OWASP) has created a "[Top 10 list](https://llmtop10.com/?WT.mc_id=academic-105485-koreyst)" of the most critical vulnerabilities found in applications utilizing LLMs. The list highlights the risks of threats such as the aforementioned data poisoning along with others such as:
+また、Open Web Application Security Project（OWASP）は、LLMを利用するアプリに見られる深刻な脆弱性の上位リスト（"[Top 10 list](https://llmtop10.com/?WT.mc_id=academic-105485-koreyst)"）を作成しています。リストは、上述のデータポイズニングに加え、以下のようなリスクを強調しています：
 
-- **Prompt Injection**: a technique where attackers manipulate a Large Language Model (LLM) through carefully crafted inputs, causing it to behave outside of its intended behavior.
-- **Supply Chain Vulnerabilities**: The components and software that make up the applications used by an LLM, such as Python modules or external datasets, can themselves be compromised leading to unexpected results, introduced biases and even vulnerabilities in the underlying infrastructure.
-- **Overreliance**: LLMs are fallible and have been prone to hallucinate, providing inaccurate or unsafe results. In several documented circumstances, people have taken the results at face value leading to unintended real-world negative consequences.
+- **プロンプトインジェクション（Prompt Injection）**：攻撃者が巧妙に作られた入力を通じてLLMを操作し、意図しない動作をさせる手法。
+- **サプライチェーンの脆弱性（Supply Chain Vulnerabilities）**：LLMで使われるアプリケーション構成要素（Pythonモジュール、外部データセットなど）が侵害されると、予期せぬ結果や偏り、基盤インフラの脆弱性につながる。
+- **過信（Overreliance）**：LLMは誤りやハルシネーション（根拠のない生成）を起こす可能性があり、結果をそのまま受け取ると現実世界での悪影響につながることがある。
 
-Microsoft Cloud Advocate Rod Trent has written a free ebook, [Must Learn AI Security](https://github.com/rod-trent/OpenAISecurity/tree/main/Must_Learn/Book_Version?WT.mc_id=academic-105485-koreyst), that dives deeply into these and other emerging AI threats and provides extensive guidance on how to best tackle these scenarios.
+MicrosoftのCloud Advocate、Rod Trentは無料の電子書籍 [Must Learn AI Security](https://github.com/rod-trent/OpenAISecurity/tree/main/Must_Learn/Book_Version?WT.mc_id=academic-105485-koreyst) を執筆しており、これら新たなAIの脅威について深く掘り下げ、対処法を提供しています。
 
-## Security Testing for AI Systems and LLMs
+## AIシステムとLLMのためのセキュリティテスト
 
-Artificial intelligence (AI) is transforming various domains and industries, offering new possibilities and benefits for society. However, AI also poses significant challenges and risks, such as data privacy, bias, lack of explainability, and potential misuse. Therefore, it is crucial to ensure that AI systems are secure and responsible, meaning that they adhere to ethical and legal standards and can be trusted by users and stakeholders.
+AIはさまざまな分野で変革をもたらしますが、データプライバシー、バイアス、説明可能性の欠如、悪用の可能性などのリスクも抱えています。したがって、AIシステムが倫理的・法的基準に準拠し、ユーザーや利害関係者から信頼されるように安全かつ責任ある設計をすることが重要です。
 
-Security testing is the process of evaluating the security of an AI system or LLM, by identifying and exploiting their vulnerabilities. This can be performed by developers, users, or third-party auditors, depending on the purpose and scope of the testing. Some of the most common security testing methods for AI systems and LLMs are:
+セキュリティテストは、AIシステムやLLMの脆弱性を特定し、悪用可能性を評価するプロセスです。開発者、ユーザー、もしくは第三者監査人がテストを実施できます。代表的な手法には次のものがあります：
 
-- **Data sanitization**: This is the process of removing or anonymizing sensitive or private information from the training data or the input of an AI system or LLM. Data sanitization can help prevent data leakage and malicious manipulation by reducing the exposure of confidential or personal data.
-- **Adversarial testing**: This is the process of generating and applying adversarial examples to the input or output of an AI system or LLM to evaluate its robustness and resilience against adversarial attacks. Adversarial testing can help identify and mitigate the vulnerabilities and weaknesses of an AI system or LLM that may be exploited by attackers.
-- **Model verification**: This is the process of verifying the correctness and completeness of the model parameters or architecture of an AI system or LLM. Model verification can help detect and prevent model stealing by ensuring that the model is protected and authenticated.
-- **Output validation**: This is the process of validating the quality and reliability of the output of an AI system or LLM. Output validation can help detect and correct malicious manipulation by ensuring that the output is consistent and accurate.
+- **データ・サニタイズ（Data sanitization）**：学習データや入力データからセンシティブ情報を削除または匿名化するプロセス。データ漏洩や悪意ある改ざんを防ぐ助けになる。
+- **敵対的テスト（Adversarial testing）**：攻撃的な事例（敵対的サンプル）を生成し入力や出力に適用して、モデルの堅牢性を評価する手法。脆弱性や欠点を発見し、緩和策を講じるのに役立つ。
+- **モデル検証（Model verification）**：モデルのパラメータやアーキテクチャの正当性と完全性を検証するプロセス。モデルの盗用を防ぎ、モデルの保護や認証に役立つ。
+- **出力検証（Output validation）**：生成された出力の品質と信頼性を検証するプロセス。悪意ある改ざんを検出し、出力の一貫性と正確性を保つのに役立つ。
 
-OpenAI, a leader in AI systems, has setup a series of _safety evaluations_ as part of their red teaming network initiative, aimed at testing the output AI systems in the hopes of contributing to AI safety.
+OpenAIはレッドチーミング（red teaming）の取り組みの一環として一連の「安全性評価（safety evaluations）」を設定しており、AIシステムの出力を多角的にテストしています。
 
-> Evaluations can range from simple Q&A tests to more-complex simulations. As concrete examples, here are sample evaluations developed by OpenAI for evaluating AI behaviors from a number of angles:
+> 評価は単純なQ&Aテストから複雑なシミュレーションまで及びます。具体例として、OpenAIが開発したAIの挙動評価用のサンプル評価を以下に示します：
 
-#### Persuasion
+#### 説得（Persuasion）
 
-- [MakeMeSay](https://github.com/openai/evals/tree/main/evals/elsuite/make_me_say/readme.md?WT.mc_id=academic-105485-koreyst): How well can an AI system trick another AI system into saying a secret word?
-- [MakeMePay](https://github.com/openai/evals/tree/main/evals/elsuite/make_me_pay/readme.md?WT.mc_id=academic-105485-koreyst): How well can an AI system convince another AI system to donate money?
-- [Ballot Proposal](https://github.com/openai/evals/tree/main/evals/elsuite/ballots/readme.md?WT.mc_id=academic-105485-koreyst): How well can an AI system influence another AI system’s support of a political proposition?
+- [MakeMeSay](https://github.com/openai/evals/tree/main/evals/elsuite/make_me_say/readme.md?WT.mc_id=academic-105485-koreyst)：AIが別のAIに秘密の単語を言わせられるか？
+- [MakeMePay](https://github.com/openai/evals/tree/main/evals/elsuite/make_me_pay/readme.md?WT.mc_id=academic-105485-koreyst)：AIが別のAIに寄付させられるか？
+- [Ballot Proposal](https://github.com/openai/evals/tree/main/evals/elsuite/ballots/readme.md?WT.mc_id=academic-105485-koreyst)：AIが別のAIの政治的支持に影響を与えられるか？
 
-#### Steganography (hidden messaging)
+#### ステガノグラフィ（隠しメッセージ）
 
-- [Steganography](https://github.com/openai/evals/tree/main/evals/elsuite/steganography/readme.md?WT.mc_id=academic-105485-koreyst): How well can an AI system ​​pass secret messages without being caught by another AI system?
-- [Text Compression](https://github.com/openai/evals/tree/main/evals/elsuite/text_compression/readme.md?WT.mc_id=academic-105485-koreyst): How well can an AI system compress and decompress messages, to enable hiding secret messages?
-- [Schelling Point](https://github.com/openai/evals/blob/main/evals/elsuite/schelling_point/README.md?WT.mc_id=academic-105485-koreyst): How well can an AI system coordinate with another AI system, without direct communication?
+- [Steganography](https://github.com/openai/evals/tree/main/evals/elsuite/steganography/readme.md?WT.mc_id=academic-105485-koreyst)：AIが秘密メッセージを渡して検出されずにやりとりできるか？
+- [Text Compression](https://github.com/openai/evals/tree/main/evals/elsuite/text_compression/readme.md?WT.mc_id=academic-105485-koreyst)：AIがメッセージを圧縮・復元して隠しメッセージをやり取りできるか？
+- [Schelling Point](https://github.com/openai/evals/blob/main/evals/elsuite/schelling_point/README.md?WT.mc_id=academic-105485-koreyst)：AIが直接の通信なしに協調できるか？
 
-### AI Security
+### AIセキュリティ
 
-It's imperative that we aim to protect AI systems from malicious attacks, misuse, or unintended consequences. This includes taking steps to ensure the safety, reliability, and trustworthiness of AI systems, such as:
+AIシステムを悪意ある攻撃、誤用、あるいは意図しない結果から守ることは不可欠です。これには次のような対策が含まれます：
 
-- Securing the data and algorithms that are used to train and run AI models
-- Preventing unauthorized access, manipulation, or sabotage of AI systems
-- Detecting and mitigating bias, discrimination, or ethical issues in AI systems
-- Ensuring the accountability, transparency, and explainability of AI decisions and actions
-- Aligning the goals and values of AI systems with those of humans and society
+- モデルの学習と実行に使われるデータとアルゴリズムの保護
+- 不正アクセス、改ざん、妨害の防止
+- バイアスや差別、倫理的問題の検出と緩和
+- AIの判断と行動の説明責任、透明性、説明可能性の確保
+- AIの目的や価値を人間や社会の価値と整合させること
 
-AI security is important for ensuring the integrity, availability, and confidentiality of AI systems and data. Some of the challenges and opportunities of AI security are:
+AIセキュリティは、AIシステムとデータの整合性（integrity）、可用性（availability）、機密性（confidentiality）を確保する上で重要です。課題と機会の例は次のとおりです：
 
-- Opportunity: Incorporating AI in cybersecurity strategies since it can play a crucial role in identifying threats and improving response times. AI can help automate and augment the detection and mitigation of cyberattacks, such as phishing, malware, or ransomware.
-- Challenge: AI can also be used by adversaries to launch sophisticated attacks, such as generating fake or misleading content, impersonating users, or exploiting vulnerabilities in AI systems. Therefore, AI developers have a unique responsibility to design systems that are robust and resilient against misuse.
+- 機会：AIは脅威検知や応答時間の改善に役立ち、フィッシングやマルウェア、ランサムウェアなどのサイバー攻撃の検出と緩和を自動化・強化できる。
+- 課題：同時に、攻撃者は偽情報の生成やユーザーになりすますなど、AIを悪用して高度な攻撃を仕掛ける可能性がある。したがって、AI開発者には誤用に対して堅牢で回復力のあるシステムを設計する責任がある。
 
-### Data Protection
+### データ保護
 
-LLMs can pose risks to the privacy and security of the data that they use. For example, LLMs can potentially memorize and leak sensitive information from their training data, such as personal names, addresses, passwords, or credit card numbers. They can also be manipulated or attacked by malicious actors who want to exploit their vulnerabilities or biases. Therefore, it is important to be aware of these risks and take appropriate measures to protect the data used with LLMs. There are several steps that you can take to protect the data that is used with LLMs. These steps include:
+LLMは、学習データから機密情報を記憶し漏えいするリスクがあります（個人名、住所、パスワード、クレジットカード番号など）。また、悪意ある第三者によって操作されたり、モデルの脆弱性や偏りを突かれたりする可能性もあります。したがって、LLMで使用するデータのリスクを認識し、適切な対策を講じることが重要です。データ保護のための主な対策は次のとおりです：
 
-- **Limiting the amount and type of data that they share with LLMs**: Only share the data that is necessary and relevant for the intended purposes, and avoid sharing any data that is sensitive, confidential, or personal. Users should also anonymize or encrypt the data that they share with LLMs, such as by removing or masking any identifying information, or using secure communication channels.
-- **Verifying the data that LLMs generate**: Always check the accuracy and quality of the output generated by LLMs to ensure they don't contain any unwanted or inappropriate information.
-- **Reporting and alerting any data breaches or incidents**: Be vigilant of any suspicious or abnormal activities or behaviors from LLMs, such as generating texts that are irrelevant, inaccurate, offensive, or harmful. This could be an indication of a data breach or security incident.
+- **LLMに渡すデータの量と種類を制限する**：必要かつ関連のあるデータのみを共有し、機密情報や個人情報は共有しない。識別子の除去やマスキング、暗号化などで匿名化する。
+- **LLMが生成するデータを検証する**：生成された出力の正確性と品質を常に確認し、望ましくない情報や不適切な情報が含まれていないかをチェックする。
+- **データ侵害やインシデントの報告と警戒**：LLMが無関係・不正確・攻撃的・有害な出力を生成するなどの異常な挙動を監視し、不審な活動を早期に検出する。
 
-Data security, governance, and compliance are critical for any organization that wants to leverage the power of data and AI in a multi-cloud environment. Securing and governing all your data is a complex and multifaceted undertaking. You need to secure and govern different types of data (structured, unstructured, and data generated by AI) in different locations across multiple clouds, and you need to account for existing and future data security, governance, and AI regulations. To protect your data, you need to adopt some best practices and precautions, such as:
+データのセキュリティ、ガバナンス、コンプライアンスは、マルチクラウド環境でデータとAIを活用する組織にとって極めて重要です。異なる種類のデータ（構造化／非構造化／AI生成データ）を複数の場所で保護・管理し、現在および将来のデータセキュリティやAI規制を考慮する必要があります。データを保護するためのベストプラクティスの一例：
 
-- Use cloud services or platforms that offer data protection and privacy features.
-- Use data quality and validation tools to check your data for errors, inconsistencies, or anomalies.
-- Use data governance and ethics frameworks to ensure your data is used in a responsible and transparent manner.
+- データ保護とプライバシー機能を提供するクラウドサービスやプラットフォームを利用する。
+- データのエラー、不整合、異常をチェックするためのデータ品質および検証ツールを使用する。
+- データが責任ある透明な方法で使用されるよう、データガバナンスと倫理のフレームワークを採用する。
 
-### Emulating real-world threats - AI red teaming
+### 現実の脅威を模擬する - AIレッドチーミング
 
-Emulating real-world threats is now considered a standard practice in building resilient AI systems by employing similar tools, tactics, procedures to identify the risks to systems and test the response of defenders.
+現実の脅威を模擬することは、同様のツール・戦術・手順を用いてシステムのリスクを識別し、防御者の対応をテストするという観点から、堅牢なAIシステムの構築における標準的な実践になりつつあります。
 
-> The practice of AI red teaming has evolved to take on a more expanded meaning: it not only covers probing for security vulnerabilities, but also includes probing for other system failures, such as the generation of potentially harmful content. AI systems come with new risks, and red teaming is core to understanding those novel risks, such as prompt injection and producing ungrounded content. - [Microsoft AI Red Team building future of safer AI](https://www.microsoft.com/security/blog/2023/08/07/microsoft-ai-red-team-building-future-of-safer-ai/?WT.mc_id=academic-105485-koreyst)
+> AIレッドチーミングの実践は進化しており、単にセキュリティ脆弱性を探るだけでなく、有害なコンテンツ生成など他のシステム障害も検出します。AIシステムには新たなリスクがあり、レッドチーミングはプロンプトインジェクションや根拠のないコンテンツ生成などの新しいリスクを理解する上で重要です。 - [Microsoft AI Red Team building future of safer AI](https://www.microsoft.com/security/blog/2023/08/07/microsoft-ai-red-team-building-future-of-safer-ai/?WT.mc_id=academic-105485-koreyst)
 
-[![Guidance and resources for red teaming](./images/13-AI-red-team.png?WT.mc_id=academic-105485-koreyst)]()
+以下は、MicrosoftのAIレッドチームプログラムに影響を与えた主要な知見です。
 
-Below are key insights that have shaped Microsoft’s AI Red Team program.
+1. **AIレッドチーミングの範囲の拡大：**
+   AIレッドチーミングは、セキュリティと責任あるAI（Responsible AI: RAI）の両方の成果を含むようになりました。従来はモデルの盗難などセキュリティ面に集中していましたが、AIシステムはプロンプトインジェクションやポイズニングなど新たな脆弱性をもたらします。さらに公平性の問題（ステレオタイプ化）や有害コンテンツ（暴力の美化など）も調査対象となり、早期に発見することで防御投資の優先順位付けが可能になります。
+2. **悪意ある故意の失敗と無害な失敗：**
+   レッドチーミングは悪意ある攻撃者だけでなく、通常のユーザーが遭遇する問題も考慮します。例えば、新しいBingのレッドチーミングでは、悪意ある攻撃がシステムをどのように転覆させるかだけでなく、一般ユーザーがどのように有害なコンテンツに遭遇するかも探りました。従来のセキュリティレッドチーミングとは異なり、より広範なペルソナと失敗の範囲を考慮します。
+3. **AIシステムの動的な性質：**
+   AIアプリケーションは常に進化します。大規模言語モデルを利用するアプリでは、要求に応じて開発者が適応します。継続的なレッドチーミングは、進化するリスクに対する継続的な監視と適応を保証します。
 
-1. **Expansive Scope of AI Red Teaming:**
-   AI red teaming now encompasses both security and Responsible AI (RAI) outcomes. Traditionally, red teaming focused on security aspects, treating the model as a vector (e.g., stealing the underlying model). However, AI systems introduce novel security vulnerabilities (e.g., prompt injection, poisoning), necessitating special attention. Beyond security, AI red teaming also probes fairness issues (e.g., stereotyping) and harmful content (e.g., glorification of violence). Early identification of these issues allows prioritization of defense investments.
-2. **Malicious and Benign Failures:**
-   AI red teaming considers failures from both malicious and benign perspectives. For example, when red teaming the new Bing, we explore not only how malicious adversaries can subvert the system but also how regular users may encounter problematic or harmful content. Unlike traditional security red teaming, which focuses mainly on malicious actors, AI red teaming accounts for a broader range of personas and potential failures.
-3. **Dynamic Nature of AI Systems:**
-   AI applications constantly evolve. In large language model applications, developers adapt to changing requirements. Continuous red teaming ensures ongoing vigilance and adaptation to evolving risks.
+AIレッドチーミングは包括的な手段ではなく、[ロールベースアクセス制御（RBAC）](https://learn.microsoft.com/azure/ai-services/openai/how-to/role-based-access-control?WT.mc_id=academic-105485-koreyst) や包括的なデータ管理ソリューションなどの追加的な対策と併用すべきです。プライバシーやセキュリティを考慮した安全で責任あるAIソリューションの活用に焦点を当てた戦略を補完する役割を果たします。
 
-AI red teaming is not all encompassing and should be considered a complementary motion to additional controls such as [role-based access control (RBAC)](https://learn.microsoft.com/azure/ai-services/openai/how-to/role-based-access-control?WT.mc_id=academic-105485-koreyst) and comprehensive data management solutions. It's meant to supplement a security strategy that focuses on employing safe and responsible AI solutions that account for privacy and security while aspiring to minimize biases, harmful content and misinformation that can erode user confidence.
+以下は、レッドチーミングがAIシステムのリスク特定と軽減にどのように役立つかを理解するための追加資料です：
 
-Here's a list of additional reading that can help you better understand how red teaming can help identify and mitigate risks in your AI systems:
-
-- [Planning red teaming for large language models (LLMs) and their applications](https://learn.microsoft.com/azure/ai-services/openai/concepts/red-teaming?WT.mc_id=academic-105485-koreyst)
-- [What is the OpenAI Red Teaming Network?](https://openai.com/blog/red-teaming-network?WT.mc_id=academic-105485-koreyst)
+- [大規模言語モデル（LLM）とそのアプリのレッドチーミング計画](https://learn.microsoft.com/azure/ai-services/openai/concepts/red-teaming?WT.mc_id=academic-105485-koreyst)
+- [OpenAI Red Teaming Networkとは？](https://openai.com/blog/red-teaming-network?WT.mc_id=academic-105485-koreyst)
 - [AI Red Teaming - A Key Practice for Building Safer and More Responsible AI Solutions](https://rodtrent.substack.com/p/ai-red-teaming?WT.mc_id=academic-105485-koreyst)
-- MITRE [ATLAS (Adversarial Threat Landscape for Artificial-Intelligence Systems)](https://atlas.mitre.org/?WT.mc_id=academic-105485-koreyst), a knowledgebase of tactics and techniques employed by adversaries in real-world attacks on AI systems.
+- MITRE [ATLAS（Adversarial Threat Landscape for Artificial-Intelligence Systems）](https://atlas.mitre.org/?WT.mc_id=academic-105485-koreyst)
 
-## Knowledge check
+## 知識チェック
 
-What could be a good approach to maintaining data integrity and preventing misuse?
+データの整合性を維持し、悪用を防ぐための良いアプローチはどれでしょうか？
 
-1. Have strong role-based controls for data access and data management
-1. Implement and audit data labeling to prevent data misrepresentation or misuse
-1. Ensure your AI infrastructure supports content filtering
+1. データアクセスとデータ管理に対して強力なロールベース制御を導入する
+1. データのラベリングを実施・監査して誤表現や悪用を防止する
+1. AIインフラがコンテンツフィルタリングをサポートしていることを確認する
 
-A:1, While all three are great recommendations, ensuring that you're assigning the proper data access privileges to users will go a long way to preventing manipulation and misrepresentation of the data used by LLMs.
+A: 1。すべての推奨は有益ですが、適切なデータアクセス権をユーザーに割り当てることは、LLMで使用されるデータの改ざんや誤表現を防ぐ上で非常に効果的です。
 
-## 🚀 Challenge
+## 🚀 チャレンジ
 
-Read up more on how you can [govern and protect sensitive information](https://learn.microsoft.com/training/paths/purview-protect-govern-ai/?WT.mc_id=academic-105485-koreyst) in the age of AI.
+AI時代における機密情報のガバナンスと保護についてさらに学ぶには、こちらを参照してください：[機密情報の保護とガバナンス](https://learn.microsoft.com/training/paths/purview-protect-govern-ai/?WT.mc_id=academic-105485-koreyst)
 
-## Great Work, Continue Your Learning
+## よくできました、引き続き学習しましょう
 
-After completing this lesson, check out our [Generative AI Learning collection](https://aka.ms/genai-collection?WT.mc_id=academic-105485-koreyst) to continue leveling up your Generative AI knowledge!
+このレッスンを終えたら、[Generative AI Learning コレクション](https://aka.ms/genai-collection?WT.mc_id=academic-105485-koreyst) をチェックして、さらに知識を深めてください！
 
-Head over to Lesson 14 where we will look at [the Generative AI Application Lifecycle](../14-the-generative-ai-application-lifecycle/README.md?WT.mc_id=academic-105485-koreyst)!
+次はレッスン 14 に進み、[生成系AIアプリケーションのライフサイクル](../14-the-generative-ai-application-lifecycle/README.md?WT.mc_id=academic-105485-koreyst) を確認しましょう！
